@@ -7,7 +7,7 @@ author:
   url: https://github.com/agrski
 repository: agrski/agrski.github.io
 
-theme: midnight
+theme: jekyll-theme-midnight
 locale: en_GB
 markdown: kramdown
 paginate: 1
