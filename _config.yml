@@ -6,3 +6,8 @@ author:
   name: A G Rakowski
   url: https://github.com/agrski
 repository: agrski/agrski.github.io
+
+theme: midnight
+locale: en_GB
+markdown: kramdown
+paginate: 1
