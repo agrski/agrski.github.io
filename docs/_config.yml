@@ -12,3 +12,4 @@ locale: en_GB
 markdown: kramdown
 paginate: 1
 show_downloads: false
+google_analytics: G-1LG33H6JPN
