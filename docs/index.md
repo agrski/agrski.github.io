@@ -6,4 +6,5 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 {% for post in site.posts %}
 * [{{ post.title }}]({{ post.url }})
+  {{ post.date | date_to_string: "ordinal" }}
 {% endfor %}
