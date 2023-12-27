@@ -2,7 +2,7 @@
 layout: default
 ---
 
-Put your feet up, put your thinking cap on, put your kettle on for a brew or three--this is Sourcery for the Sedentary!
+Put your feet up, put your thinking cap on, put your kettle on for a brew or three---this is Sourcery for the Sedentary!
 
 Sourcery is not a typo, but rather a play on two terms that together capture the essence of this blog.
 The topics covered herein shall focus mainly around software and code, also known as _source_ code.
