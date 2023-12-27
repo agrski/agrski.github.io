@@ -16,7 +16,7 @@ These subjects range from discrete maths and linear algebra to psychology and ph
 My own interests centre around statistics, machine learning (ML), and ML Ops; distributed systems; and more broadly around creating robust, efficient, evolvable systems.
 Languages, both natural and programmatic, have likewise long held my fascination, whether for dabbling in the esoteric and arcane or for more practical purposes.
 
-The opinions expressed in this blog are solely those of the author and do not necessarily represent the opinions of any organisation, employer, or other party, except where stated otherwise.
+The view and opinions expressed in this blog are those of the author alone and do not necessarily represent the opinions of any organisation, employer, or other party, except where stated otherwise.
 
 ---
 
