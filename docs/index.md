@@ -10,6 +10,8 @@ Languages, both natural and programmatic, have likewise long held my fascination
 
 The topics covered in this blog will centre around CS and software, but may at times diverge in other directions.
 
+The opinions expressed in this blog are solely those of the author and do not necessarily represent the opinions of any organisation, employer, or other party, except where stated otherwise.
+
 ---
 
 {% for post in site.posts %}
