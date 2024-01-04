@@ -1,0 +1,17 @@
+name: lint-pr-title
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - edited
+jobs:
+  lint-pr-title:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    steps:
+      - name: Check PR title matches Conventional Commit format
+        uses: matthiashermsen/lint-pull-request-title@v1.0.0
+        with:
+          allowed-pull-request-types: build,ci,feat,fix,refactor,revert
