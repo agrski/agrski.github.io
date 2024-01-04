@@ -18,6 +18,8 @@ Languages, both natural and programmatic, have likewise long held my fascination
 
 The view and opinions expressed in this blog are those of the author and do not necessarily represent the opinions of any organisation, employer, or other party, except where stated otherwise.
 
+This blog is made available under the terms of the [Creative Commons Attribution-NonCommercial 4.0 International](https://creativecommons.org/licenses/by-nc/4.0/) (CC BY-NC 4.0) licence.
+
 ---
 
 {% for post in site.posts %}
