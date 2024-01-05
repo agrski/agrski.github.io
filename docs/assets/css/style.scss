@@ -3,7 +3,18 @@
 
 @import "{{ site.theme }}";
 
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
 section {
+  .metadata {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+  }
+
   #title {
     a {
       color: #e8e8e8;
