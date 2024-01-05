@@ -4,6 +4,13 @@
 @import "{{ site.theme }}";
 
 section {
+  #title {
+    a {
+      color: #e8e8e8;
+      font-weight: normal;
+    }
+  }
+
   #footer {
     .credits {
       font-size: 11px;
