@@ -4,6 +4,12 @@
 @import "{{ site.theme }}";
 
 section {
+  .metadata {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+  }
+
   #title {
     a {
       color: #e8e8e8;
