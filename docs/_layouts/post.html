@@ -8,4 +8,10 @@ layout: default
   <span>{{ page.author | default: site.author.name }}</span>
 </p>
 
+<p class="metadata">
+  {% for tag in page.tags %}
+  <span>{{ tag }}</span>
+  {% endfor %}
+</p>
+
 {{ content }}
