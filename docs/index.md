@@ -21,6 +21,10 @@ This blog is made available under the terms of the [Creative Commons Attribution
 
 ---
 
+[View by tag](/tags)
+
+---
+
 {% for post in site.posts %}
 * [{{ post.title }}]({{ post.url }})
 
