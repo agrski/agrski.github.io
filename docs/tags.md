@@ -12,9 +12,9 @@ layout: default
   ## {{ tag }}
 
   {% for post in posts %}
-    * [{{ post.title }}]({{ post.url }})
+  * [{{ post.title }}]({{ post.url }})
 
-      {{ post.date | date_to_string: "ordinal" }}
+    {{ post.date | date_to_string: "ordinal" }}
   {% endfor %}
 
 {% endfor %}
