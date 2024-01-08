@@ -21,7 +21,7 @@ This blog is made available under the terms of the [Creative Commons Attribution
 
 ---
 
-[Search by tag](/tags)
+[View by tag](/tags)
 
 ---
 
