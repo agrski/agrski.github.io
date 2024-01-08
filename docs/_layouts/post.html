@@ -6,7 +6,9 @@ layout: default
 <p class="metadata">
   <span>{{ page.date | date_to_string: "ordinal" }}</span>
   <span>
-    {% for tag in page.tags %}
+    {% assign tags = page.tags | sort %}
+    {% for raw_tag in tags %}
+    {% assign tag = raw_tag | slugify %}
     <a href="/tags#{{ tag }}">{{ tag }}</a>
     {% endfor %}
   </span>
