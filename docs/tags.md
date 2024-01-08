@@ -9,12 +9,12 @@ layout: default
   {% assign tag = tag_and_posts | first | slugify %}
   {% assign posts = tag_and_posts | last %}
 
-  ## {{ tag }}
+## {{ tag }}
 
   {% for post in posts %}
-  * [{{ post.title }}]({{ post.url }})
+* [{{ post.title }}]({{ post.url }})
 
-    {{ post.date | date_to_string: "ordinal" }}
+  {{ post.date | date_to_string: "ordinal" }}
   {% endfor %}
 
 {% endfor %}
