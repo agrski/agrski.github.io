@@ -9,8 +9,10 @@ layout: default
     {% assign tags = page.tags | sort %}
     {% for raw_tag in tags %}
     {% assign tag = raw_tag | slugify %}
+
     <a href="/tags#{{ tag }}">{{ tag }}</a>
     {% unless forloop.last %} | {% endunless %}
+
     {% endfor %}
   </span>
   <span>{{ page.author | default: site.author.name }}</span>
