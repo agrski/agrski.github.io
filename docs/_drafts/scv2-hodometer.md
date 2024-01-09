@@ -17,6 +17,11 @@ Two notable points about its design were that it explicitly _did not_ collect pe
 In order to provide anonymity, the cluster ID was under the user's control and (generally) randomly generated, meaning it would change with every new deployment.
 As we'll see, these design decisions influenced the design of Hodometer as well.
 
+Despite being intended for use by the k8s developers, Spartakus supported running against one's own data collection endpoints.
+Out of the box, it had support for pushing metrics to Google's BigQuery, HTTP endpoints accepting JSON documents, and the local file handle `STDOUT`.
+This made it easy enough to adopt for Core v1, where it's been powering the metrics ever since on monthly active nodes and so on published by Seldon.
+For details on enabling Spartakus for Core v1, please refer to the [official documentation](https://docs.seldon.io/projects/seldon-core/en/latest/workflow/usage-reporting.html).
+
 ---
 
 * Designed to be simple, even for people new to Go.
