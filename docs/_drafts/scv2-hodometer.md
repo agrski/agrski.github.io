@@ -3,6 +3,11 @@ title: "Seldon Core v2 Deep-Dive---Hodometer"
 tags: seldon seldon-core-v2
 ---
 
+Hodometer is an optional component of Seldon Core v2 responsible for collecting anonymous usage metrics.
+The name comes from the [ancient device](https://en.wikipedia.org/wiki/Odometer) for measuring distance, familiar in cars as an _odometer_, because it's all about keeping track of your mileage!
+
+---
+
 * Hodometer is for "measuring your mileage".
 * Replacement for Spartakus in SCv1.
   * Can give a bit of history on this.
