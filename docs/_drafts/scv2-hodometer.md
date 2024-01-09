@@ -49,6 +49,20 @@ Specifically, these were:
 * Push-based reporting of metrics.
 * Flexibility to configure additional metrics receivers.
 
+Being an optional part of the system means Hodometer can safely and easily be enabled or disabled without any impact.
+It is only reliant on (some of) the APIs exposed by the scheduler and some minimal information from k8s about the server version.
+
+Not collecting any PII or otherwise potentially sensitive information avoids having to deal with things like the UK's GDPR regulations.
+That's convenient from a business perspective, but it's also about building trust with end users that Hodometer isn't trying to spy on them.
+It's about understanding adoption, seeing how widely particular versions are in use and if users upgrade quickly or if old versions still need to be supported, and about understanding if features are being utilised.
+Do users actually make use of MMS?
+If so, to what extent are they employing from over-committing of servers?
+
+The use of ephemeral cluster IDs benefits anonymity, but was also done for simplicity of implementation.
+The user can specify a cluster ID which Hodometer wil read from its environment, but if none is provided it will simply generate a new one at random.
+In this latter case, whenever Hodometer restarts it will report metrics as being from a new "cluster".
+That's a bit unhelpful for anyone wondering what the average age of clusters is or trying to count the number of active clusters in a given time period, but makes installations simpler and can inadvertently prevent longitudinal collection on long-lived clusters.
+
 ---
 
 * Designed to be simple, even for people new to Go.
