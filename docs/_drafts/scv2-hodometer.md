@@ -40,6 +40,15 @@ Core v2 has multiple Kubernetes custom resources --- models, servers, pipelines,
 It furthermore introduces fundamentally new features in the form of multi-model serving (MMS) and over-commit.
 When you consider these things, it should be clear that the metrics for Core v2 will want to be correspondingly more granular and domain-focused.
 
+While Spartakus didn't provide ideal metrics even for Core v1, it did make a number of sensible design decisions to use as a basis for implementing usage metrics in Core v2.
+Specifically, these were:
+* Anonymity via randomised, non-persistent identifiers.
+* Explicitly no collection of PII.
+* Non-integral component.
+* Low periodicity reporting of metrics.
+* Push-based reporting of metrics.
+* Flexibility to configure additional metrics receivers.
+
 ---
 
 * Designed to be simple, even for people new to Go.
