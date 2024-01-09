@@ -10,7 +10,7 @@ Let's consider how metrics were handled in Core v1, why we opted for a different
 
 ## Spartakus in Core v1
 
-Spartakus was an open-source project created in 2016 by Tim Hockin as part of the larger Kubernetes (k8s) work.
+[Spartakus](https://github.com/kubernetes-retired/spartakus/tree/master/docs#extensions) was an open-source project created in 2016 by Tim Hockin as part of the larger Kubernetes (k8s) work.
 It was designed, in its own words, for "collecting usage information about Kubernetes clusters."
 
 Two notable points about its design were that it explicitly _did not_ collect personally identifiable information (PII) and that it was an optional add-on with no impact on the running of k8s itself.
