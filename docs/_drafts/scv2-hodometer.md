@@ -22,6 +22,17 @@ Out of the box, it had support for pushing metrics to Google's BigQuery, HTTP en
 This made it easy enough to adopt for Core v1, where it's been powering the metrics ever since on monthly active nodes and so on published by Seldon.
 For details on enabling Spartakus for Core v1, please refer to the [official documentation](https://docs.seldon.io/projects/seldon-core/en/latest/workflow/usage-reporting.html).
 
+While convenient in the sense that it had already been written and made collecting _some_ metrics straightforward, Spartakus wasn't an ideal tool for application usage monitoring.
+For a start, the project was deprecated and archived in 2019.
+This led to the creation of the open-source [i-am-spartakus](https://github.com/SeldonIO/i-am-spartakus) repository a few weeks later by Seldon, to retain the project in maintenance mode.
+Plenty of projects are archived, however, and maintaining a fork of something stable isn't much of a burden.
+The larger problem with Spartakus was that the metrics it collected made sense for k8s, but not necessarily for other applications.
+For example, the number of nodes in a cluster has no relation to how many ML deployments or models are on it, or what hardware resources those are consuming.
+It also doesn't provide any information on which version of Core has been installed, or anything else that's application-specific.
+Spartakus does support some custom data in the form of [extensions](https://github.com/kubernetes-retired/spartakus/tree/master/docs#extensions), but this is static information.
+In any case, users may not even want to share all the data on nodes in a cluster that Spartakus collects by default.
+To put it concisely, Spartakus collected lots of data that _wasn't_ of interest but didn't collect lots of data that _was_ of interest!
+
 ---
 
 * Designed to be simple, even for people new to Go.
