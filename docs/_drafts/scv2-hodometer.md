@@ -33,6 +33,13 @@ Spartakus does support some custom data in the form of [extensions](https://gith
 In any case, users may not even want to share all the data on nodes in a cluster that Spartakus collects by default.
 To put it concisely, Spartakus collected lots of data that _wasn't_ of interest but didn't collect lots of data that _was_ of interest!
 
+## Designing Hodometer
+
+Core v2 is a very different kettle of fish from Core v1, and the sorts of metrics we'd want are no exception.
+Core v2 has multiple Kubernetes custom resources --- models, servers, pipelines, and experiments --- compared to just single one in Core v1 --- deployments.
+It furthermore introduces fundamentally new features in the form of multi-model serving (MMS) and over-commit.
+When you consider these things, it should be clear that the metrics for Core v2 will want to be correspondingly more granular and domain-focused.
+
 ---
 
 * Designed to be simple, even for people new to Go.
