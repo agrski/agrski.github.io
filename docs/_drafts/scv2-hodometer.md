@@ -6,6 +6,8 @@ tags: seldon seldon-core-v2
 Hodometer is an optional component of Seldon Core v2 responsible for collecting anonymous usage metrics.
 The name comes from the [ancient device](https://en.wikipedia.org/wiki/Odometer) for measuring distance, familiar in cars as an _odometer_, because it's all about keeping track of your mileage!
 
+Let's consider how metrics were handled in Core v1, why we opted for a different approach in Core v2, and how Hodometer actually works.
+
 ---
 
 * Hodometer is for "measuring your mileage".
