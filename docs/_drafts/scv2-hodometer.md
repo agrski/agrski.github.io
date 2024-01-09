@@ -8,6 +8,11 @@ The name comes from the [ancient device](https://en.wikipedia.org/wiki/Odometer)
 
 Let's consider how metrics were handled in Core v1, why we opted for a different approach in Core v2, and how Hodometer actually works.
 
+## Spartakus in Core v1
+
+Spartakus was an open-source project created in 2016 by Tim Hockin as part of the larger Kubernetes (k8s) work.
+It was designed, in its own words, for "collecting usage information about Kubernetes clusters."
+
 ---
 
 * Hodometer is for "measuring your mileage".
