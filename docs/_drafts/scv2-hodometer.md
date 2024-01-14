@@ -33,7 +33,7 @@ Spartakus does support some custom data in the form of [extensions](https://gith
 In any case, users may not even want to share all the data on nodes in a cluster that Spartakus collects by default.
 To put it concisely, Spartakus collected lots of data that _wasn't_ of interest but didn't collect lots of data that _was_ of interest!
 
-## Designing Hodometer
+## A blast from the past --- inspiration from Spartakus
 
 Core v2 is a very different kettle of fish from Core v1, and the sorts of metrics we'd want are no exception.
 Core v2 has multiple Kubernetes custom resources --- models, servers, pipelines, and experiments --- compared to just single one in Core v1 --- deployments.
@@ -84,6 +84,8 @@ Indeed, many of the metrics should be naturally slow-changing, such as the versi
 I should note that this is based on assumptions and previous experience rather than hard data, but the nature of the problem means that precise data would be difficult and potentially controversial to attempt to collect.
 Sampled and/or aggregated data are always subject to missing data points and loss of detail.
 In any case, the collected metrics are generally further aggregated and assessed to identify _trends_, so inaccuracies in any given sample are highly unlikely to be significant in the grand scheme of things.
+
+## Making more mileage
 
 We've already touched upon the ability of end users to configure the metrics receiver endpoint.
 One additional point to note here is that Hodometer supports _extra_ receivers.
