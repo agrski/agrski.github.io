@@ -90,6 +90,16 @@ One additional point to note here is that Hodometer supports _extra_ receivers.
 This isn't something provided by Spartakus, but I decided to add it because it allows users to record the metrics whilst still providing them back to the maintainers.
 The aim is once again to inspire confidence through visibility whilst benefitting the community as a whole by sharing this information in an anonymised way.
 
+Another notable divergence from Spartakus is that Hodometer has the concept of _levels_ of metrics.
+While Spartakus treated it is an all-or-nothing situation, Core v2 gives the user the option to share only as much information as they're comfortable with.
+Making users select every individual metric would be tedious for them, so Hodometer groups these into levels: cluster-level, resource-level, and feature-level information.
+Each level is a superset of its predecessor.
+Cluster-level metrics are very basic: just the k8s and Core v2 scheduler versions (the scheduler is the heart of the control plane, so this implies the Core v2 version more generally).
+Resource-level metrics count the number of each Core v2-defined _custom resource_, such as the number of models and pipelines.
+It's important to note here that sensitive information like model names is _not_ recorded.
+Feature-level metrics are about how many servers have multi-model serving and over-committing enabled and how much memory servers have available to them.
+All of this can be seen in the `Collect` method [here](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/hodometer/pkg/hodometer/collect.go#L227).
+
 ---
 
 * Designed to be simple, even for people new to Go.
