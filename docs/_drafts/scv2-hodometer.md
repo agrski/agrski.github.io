@@ -116,6 +116,10 @@ This is why the metrics are defined in [their own file](https://github.com/Seldo
 Of course, this is convenient for maintainers too, but the primary motivation was around casual readers without tools like an IDE.
 The rest of the internal architecture of Hodometer is relatively straightforward too, but let's spare a moment to discuss it.
 
+## Architecture
+
+<!-- TODO -- discuss internal arch of Hodometer and system-level diagram (think C4 diagrams) -->
+
 ---
 
 * Connections:
