@@ -85,6 +85,11 @@ I should note that this is based on assumptions and previous experience rather t
 Sampled and/or aggregated data are always subject to missing data points and loss of detail.
 In any case, the collected metrics are generally further aggregated and assessed to identify _trends_, so inaccuracies in any given sample are highly unlikely to be significant in the grand scheme of things.
 
+We've already touched upon the ability of end users to configure the metrics receiver endpoint.
+One additional point to note here is that Hodometer supports _extra_ receivers.
+This isn't something provided by Spartakus, but I decided to add it because it allows users to record the metrics whilst still providing them back to the maintainers.
+The aim is once again to inspire confidence through visibility whilst benefitting the community as a whole by sharing this information in an anonymised way.
+
 ---
 
 * Designed to be simple, even for people new to Go.
