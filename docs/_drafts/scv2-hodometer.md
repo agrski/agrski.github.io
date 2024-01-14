@@ -102,6 +102,12 @@ It's important to note here that sensitive information like model names is _not_
 Feature-level metrics are about how many servers have multi-model serving and over-committing enabled and how much memory servers have available to them.
 All of this can be seen in the `Collect` method [here](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/hodometer/pkg/hodometer/collect.go#L227).
 
+Of course, if someone isn't happy sharing _any_ data, that's easy to configure too!
+The simplest way to achieve this would be to disable Hodometer entirely.
+Since the introduction of the `SeldonRuntime` custom resource in Core 2.6.0, there's a flag for this.
+If you installed Core v2 with Helm, the relevant value is `hodometer.disable` in the [runtime Helm chart](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/k8s/helm-charts/seldon-core-v2-runtime/values.yaml#L5).
+Alternatively, you can update the [publish URL](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/hodometer/cmd/hodometer/args.go#L38) Hodometer uses to point to your own receiver.
+
 ---
 
 * Designed to be simple, even for people new to Go.
