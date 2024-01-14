@@ -56,7 +56,7 @@ Not collecting any PII or otherwise potentially sensitive information avoids hav
 That's convenient from a business perspective, but it's also about building trust with end users that Hodometer isn't trying to spy on them.
 It's about understanding adoption, seeing how widely particular versions are in use and if users upgrade quickly or if old versions still need to be supported, and about understanding if features are being utilised.
 Do users actually make use of MMS?
-If so, to what extent are they employing from over-committing of servers?
+If so, to what extent are they employing over-committing of servers?
 
 The use of ephemeral cluster IDs benefits anonymity, but was also done for simplicity of implementation.
 The user can specify a cluster ID which Hodometer wil read from its environment, but if none is provided it will simply generate a new one at random.
