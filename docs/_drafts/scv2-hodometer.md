@@ -42,11 +42,11 @@ When you consider these things, it should be clear that the metrics for Core v2 
 
 While Spartakus didn't provide ideal metrics even for Core v1, it did make a number of sensible design decisions to use as a basis for implementing usage metrics in Core v2.
 Specifically, these were:
-* Anonymity via randomised, non-persistent identifiers.
-* Explicitly no collection of PII.
 * Non-integral component.
-* Low periodicity reporting of metrics.
+* Explicitly no collection of PII.
+* Anonymity via randomised, non-persistent identifiers.
 * Push-based reporting of metrics.
+* Low periodicity reporting of metrics.
 * Flexibility to configure additional metrics receivers.
 
 Being an optional part of the system means Hodometer can safely and easily be enabled or disabled without any impact.
