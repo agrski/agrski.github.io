@@ -47,7 +47,7 @@ Specifically, these were:
 * Anonymity via randomised, non-persistent identifiers.
 * Push-based reporting of metrics.
 * Low periodicity reporting of metrics.
-* Flexibility to configure additional metrics receivers.
+* Flexibility to configure metrics receivers.
 
 Being an optional part of the system means Hodometer can safely and easily be enabled or disabled without any impact.
 It is only reliant on (some of) the APIs exposed by the scheduler and some minimal information from k8s about the server version.
