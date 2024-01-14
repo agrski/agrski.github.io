@@ -108,6 +108,14 @@ Since the introduction of the `SeldonRuntime` custom resource in Core 2.6.0, the
 If you installed Core v2 with Helm, the relevant value is `hodometer.disable` in the [runtime Helm chart](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/k8s/helm-charts/seldon-core-v2-runtime/values.yaml#L5).
 Alternatively, you can update the [publish URL](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/hodometer/cmd/hodometer/args.go#L38) Hodometer uses to point to your own receiver.
 
+The final aspect of the design that I'd like to discuss is simplicity.
+It was a conscious decision when creating Hodometer to prioritise legibility, particularly around the metrics themselves.
+Keeping with the themes of visibility and trust, we wanted anyone evaluating Core v2 to be able to easily verify what metrics were defined and how these tied into the aforementioned levels of detail.
+Even those without experience with Go and possibly very little knowledge of coding generally should be able to navigate to and understand the intent of the metrics and relation to levels, as a minimum.
+This is why the metrics are defined in [their own file](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/hodometer/pkg/hodometer/metrics.go) and structured the way they are with very explicit naming.
+Of course, this is convenient for maintainers too, but the primary motivation was around casual readers without tools like an IDE.
+The rest of the internal architecture of Hodometer is relatively straightforward too, but let's spare a moment to discuss it.
+
 ---
 
 * Designed to be simple, even for people new to Go.
