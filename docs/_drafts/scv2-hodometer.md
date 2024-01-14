@@ -54,7 +54,7 @@ It is only reliant on (some of) the APIs exposed by the scheduler and some minim
 
 Not collecting any PII or otherwise potentially sensitive information avoids having to deal with things like the UK's GDPR regulations.
 That's convenient from a business perspective, but it's also about building trust with end users that Hodometer isn't trying to spy on them.
-It's about understanding adoption, seeing how widely particular versions are in use and if users upgrade quickly or if old versions still need to be supported, and about understanding if features are being utilised.
+The metrics Hodometer defines are about understanding adoption, seeing how widely particular versions are in use and if users upgrade quickly or if old versions still need to be supported, and about understanding if features are being utilised.
 Do users actually make use of MMS?
 If so, to what extent are they employing over-committing of servers?
 
