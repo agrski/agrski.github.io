@@ -63,6 +63,13 @@ The user can specify a cluster ID which Hodometer wil read from its environment,
 In this latter case, whenever Hodometer restarts it will report metrics as being from a new "cluster".
 That's a bit unhelpful for anyone wondering what the average age of clusters is or trying to count the number of active clusters in a given time period, but makes installations simpler and can inadvertently prevent longitudinal collection on long-lived clusters.
 
+Push-based metrics might seem like an odd thing to tout as a sensible design decision.
+After all, Prometheus, one of the most popular metrics collection solutions, uses a [pull-based model](https://prometheus.io/docs/introduction/overview/) and justifies this briefly in its [FAQ](https://prometheus.io/docs/introduction/faq/#why-do-you-pull-rather-than-push?) and in more depth [in its blog](https://prometheus.io/blog/2016/07/23/pull-does-not-scale-or-does-it/).
+In the case of Hodometer, however, the situation is very different.
+While Prometheus wants to be aware of which services should be active and can employ service discovery, it would likely be very unpopular if an open-source tool were to have, or to need, these things.
+Instead, Core v2 is the active party and creates an outbound connection, which might be more acceptable from an administrative perspective than allowing inbound connections; if not, it can simply be disabled or blocked by a network policy.
+By configuring the metrics receivers on the client side, it furthermore has the benefit that users can direct metrics to their own endpoints.
+
 ---
 
 * Designed to be simple, even for people new to Go.
