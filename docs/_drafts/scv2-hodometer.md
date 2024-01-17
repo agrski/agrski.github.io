@@ -25,6 +25,7 @@ For details on enabling Spartakus for Core v1, please refer to the [official doc
 While convenient in the sense that it had already been written and made collecting _some_ metrics straightforward, Spartakus wasn't an ideal tool for application usage monitoring.
 For a start, the project was deprecated and archived in 2019.
 This led to the creation of the open-source [i-am-spartakus](https://github.com/SeldonIO/i-am-spartakus) repository a few weeks later by Seldon, to retain the project in maintenance mode.
+
 Plenty of projects are archived, however, and maintaining a fork of something stable isn't much of a burden.
 The larger problem with Spartakus was that the metrics it collected made sense for k8s, but not necessarily for other applications.
 For example, the number of nodes in a cluster has no relation to how many ML deployments or models are on it, or what hardware resources those are consuming.
