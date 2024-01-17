@@ -98,13 +98,18 @@ In any case, the collected metrics are generally further aggregated and assessed
 
 ## Making more mileage
 
+### Share and share alike
+
 We've already touched upon the ability of end users to configure the metrics receiver endpoint.
 One additional point to note here is that Hodometer supports _extra_ receivers.
 This isn't something provided by Spartakus, but I decided to add it because it allows users to record the metrics whilst still providing them back to the maintainers.
 The aim is once again to inspire confidence through visibility whilst benefitting the community as a whole by sharing this information in an anonymised way.
 
+### Step by step
+
 Another notable divergence from Spartakus is that Hodometer has the concept of _levels_ of metrics.
 While Spartakus treated it is an all-or-nothing situation, Core v2 gives the user the option to share only as much information as they're comfortable with.
+
 Making users select every individual metric would be tedious for them, so Hodometer groups these into levels: cluster-level, resource-level, and feature-level information.
 Each level is a superset of its predecessor.
 Cluster-level metrics are very basic: just the k8s and Core v2 scheduler versions (the scheduler is the heart of the control plane, so this implies the Core v2 version more generally).
@@ -113,16 +118,21 @@ It's important to note here that sensitive information like model names is _not_
 Feature-level metrics are about how many servers have multi-model serving and over-committing enabled and how much memory servers have available to them.
 All of this can be seen in the `Collect` method [here](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/hodometer/pkg/hodometer/collect.go#L227).
 
+### Turn it off (and on again!)
+
 Of course, if someone isn't happy sharing _any_ data, that's easy to configure too!
 The simplest way to achieve this would be to disable Hodometer entirely.
 Since the introduction of the `SeldonRuntime` custom resource in Core 2.6.0, there's a flag for this.
 If you installed Core v2 with Helm, the relevant value is `hodometer.disable` in the [runtime Helm chart](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/k8s/helm-charts/seldon-core-v2-runtime/values.yaml#L5).
 Alternatively, you can update the [publish URL](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/hodometer/cmd/hodometer/args.go#L38) Hodometer uses to point to your own receiver.
 
+### Transparency
+
 The final aspect of the design that I'd like to discuss is simplicity.
 It was a conscious decision when creating Hodometer to prioritise legibility, particularly around the metrics themselves.
 Keeping with the themes of visibility and trust, we wanted anyone evaluating Core v2 to be able to easily verify what metrics were defined and how these tied into the aforementioned levels of detail.
 Even those without experience with Go and possibly very little knowledge of coding generally should be able to navigate to and understand the intent of the metrics and relation to levels, as a minimum.
+
 This is why the metrics are defined in [their own file](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/hodometer/pkg/hodometer/metrics.go) and structured the way they are with very explicit naming.
 Of course, this is convenient for maintainers too, but the primary motivation was around casual readers without tools like an IDE.
 The rest of the internal architecture of Hodometer is relatively straightforward too, but let's spare a moment to discuss it.
