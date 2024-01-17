@@ -14,3 +14,6 @@ flowchart TD
   ]
 
   K["Kubernetes API"]
+
+  C --> |metrics pushed from| S
+  S --> |queries| K
