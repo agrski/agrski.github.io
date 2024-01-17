@@ -139,6 +139,9 @@ The rest of the internal architecture of Hodometer is relatively straightforward
 
 ## Architecture
 
+Before diving straight into the internals of Hodometer, let's recap its high-level interactions with other services.
+If you're familiar with the [C4 model](https://c4model.com/) for software diagrams, this will be a component-level view.
+
 <!-- TODO -- discuss internal arch of Hodometer and system-level diagram (think C4 diagrams) -->
 
 ---
