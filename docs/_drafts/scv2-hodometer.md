@@ -36,7 +36,7 @@ To put it concisely, Spartakus collected lots of data that _wasn't_ of interest 
 ## A blast from the past --- inspiration from Spartakus
 
 Core v2 is a very different kettle of fish from Core v1, and the sorts of metrics we'd want are no exception.
-Core v2 has multiple Kubernetes custom resources --- models, servers, pipelines, and experiments --- compared to just single one in Core v1 --- deployments.
+Core v2 has multiple Kubernetes custom resources --- _Models_, _Servers_, _Pipelines_, and _Experiments_ --- compared to just single one in Core v1 --- deployments.
 It furthermore introduces fundamentally new features in the form of multi-model serving (MMS) and over-commit.
 When you consider these things, it should be clear that the metrics for Core v2 will want to be correspondingly more granular and domain-focused.
 
