@@ -15,7 +15,7 @@ flowchart TD
 
   K["Kubernetes API"]
 
-  C --> |metrics pushed from| S
+  S --> |pushes metrics to| C
   S --> |queries| K
 
   classDef focusSystem      fill:#1168bd,stroke:#0b4884,color:#ffffff
