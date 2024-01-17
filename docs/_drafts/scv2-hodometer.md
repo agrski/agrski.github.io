@@ -52,6 +52,7 @@ It is only reliant on (some of) the APIs exposed by the scheduler and some minim
 
 Not collecting any PII or otherwise potentially sensitive information avoids having to deal with things like the UK's GDPR regulations.
 That's convenient from a business perspective, but it's also about building trust with end users that Hodometer isn't trying to spy on them.
+
 The metrics Hodometer defines are about understanding adoption, seeing how widely particular versions are in use and if users upgrade quickly or if old versions still need to be supported, and about understanding if features are being utilised.
 Do users actually make use of MMS?
 If so, to what extent are they employing over-committing of servers?
@@ -67,24 +68,29 @@ That's a bit unhelpful for anyone wondering what the average age of clusters is 
 
 Push-based metrics might seem like an odd thing to tout as a sensible design decision.
 After all, Prometheus, one of the most popular metrics collection solutions, uses a [pull-based model](https://prometheus.io/docs/introduction/overview/) and justifies this briefly in its [FAQ](https://prometheus.io/docs/introduction/faq/#why-do-you-pull-rather-than-push?) and in more depth [in its blog](https://prometheus.io/blog/2016/07/23/pull-does-not-scale-or-does-it/).
+
 In the case of Hodometer, however, the situation is very different.
 While Prometheus wants to be aware of which services should be active and can employ service discovery, it would likely be very unpopular if an open-source tool were to have, or to need, these things to a third party.
 In any case, it'd be rather impractical for the third party!
 Instead, Core v2 is the active party and creates an outbound connection, which might be more acceptable from an administrative perspective than allowing inbound connections; if not, it can simply be disabled or blocked by a network policy.
+
 By configuring the metrics receivers on the client side, it furthermore has the benefit that users can direct metrics to their own endpoints.
 
 ### Reporting frequency
 
 Low periodicity is likewise an unusual thing to desire --- lots of systems are about collecting all the metrics, all the time!
 Prometheus collects aggregated metrics but is often configured with a scrape interval between 10 seconds and one minute and will commonly be capturing tens to hundreds of time series per target, while some other systems are event-based and therefore even more granular, collecting information on every single things that happens.
+
 In contrast, Hodometer runs infrequently --- only once every eight hours [at the time of writing](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/hodometer/cmd/hodometer/main.go#L31).
 There are a few reasons for this.
 First of all, it should impose an absolutely minimal burden on user's networks and hardware resources.
 Many cloud providers charge network egress costs, and Hodometer shouldn't be consuming compute resources that could be better used by the user's processes.
+
 Aside from that, more frequent usage metrics aren't necessarily very useful.
 As the point is to provide an _indication_ of how Core v2 is being adopted and which features are (not) being used, this level of granularity is sufficient.
 Whether someone spins up a handful of extra inference servers for a few hours between Hodometer's runs or creates a new version of a pipeline before removing the old one doesn't fundamentally change the scale of adoption.
 Indeed, many of the metrics should be naturally slow-changing, such as the versions of Kubernetes and Core, or tend to oscillate within stable ranges, such as the number of servers deployed at any given time.
+
 I should note that this is based on assumptions and previous experience rather than hard data, but the nature of the problem means that precise data would be difficult and potentially controversial to attempt to collect.
 Sampled and/or aggregated data are always subject to missing data points and loss of detail.
 In any case, the collected metrics are generally further aggregated and assessed to identify _trends_, so inaccuracies in any given sample are highly unlikely to be significant in the grand scheme of things.
