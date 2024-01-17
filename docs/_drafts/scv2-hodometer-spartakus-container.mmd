@@ -17,3 +17,11 @@ flowchart TD
 
   C --> |metrics pushed from| S
   S --> |queries| K
+
+  classDef focusSystem      fill:#1168bd,stroke:#0b4884,color:#ffffff
+  classDef supportingSystem fill:#666,stroke:#0b4884,color:#ffffff
+  classDef consumingSystem  fill:#08427b,stroke:#052e56,color:#ffffff
+
+  class S focusSystem
+  class C consumingSystem
+  class K supportingSystem
