@@ -17,3 +17,14 @@ flowchart TD
   end
   H --> |pushes metrics to| R1
   H -.-> |pushes metrics to| R3
+
+  classDef focusSystem      fill:#1168bd,stroke:#0b4884,color:#ffffff
+  classDef supportingSystem fill:#666,stroke:#0b4884,color:#ffffff
+  classDef consumingSystem  fill:#08427b,stroke:#052e56,color:#ffffff
+
+  class H focusSystem
+  class S supportingSystem
+  class K supportingSystem
+  class R1 consumingSystem
+  class R2 consumingSystem
+  class R3 consumingSystem
