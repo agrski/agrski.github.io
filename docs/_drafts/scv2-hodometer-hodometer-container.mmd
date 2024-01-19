@@ -9,3 +9,11 @@ flowchart TD
   R1["Receiver"]
   R2["Extra Receiver"]
   R3["Extra Receiver"]
+
+  subgraph Kubernetes cluster
+    H --> |queries| S
+    H --> |queries| K
+    H -.-> |pushes metrics to| R2
+  end
+  H --> |pushes metrics to| R1
+  H -.-> |pushes metrics to| R3
