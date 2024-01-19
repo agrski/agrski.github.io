@@ -6,9 +6,9 @@ flowchart TD
   H["Hodometer\n\nMetrics publisher"]
   K["Kubernetes API"]
   S["Core v2 Scheduler"]
-  R1["Receiver"]
-  R2["Extra Receiver"]
-  R3["Extra Receiver"]
+  R1["Metrics receiver"]
+  R2["Extra metrics receiver"]
+  R3["Extra metrics receiver"]
 
   subgraph Kubernetes cluster
     H --> |"queries\n[gRPC]"| S
