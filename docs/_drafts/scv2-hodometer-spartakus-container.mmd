@@ -7,7 +7,7 @@ flowchart TD
   C["Collector\n\nMetrics receiver"]
   K["Kubernetes API"]
 
-  subgraph Kubernetes cluster
+  subgraph k8s-cluster[Kubernetes cluster]
     S --> |"queries\n[HTTP]"| K
   end
   S ---> |"pushes metrics to\n[HTTP]"| C
@@ -19,3 +19,5 @@ flowchart TD
   class S focusSystem
   class C consumingSystem
   class K supportingSystem
+
+  style k8s-cluster fill:#eee,stroke:#ccc,stroke-width:2px,stroke-dasharray: 5 5
