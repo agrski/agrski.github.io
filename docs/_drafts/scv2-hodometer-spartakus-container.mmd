@@ -3,16 +3,8 @@ title: Spartakus architecture
 ---
 
 flowchart TD
-  S["Volunteer
-
-    Spartakus metrics publisher"
-  ]
-
-  C["Collector
-
-    Spartakus metrics receiver"
-  ]
-
+  S["Volunteer\n\nSpartakus metrics publisher"]
+  C["Collector\n\nSpartakus metrics receiver"]
   K["Kubernetes API"]
 
   subgraph Kubernetes cluster
