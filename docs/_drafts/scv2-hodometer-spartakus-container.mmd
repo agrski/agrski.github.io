@@ -15,7 +15,9 @@ flowchart TD
 
   K["Kubernetes API"]
 
-  S --> |queries| K
+  subgraph Kubernetes cluster
+    S --> |queries| K
+  end
   S --> |pushes metrics to| C
 
   classDef focusSystem      fill:#1168bd,stroke:#0b4884,color:#ffffff
