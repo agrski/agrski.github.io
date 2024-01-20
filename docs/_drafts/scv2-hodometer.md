@@ -146,7 +146,8 @@ If you're familiar with the [C4 model](https://c4model.com/) for software diagra
 
 Hodometer makes requests to the Core v2 scheduler and Kubernetes (Discovery) API to collect pertinent information.
 Internally, it aggregates this information and filters it to the appropriate level.
-The aggregated data is then sent to all the configured metrics receivers.
+Then, this aggregated data is then sent to all the configured metrics receivers.
+With the exception of talking to the scheduler, which uses gRPC, all the other communications between services are over HTTP/REST.
 
 <!-- TODO -- discuss internal arch of Hodometer and system-level diagram (think C4 diagrams) -->
 
