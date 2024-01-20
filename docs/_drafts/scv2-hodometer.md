@@ -149,6 +149,11 @@ Internally, it aggregates this information and filters it to the appropriate lev
 Then, this aggregated data is then sent to all the configured metrics receivers.
 With the exception of talking to the scheduler, which uses gRPC, all the other communications between services are over HTTP/REST.
 
+Metrics receivers can be deployed inside or outside the same cluster as Hodometer, so long as they're accessible.
+In fact, there is a simple but complete example of a custom receiver included with Hodometer in the Core v2 project.
+It's imaginatively entitled `receiver` in the code and `seldon-hodometer-receiver` in the accompanying Kubernetes YAML manifest.
+This has been tested in both Kubernetes and Docker Compose, so when I say "cluster", that really just means deployment environment.
+
 <!-- TODO -- discuss internal arch of Hodometer and system-level diagram (think C4 diagrams) -->
 
 ---
