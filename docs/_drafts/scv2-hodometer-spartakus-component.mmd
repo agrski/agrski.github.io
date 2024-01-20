@@ -1,0 +1,35 @@
+---
+title: Spartakus component architecture
+---
+
+flowchart TD
+  V["Volunteer"]
+  SV["ServerVersioner"]
+  NL["NodeLister"]
+  EL["ExtensionsLister"]
+  D["Database"]
+  K["Kubernetes API"]
+  F["Filesystem"]
+  C["Collector\n\nMetrics receiver"]
+
+  subgraph Volunteer
+    V --> |schedules next run| V
+    V --> |calls| SV
+    V --> |calls| NL
+    V --> |calls| EL
+    V --> |sends report to| D
+  end
+  SV --> |"queries\n[HTTP]"| K
+  NL --> |"queries\n[HTTP]"| K
+  EL --> |"queries"| F
+  D --> |"pushes metrics to\n[HTTP]"| C
+
+  classDef focusSystem      fill:#1168bd,stroke:#0b4884,color:#ffffff
+  classDef supportingSystem fill:#666,stroke:#0b4884,color:#ffffff
+  classDef consumingSystem  fill:#08427b,stroke:#052e56,color:#ffffff
+
+  class V,SV,NL,EL,D focusSystem
+  class K,F supportingSystem
+  class C consumingSystem
+
+  style Volunteer fill:#eee,stroke:#ccc,stroke-width:2px,stroke-dasharray: 5 5
