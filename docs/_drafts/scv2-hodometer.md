@@ -154,6 +154,13 @@ In fact, there is a simple but complete example of a custom receiver included wi
 It's imaginatively entitled `receiver` in the code and `seldon-hodometer-receiver` in the accompanying Kubernetes YAML manifest.
 This has been tested in both Kubernetes and Docker Compose, so when I say "cluster", that really just means deployment environment.
 
+Comparing this to the equivalent Spartakus diagram, it's immediately obvious that Spartakus is more limited in what information is readily available to it.
+This is due to it only requesting information from Kubernetes.
+It is also immediately clear from the diagram that Spartakus does not support additional metrics receivers like Hodometer does.
+Ostensibly, these make it appear less flexible but simpler in its design.
+
+![Spartakus container architecture](./scv2-hodometer-spartakus-container.png)
+
 <!-- TODO -- discuss internal arch of Hodometer and system-level diagram (think C4 diagrams) -->
 
 ---
