@@ -183,6 +183,28 @@ The other takes care of searching a specified filesystem path for relevant-looki
 Finally, there's a `Database` interface, which provides a unified entrypoint to the various different storage backends Spartakus supports: BigQuery, HTTP endpoints, and `STDOUT`.
 These different implementations all support a simple `Store()` method defined by the `Database` interface.
 
+In contrast, Hodometer has far fewer components and implementations to be aware of.
+It has three main business logic structs: a punctuator, a collector, and a publisher.
+
+The `Punctuator` struct is responsible for running code on a periodic basis, much like the idea of a punctuator in Kafka Streams, as it happens.
+Unlike the `volunteer` in Spartakus, the `Punctuator` is _not_ responsible for defining what to run.
+Instead, in Hodometer this is provided by the wiring logic in the `main` function, which can be found [here](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/hodometer/cmd/hodometer/main.go#L70).
+
+The `Collector` interface is, as the name implies, about collecting metrics at the specified level of detail.
+In fact, it doesn't just collect _raw_ metrics, but rather also aggregates them into the desired shape for _usage_ metrics as it goes.
+In a larger project, it may be preferable to separate consumption and transformation of data, but in this case with independent groups of resources, it seemed simpler and more legible to combine these functionalities.
+The `Collector` interface is implemented solely by the `SeldonCoreCollector` struct, although arguably the naming is slightly misleading at present because it also handles the collection of Kubernetes data.
+Really this Kubernetes aspect should be handled by another struct.
+
+Last, but not least, there's the `Publisher` interface, which is responsible for pushing the aggregated usage metrics to one or more receivers.
+It's equivalent to the `Database` interface in Spartakus, but features a single implementation rather than multiple.
+That implementation is in the form of the `JsonPublisher` struct, which flattens and serialises the metrics into a JSON map of key-value pairs.
+This is the generic, readily extensible format expected by MixPanel's [/track API](https://developer.mixpanel.com/reference/track-event).
+The use of this API can be seen [in the code](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/hodometer/pkg/hodometer/publish.go#L135), but the format would work with other receivers, such as the example implementation mentioned previously.
+In order to insulate itself from any changes to the metrics' structure, the `JsonPublisher` uses reflection to perform this marshalling.
+The actual publication of metrics spawns one coroutine with a retry handler per receiver, rather than iterating through them sequentially.
+Should a publication attempt fail for any reason, this will be logged but will not impact any of the pushes to other receivers.
+
 <!-- TODO -- discuss internal arch of Hodometer and system-level diagram (think C4 diagrams) -->
 
 ---
