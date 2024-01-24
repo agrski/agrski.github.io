@@ -191,10 +191,10 @@ These different implementations all support a simple `Store()` method defined by
 
 ### Hodometer component view
 
-![Hodometer component architecture](./scv2-hodometer-hodometer-component.png)
-
 In contrast, Hodometer has far fewer components and implementations to be aware of.
 It has three main business logic structs: a punctuator, a collector, and a publisher.
+
+![Hodometer component architecture](./scv2-hodometer-hodometer-component.png)
 
 The `Punctuator` struct is responsible for running code on a periodic basis, much like the idea of a punctuator in Kafka Streams, as it happens.
 Unlike the `volunteer` in Spartakus, the `Punctuator` is _not_ responsible for defining what to run.
