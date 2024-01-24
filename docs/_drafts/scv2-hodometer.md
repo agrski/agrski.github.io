@@ -204,6 +204,8 @@ The `Collector` interface is, as the name implies, about collecting metrics at t
 In fact, it doesn't just collect _raw_ metrics, but rather also aggregates them into the desired shape for _usage_ metrics as it goes.
 In a larger project, it may be preferable to separate consumption and transformation of data, but in this case with independent groups of resources, it seemed simpler and more legible to combine these functionalities.
 The `Collector` interface is implemented solely by the `SeldonCoreCollector` struct, although arguably the naming is slightly misleading at present because it also handles the collection of Kubernetes data; really this Kubernetes aspect should be handled by another struct.
+The collector communicates with the Core v2 scheduler over gPRC because that's how the scheduler exposes its APIs.
+This is particularly useful for Hodometer as it can incrementally process a stream of information about a potentially large number of resources, rather than having the increased latency and memory consumption of receiving a single, large payload as in an HTTP/1 response.
 
 Last, but not least, there's the `Publisher` interface, which is responsible for pushing the aggregated usage metrics to one or more receivers.
 It's equivalent to the `Database` interface in Spartakus, but features a single implementation rather than multiple.
