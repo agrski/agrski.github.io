@@ -218,8 +218,6 @@ Should a publication attempt fail for any reason, this will be logged but will n
 
 ## Conclusions
 
-There are a few key takeaways from the above diagrams and discussion.
-
 Although they were developed independently, with Hodometer only taking inspiration from some of the high-level characteristics of Spartakus, the two projects have reasonably similar internal structures.
 This convergence indicates to me that, if you're looking to create something similar, these are probably good starting points for how you might want to approach your solution.
 
