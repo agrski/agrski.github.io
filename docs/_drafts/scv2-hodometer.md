@@ -203,8 +203,7 @@ Instead, in Hodometer this is provided by the wiring logic in the `main` functio
 The `Collector` interface is, as the name implies, about collecting metrics at the specified level of detail.
 In fact, it doesn't just collect _raw_ metrics, but rather also aggregates them into the desired shape for _usage_ metrics as it goes.
 In a larger project, it may be preferable to separate consumption and transformation of data, but in this case with independent groups of resources, it seemed simpler and more legible to combine these functionalities.
-The `Collector` interface is implemented solely by the `SeldonCoreCollector` struct, although arguably the naming is slightly misleading at present because it also handles the collection of Kubernetes data.
-Really this Kubernetes aspect should be handled by another struct.
+The `Collector` interface is implemented solely by the `SeldonCoreCollector` struct, although arguably the naming is slightly misleading at present because it also handles the collection of Kubernetes data; really this Kubernetes aspect should be handled by another struct.
 
 Last, but not least, there's the `Publisher` interface, which is responsible for pushing the aggregated usage metrics to one or more receivers.
 It's equivalent to the `Database` interface in Spartakus, but features a single implementation rather than multiple.
