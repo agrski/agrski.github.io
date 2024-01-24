@@ -225,9 +225,3 @@ Whereas Spartakus offers flexibility in terms of which storage backend is used, 
 In an age of increasing concern around data usage, with the prevalence of user analytics tracking and web-scale consumption of data for large language and other AI models, providing users with control over information sharing has to be the right decision.
 
 The simpler internal structure and implementation of Hodometer supports these goals of elevated transparency and flexibility, while still achieving maintainability and efficiency in how it operates.
-
----
-
-* Connections:
-* Multiple levels of data collection enabled by flags.
-  * Can show via diagram.
