@@ -216,6 +216,17 @@ In order to insulate itself from any changes to the metrics' structure, the `Jso
 The actual publication of metrics spawns one coroutine with a retry handler per receiver, rather than iterating through them sequentially.
 Should a publication attempt fail for any reason, this will be logged but will not impact any of the pushes to other receivers.
 
+## Conclusions
+
+There are a few key takeaways from the above diagrams and discussion.
+
+Although they were developed independently, with Hodometer only taking inspiration from some of the high-level characteristics of Spartakus, the two projects have reasonably similar internal structures.
+This convergence indicates to me that, if you're looking to create something similar, these are probably good starting points for how you might want to approach your solution.
+
+Whereas Spartakus offers flexibility in terms of which storage backend is used, Hodometer prioritises flexibility around **what** data is collected and **where** it is sent.
+In an age of increasing concern around data usage, with the prevalence of user analytics tracking and web-scale consumption of data for large language and other AI models, providing users with control over information sharing has to be the right decision.
+
+The simpler internal structure and implementation of Hodometer supports these goals of elevated transparency and flexibility, while still achieving maintainability and efficiency in how it operates.
 
 ---
 
