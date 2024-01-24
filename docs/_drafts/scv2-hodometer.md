@@ -140,7 +140,7 @@ The rest of the internal architecture of Hodometer is relatively straightforward
 ## Architecture
 
 Before diving straight into the internals of Hodometer, let's recap its high-level interactions with other services.
-If you're familiar with the [C4 model](https://c4model.com/) for software diagrams, this will be a container-level view.
+If you're familiar with the [C4 model](https://c4model.com/) for software diagrams, this will be using the container- and component-level views.
 
 ![Hodometer container architecture](./scv2-hodometer-hodometer-container.png)
 
