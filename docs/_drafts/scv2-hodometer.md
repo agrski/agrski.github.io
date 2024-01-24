@@ -220,12 +220,5 @@ Should a publication attempt fail for any reason, this will be logged but will n
 ---
 
 * Connections:
-  * Show via diagram.
-  * Connects periodically to SCv2 scheduler & k8s if enabled (check this).
-  * Attempts to write collated, anonymous data to MixPanel.
-    * This is obvious from the use of a MixPanel client in the `publish` file.
 * Multiple levels of data collection enabled by flags.
   * Can show via diagram.
-  * To disable entirely, simply disable/delete Hodometer.
-    * How to best do this depends on the version of SCv2 in use--it more recent versions, flag in `SeldonRuntime`.
-    * Give example, e.g. based on `k8s/helm-charts/seldon-core-v2-runtime/templates/seldon-runtime.yaml`.
