@@ -142,6 +142,8 @@ The rest of the internal architecture of Hodometer is relatively straightforward
 Before diving straight into the internals of Hodometer, let's recap its high-level interactions with other services.
 If you're familiar with the [C4 model](https://c4model.com/) for software diagrams, this will be using the container- and component-level views.
 
+### Hodometer container view
+
 ![Hodometer container architecture](./scv2-hodometer-hodometer-container.png)
 
 Hodometer makes requests to the Core v2 scheduler and Kubernetes (Discovery) API to collect pertinent information.
@@ -154,6 +156,8 @@ In fact, there is a simple but complete example of a custom receiver included wi
 It's imaginatively entitled `receiver` in the code and `seldon-hodometer-receiver` in the accompanying Kubernetes YAML manifest.
 This has been tested in both Kubernetes and Docker Compose, so when I say "cluster", that really just means deployment environment.
 
+### Spartakus container view
+
 Comparing this to the equivalent Spartakus diagram, it's immediately obvious that Spartakus is more limited in what information is readily available to it.
 This is due to it only requesting information from Kubernetes.
 It is also immediately clear from the diagram that Spartakus does not support additional metrics receivers like Hodometer does.
@@ -164,6 +168,8 @@ Ostensibly, these make it appear less flexible but simpler in its design.
 If we dig a little deeper, we'll see that's not really the case in terms of high-level code structure.
 The following is what the C4 model calls a _component_ diagram, which is about how the modules or services _within_ a container --- an application --- interact with one another and with outside components.
 In the context of Golang, which both metrics systems are written in, I'm choosing to interpret interfaces and important structs (those with methods defining business logic) as components.
+
+### Spartakus component view
 
 ![Spartakus component architecture](./scv2-hodometer-spartakus-component.png)
 
@@ -182,6 +188,8 @@ The other takes care of searching a specified filesystem path for relevant-looki
 
 Finally, there's a `Database` interface, which provides a unified entrypoint to the various different storage backends Spartakus supports: BigQuery, HTTP endpoints, and `STDOUT`.
 These different implementations all support a simple `Store()` method defined by the `Database` interface.
+
+### Hodometer component view
 
 In contrast, Hodometer has far fewer components and implementations to be aware of.
 It has three main business logic structs: a punctuator, a collector, and a publisher.
