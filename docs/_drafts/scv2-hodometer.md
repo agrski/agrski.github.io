@@ -216,7 +216,6 @@ In order to insulate itself from any changes to the metrics' structure, the `Jso
 The actual publication of metrics spawns one coroutine with a retry handler per receiver, rather than iterating through them sequentially.
 Should a publication attempt fail for any reason, this will be logged but will not impact any of the pushes to other receivers.
 
-<!-- TODO -- discuss internal arch of Hodometer and system-level diagram (think C4 diagrams) -->
 
 ---
 
