@@ -191,6 +191,8 @@ These different implementations all support a simple `Store()` method defined by
 
 ### Hodometer component view
 
+![Hodometer component architecture](./scv2-hodometer-hodometer-component.png)
+
 In contrast, Hodometer has far fewer components and implementations to be aware of.
 It has three main business logic structs: a punctuator, a collector, and a publisher.
 
