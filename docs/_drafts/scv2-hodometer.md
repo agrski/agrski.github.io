@@ -161,6 +161,25 @@ Ostensibly, these make it appear less flexible but simpler in its design.
 
 ![Spartakus container architecture](./scv2-hodometer-spartakus-container.png)
 
+If we dig a little deeper, we'll see that's not really the case in terms of high-level code structure.
+The following is what the C4 model calls a _component_ diagram, which is about how the modules or services _within_ a container --- an application --- interact with one another and with outside components.
+In the context of Golang, which both metrics systems are written in, I'm choosing to interpret interfaces and important structs (those with methods defining business logic) as components.
+
+![Spartakus component architecture](./scv2-hodometer-spartakus-component.png)
+
+Here we can see that the volunteer application, the metrics publisher, has five main components.
+
+The `volunteer` struct encapsulates the overall program logic of scheduling runs and orchestrating the other components that capture and collate the metrics of interest.
+
+The `serverVersioner` and `nodeLister` are interfaces the `volunteer` depends upon.
+As the names suggest, they're there to retrieve information about the k8s server version and details on each node in the cluster respectively.
+As it happens, they are both implemented by the `kubeClientWrapper` struct in `kubernetes.go, but this is an implementation detail.
+
+The `extensionsLister` is another interface, which is responsible for returning the key-value pairs of user-defined static data Spartakus calls "extensions".
+While before we had two interfaces and one implementation, this time there's one interface but two implementations!
+The first implementation is responsible for transforming a list of bytes (a byte _slice_ in Go nomenclature) into a list of "extensions".
+The other takes care of searching a specified filesystem path for relevant-looking files and passing the contents of these to the aforementioned byte-handling implementation.
+
 <!-- TODO -- discuss internal arch of Hodometer and system-level diagram (think C4 diagrams) -->
 
 ---
