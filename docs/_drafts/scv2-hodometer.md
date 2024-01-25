@@ -37,7 +37,7 @@ To put it concisely, Spartakus collected lots of data that _wasn't_ of interest 
 ## A blast from the past --- inspiration from Spartakus
 
 Core v2 is a very different kettle of fish from Core v1, and the sorts of metrics we'd want are no exception.
-Core v2 has multiple Kubernetes custom resources --- _Models_, _Servers_, _Pipelines_, and _Experiments_ --- compared to just single one in Core v1 --- _SeldonDeployments_.
+Core v2 has multiple Kubernetes custom resources --- _Models_, _Servers_, _Pipelines_, and _Experiments_ --- compared to just a single one in Core v1 --- _SeldonDeployments_.
 It furthermore introduces fundamentally new features in the form of multi-model serving (MMS) and over-commit.
 When you consider these things, it should be clear that the metrics for Core v2 will want to be correspondingly more granular and domain-focused.
 
@@ -61,7 +61,7 @@ If so, to what extent are they employing over-committing of servers?
 ### Anonymity
 
 The use of ephemeral cluster IDs benefits anonymity, but was also done for simplicity of implementation.
-The user can specify a cluster ID which Hodometer wil read from its environment, but if none is provided it will simply generate a new one at random.
+The user can specify a cluster ID which Hodometer will read from its environment, but if none is provided it will simply generate a new one at random.
 In this latter case, whenever Hodometer restarts it will report metrics as being from a new "cluster".
 That's a bit unhelpful for anyone wondering what the average age of clusters is or trying to count the number of active clusters in a given time period, but makes installations simpler and can inadvertently prevent longitudinal collection on long-lived clusters.
 
