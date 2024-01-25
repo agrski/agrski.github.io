@@ -1,6 +1,6 @@
 ---
 title: "Seldon Core v2 Deep-Dive---Hodometer"
-tags: seldon seldon-core-v2
+tags: seldon seldon-core-v2 metrics architecture
 ---
 
 Hodometer is an optional component of Seldon Core v2 responsible for collecting anonymous usage metrics.
