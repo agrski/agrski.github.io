@@ -249,7 +249,7 @@ Should a publication attempt fail for any reason, this will be logged but will n
 The following snippet shows the use of Go's wait groups to await the completion (whether success or failure) of those coroutines:
 
 ```go
-  wg := sync.WaitGroup{}
+ 	wg := sync.WaitGroup{}
 	wg.Add(len(jp.clients))
 
 	for _, c := range jp.clients {
