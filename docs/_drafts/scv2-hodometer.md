@@ -199,7 +199,18 @@ It has three main business logic structs: a punctuator, a collector, and a publi
 
 The `Punctuator` struct is responsible for running code on a periodic basis, much like the idea of a punctuator in Kafka Streams, as it happens.
 Unlike the `volunteer` in Spartakus, the `Punctuator` is _not_ responsible for defining what to run.
-Instead, in Hodometer this is provided by the wiring logic in the `main` function, which can be found [here](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/hodometer/cmd/hodometer/main.go#L70).
+Instead, in Hodometer this is provided by the wiring logic in the `main` function, which can be found [here](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/hodometer/cmd/hodometer/main.go#L70):
+
+```go
+	punctuator.Run(
+		"collect metrics and publish",
+		func() {
+			ctx := context.Background()
+			metrics := scc.Collect(ctx, args.metricsLevel)
+			_ = jp.Publish(ctx, metrics)
+		},
+	)
+```
 
 The `Collector` interface is, as the name implies, about collecting metrics at the specified level of detail.
 In fact, it doesn't just collect _raw_ metrics, but rather also aggregates them into the desired shape for _usage_ metrics as it goes.
@@ -207,6 +218,25 @@ In a larger project, it may be preferable to separate consumption and transforma
 The `Collector` interface is implemented solely by the `SeldonCoreCollector` struct, although arguably the naming is slightly misleading at present because it also handles the collection of Kubernetes data; really this Kubernetes aspect should be handled by another struct.
 The collector communicates with the Core v2 scheduler over gPRC because that's how the scheduler exposes its APIs.
 This is particularly useful for Hodometer as it can incrementally process a stream of information about a potentially large number of resources, rather than having the increased latency and memory consumption of receiving a single, large payload as in an HTTP/1 response.
+This looks like the following example for counting models:
+
+```go
+	metrics := &modelMetrics{}
+	for {
+		m, err := subscription.Recv()
+		if err == io.EOF {
+			return metrics
+		}
+		if err != nil {
+			logger.WithError(err).Error("unable to fetch from Seldon Core scheduler")
+			return nil
+		}
+
+		if !m.Deleted {
+			metrics.count++
+		}
+	}
+```
 
 Last, but not least, there's the `Publisher` interface, which is responsible for pushing the aggregated usage metrics to one or more receivers.
 It's equivalent to the `Database` interface in Spartakus, but features a single implementation rather than multiple.
@@ -216,6 +246,28 @@ The use of this API can be seen [in the code](https://github.com/SeldonIO/seldon
 In order to insulate itself from any changes to the metrics' structure, the `JsonPublisher` uses reflection to perform this marshalling.
 The actual publication of metrics spawns one coroutine with a retry handler per receiver, rather than iterating through them sequentially.
 Should a publication attempt fail for any reason, this will be logged but will not impact any of the pushes to other receivers.
+The following snippet shows the use of Go's wait groups to await the completion (whether success or failure) of those coroutines:
+
+```go
+  wg := sync.WaitGroup{}
+	wg.Add(len(jp.clients))
+
+	for _, c := range jp.clients {
+		urlAndClient := c
+		go func() {
+			defer wg.Done()
+			logger.Infof("publishing usage metrics to %s", urlAndClient.url)
+
+			err := urlAndClient.client.Track(metrics.ClusterId, eventName, event)
+			if err != nil {
+				logger.WithError(err).Errorf("failed to publish usage metrics to %s", urlAndClient.url)
+			}
+			logger.Infof("published usage metrics to %s", urlAndClient.url)
+		}()
+	}
+
+	wg.Wait()
+```
 
 ## Conclusions
 
