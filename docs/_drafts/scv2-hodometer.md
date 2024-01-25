@@ -34,6 +34,8 @@ Spartakus does support some custom data in the form of [extensions](https://gith
 In any case, users may not even want to share all the data on nodes in a cluster that Spartakus collects by default.
 To put it concisely, Spartakus collected lots of data that _wasn't_ of interest but didn't collect lots of data that _was_ of interest!
 
+> Spartakus collected lots of data that wasn't of interest but didn't collect lots of data that was of interest!
+
 ## A blast from the past --- inspiration from Spartakus
 
 Core v2 is a very different kettle of fish from Core v1, and the sorts of metrics we'd want are no exception.
@@ -53,6 +55,8 @@ It is only reliant on (some of) the APIs exposed by the scheduler and some minim
 
 Not collecting any PII or otherwise potentially sensitive information avoids having to deal with things like the UK's GDPR regulations.
 That's convenient from a business perspective, but it's also about building trust with end users that Hodometer isn't trying to spy on them.
+
+> ... it's also about building trust
 
 The metrics Hodometer defines are about understanding adoption, seeing how widely particular versions are in use and if users upgrade quickly or if old versions still need to be supported, and about understanding if features are being utilised.
 Do users actually make use of MMS?
@@ -87,6 +91,8 @@ There are a few reasons for this.
 First of all, it should impose an absolutely minimal burden on user's networks and hardware resources.
 Many cloud providers charge network egress costs, and Hodometer shouldn't be consuming compute resources that could be better used by the user's processes.
 
+> ... an absolutely minimal burden on user's resources
+
 Aside from that, more frequent usage metrics aren't necessarily very useful.
 As the point is to provide an _indication_ of how Core v2 is being adopted and which features are (not) being used, this level of granularity is sufficient.
 Whether someone spins up a handful of extra inference servers for a few hours between Hodometer's runs or creates a new version of a pipeline before removing the old one doesn't fundamentally change the scale of adoption.
@@ -104,6 +110,8 @@ We've already touched upon the ability of end users to configure the metrics rec
 One additional point to note here is that Hodometer supports _extra_ receivers.
 This isn't something provided by Spartakus, but I decided to add it because it allows users to record the metrics whilst still providing them back to the maintainers.
 The aim is once again to inspire confidence through visibility whilst benefitting the community as a whole by sharing this information in an anonymised way.
+
+> The aim is to inspire confidence through visibility
 
 ### Step by step
 
