@@ -118,7 +118,7 @@ It's important to note here that sensitive information like model names is _not_
 Feature-level metrics are about how many servers have multi-model serving and over-committing enabled and how much memory servers have available to them.
 The metrics can be found [here](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/hodometer/pkg/hodometer/metrics.go), while the handling of levels can be seen in the `Collect` method [here](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/hodometer/pkg/hodometer/collect.go#L227).
 
-### Turn it off (and on again!)
+### Turn it off (or on again!)
 
 Of course, if someone isn't happy sharing _any_ data, that's easy to configure too!
 The simplest way to achieve this would be to disable Hodometer entirely.
@@ -131,11 +131,11 @@ Alternatively, you can update the [publish URL](https://github.com/SeldonIO/seld
 The final aspect of the design that I'd like to discuss is simplicity.
 It was a conscious decision when creating Hodometer to prioritise legibility, particularly around the metrics themselves.
 Keeping with the themes of visibility and trust, we wanted anyone evaluating Core v2 to be able to easily verify what metrics were defined and how these tied into the aforementioned levels of detail.
-Even those without experience with Go and possibly very little knowledge of coding generally should be able to navigate to and understand the intent of the metrics and relation to levels, as a minimum.
+Even those without experience with Go and possibly very little knowledge of coding generally should, as a minimum, be able to navigate to and understand the intent of the metrics and their relation to levels.
 
 This is why the metrics are defined in [their own file](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/hodometer/pkg/hodometer/metrics.go) and structured the way they are with very explicit naming.
 Of course, this is convenient for maintainers too, but the primary motivation was around casual readers without tools like an IDE.
-The rest of the internal architecture of Hodometer is relatively straightforward too, but let's spare a moment to discuss it.
+The rest of the internal architecture of Hodometer is relatively straightforward too, so let's take a moment to explore that next.
 
 ## Architecture
 
@@ -149,7 +149,7 @@ If you're not familiar with this model, the idea is that you can zoom in to prog
 
 Hodometer makes requests to the Core v2 scheduler and Kubernetes (Discovery) API to collect pertinent information.
 Internally, it aggregates this information and filters it to the appropriate level.
-Then, this aggregated data is then sent to all the configured metrics receivers.
+This aggregated data is then sent to all the configured metrics receivers.
 With the exception of talking to the scheduler, which uses gRPC, all the other communications between services are over HTTP/REST.
 
 Metrics receivers can be deployed inside or outside the same cluster as Hodometer, so long as they're accessible.
@@ -168,7 +168,7 @@ Ostensibly, these make it appear less flexible but simpler in its design.
 
 If we dig a little deeper, we'll see that's not really the case in terms of high-level code structure.
 The following is what the C4 model calls a _component_ diagram, which is about how the modules or services _within_ a container --- an application --- interact with one another and with outside components.
-In the context of Golang, which both metrics systems are written in, I'm choosing to interpret interfaces and important structs (those with methods defining business logic) as components.
+In the context of Golang, which both metrics systems are written in, I'm choosing to interpret interfaces and important structs --- those with methods defining business logic --- as components.
 
 ### Spartakus component view
 
@@ -184,7 +184,7 @@ As it happens, they are both implemented by the `kubeClientWrapper` struct in [k
 
 The `extensionsLister` is another interface, which is responsible for returning the key-value pairs of user-defined static data Spartakus calls "extensions".
 While before we had two interfaces and one implementation, this time there's one interface but two implementations!
-The first implementation is responsible for transforming a list of bytes (a byte _slice_ in Go nomenclature) into a list of "extensions".
+The first of these is responsible for transforming a list of bytes (a byte _slice_ in Go nomenclature) into a list of "extensions".
 The other takes care of searching a specified filesystem path for relevant-looking files and passing the contents of these to the aforementioned byte-handling implementation.
 
 Finally, there's a `Database` interface, which provides a unified entrypoint to the various different storage backends Spartakus supports: BigQuery, HTTP endpoints, and `STDOUT`.
@@ -213,11 +213,11 @@ Instead, in Hodometer this is provided by the wiring logic in the `main` functio
 ```
 
 The `Collector` interface is, as the name implies, about collecting metrics at the specified level of detail.
-In fact, it doesn't just collect _raw_ metrics, but rather also aggregates them into the desired shape for _usage_ metrics as it goes.
+In fact, it doesn't just collect _raw_ metrics, but rather also aggregates them into the desired shape for _usage_ metrics in a streaming fashion.
 In a larger project, it may be preferable to separate consumption and transformation of data, but in this case with independent groups of resources, it seemed simpler and more legible to combine these functionalities.
 The `Collector` interface is implemented solely by the `SeldonCoreCollector` struct, although arguably the naming is slightly misleading at present because it also handles the collection of Kubernetes data; really this Kubernetes aspect should be handled by another struct.
 The collector communicates with the Core v2 scheduler over gPRC because that's how the scheduler exposes its APIs.
-This is particularly useful for Hodometer as it can incrementally process a stream of information about a potentially large number of resources, rather than having the increased latency and memory consumption of receiving a single, large payload as in an HTTP/1 response.
+This is particularly useful for Hodometer as it can incrementally process a stream of information about a potentially large number of resources, rather than having the increased latency and memory consumption of receiving a single, large payload as in an HTTP/REST response.
 This looks like the following example for counting models:
 
 ```go
