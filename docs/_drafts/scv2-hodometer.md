@@ -278,3 +278,15 @@ Whereas Spartakus offers flexibility in terms of which storage backend is used, 
 In an age of increasing concern around data usage, with the prevalence of user analytics tracking and web-scale consumption of data for large language and other AI models, providing users with control over information sharing has to be the right decision.
 
 The simpler internal structure and implementation of Hodometer supports these goals of elevated transparency and flexibility, while still achieving maintainability and efficiency in how it operates.
+
+If you're considering creating your own usage metrics system, perhaps for an open-source project, consider the following questions:
+* Will those metrics help guide development of the product?
+* How will metrics be collected?
+  * Does this put a burden on users' resources?
+  * Does it have any security implications you need to convey, e.g. around inbound or outbound connections?
+* How can you assure users that metrics will be used responsibly?
+  * Is there visibility into what information will be collected?
+  * Are metrics suitably anonymised?
+  * Will you share results, e.g. in the form of aggregated statistics on the product home-page?
+* How can users configure and control what they share, and when?
+  * What mechanism(s) will you provide for opting out, either partially or entirely?
