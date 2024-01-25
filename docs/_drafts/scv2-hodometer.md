@@ -116,7 +116,7 @@ Cluster-level metrics are very basic: just the k8s and Core v2 scheduler version
 Resource-level metrics count the number of each Core v2-defined _custom resource_, such as the number of models and pipelines.
 It's important to note here that sensitive information like model names is _not_ recorded.
 Feature-level metrics are about how many servers have multi-model serving and over-committing enabled and how much memory servers have available to them.
-All of this can be seen in the `Collect` method [here](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/hodometer/pkg/hodometer/collect.go#L227).
+The metrics can be found [here](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/hodometer/pkg/hodometer/metrics.go), while the handling of levels can be seen in the `Collect` method [here](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/hodometer/pkg/hodometer/collect.go#L227).
 
 ### Turn it off (and on again!)
 
