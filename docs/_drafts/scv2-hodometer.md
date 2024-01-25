@@ -271,7 +271,7 @@ The following snippet shows the use of Go's wait groups to await the completion 
 
 ## Conclusions
 
-Although they were developed independently, with Hodometer only taking inspiration from some of the high-level characteristics of Spartakus, the two projects have reasonably similar internal structures.
+Although they were developed independently, with Hodometer only taking inspiration from some of the high-level characteristics of Spartakus and deliberately diverging in other respects, the two projects have reasonably similar internal structures.
 This convergence indicates to me that, if you're looking to create something similar, these are probably good starting points for how you might want to approach your solution.
 
 Whereas Spartakus offers flexibility in terms of which storage backend is used, Hodometer prioritises flexibility around **what** data is collected and **where** it is sent.
