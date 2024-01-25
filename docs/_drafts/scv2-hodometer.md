@@ -290,3 +290,6 @@ If you're considering creating your own usage metrics system, perhaps for an ope
   * Will you share results, e.g. in the form of aggregated statistics on the product home-page?
 * How can users configure and control what they share, and when?
   * What mechanism(s) will you provide for opting out, either partially or entirely?
+
+These are questions we asked ourselves when creating Hodometer.
+The first step of fostering trust within a community is demonstrating respect for that community.
