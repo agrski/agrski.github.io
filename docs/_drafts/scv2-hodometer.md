@@ -180,7 +180,7 @@ The `volunteer` struct encapsulates the overall program logic of scheduling runs
 
 The `serverVersioner` and `nodeLister` are interfaces the `volunteer` depends upon.
 As the names suggest, they're there to retrieve information about the k8s server version and details on each node in the cluster respectively.
-As it happens, they are both implemented by the `kubeClientWrapper` struct in `kubernetes.go, but this is an implementation detail.
+As it happens, they are both implemented by the `kubeClientWrapper` struct in `kubernetes.go`, but this is an implementation detail.
 
 The `extensionsLister` is another interface, which is responsible for returning the key-value pairs of user-defined static data Spartakus calls "extensions".
 While before we had two interfaces and one implementation, this time there's one interface but two implementations!
