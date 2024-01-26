@@ -9,10 +9,11 @@ help:
 
 .draft_dir := docs/_drafts/
 .post_suffix := .md
+.diagram_suffix := .mmd
 f ?= $(error file name f must be set)
 
 draft:
 	@echo -e '---\ntitle: \ntags: \n---\n\n' > $(.draft_dir)/$(f)$(.post_suffix)
 
 flowchart:
-	@echo flowchart
+	@cp .flowchart.mmd.tmpl $(.draft_dir)/$(f)$(.diagram_suffix)
