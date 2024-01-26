@@ -199,7 +199,7 @@ As it happens, they are both implemented by the `kubeClientWrapper` struct in [k
 
 The `extensionsLister` is another interface, which is responsible for returning the key-value pairs of user-defined static data Spartakus calls "extensions".
 While before we had two interfaces and one implementation, this time there's one interface but two implementations!
-The first of these is responsible for transforming a list of bytes (a byte _slice_ in Go nomenclature) into a list of "extensions".
+The first of these is responsible for transforming a list of bytes (a byte slice in Go nomenclature) into a list of "extensions".
 The other takes care of searching a specified filesystem path for relevant-looking files and passing the contents of these to the aforementioned byte-handling implementation.
 
 Finally, there's a `Database` interface, which provides a unified entrypoint to the various different storage backends Spartakus supports: BigQuery, HTTP endpoints, and `STDOUT`.
