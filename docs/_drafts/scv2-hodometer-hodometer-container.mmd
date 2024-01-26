@@ -23,6 +23,7 @@ flowchart TD
   classDef consumingSystem  fill:#08427b,stroke:#052e56,color:#ffffff
   classDef systemBoundary   fill:#eee,stroke:#ccc,stroke-width:2px,stroke-dasharray: 5 5
 
-  class H,S,K focusSystem
+  class H focusSystem
+  class S,K supportingSystem
   class R1,R2,R3 consumingSystem
   class k8s-cluster systemBoundary
