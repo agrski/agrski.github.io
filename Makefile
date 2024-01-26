@@ -19,3 +19,7 @@ draft:
 .PHONY: flowchart
 flowchart:
 	@cp .flowchart.mmd.tmpl $(.draft_dir)/$(f)$(.diagram_suffix)
+
+%.png: %.mmd
+	@mmdc -i $< -o $@
+	@convert $@ -pointsize 12 -fill grey50 label:"Copyright (C) agrski $$(date +%Y)" -gravity center -append $@
