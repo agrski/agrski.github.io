@@ -24,3 +24,9 @@ flowchart:
 %$(.image_suffix): %$(.diagram_suffix)
 	@mmdc -i $< -o $@
 	@convert $@ -pointsize 12 -fill grey50 label:"Copyright (C) agrski $$(date +%Y)" -gravity center -append $@
+
+.diagrams := $(wildcard $(.draft_dir)/*$(.diagram_suffix))
+.images := $(.diagrams:$(.diagram_suffix)=$(.image_suffix))
+
+.PHONY: images
+images: $(.images)
