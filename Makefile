@@ -10,6 +10,7 @@ help:
 .draft_dir := docs/_drafts
 .post_suffix := .md
 .diagram_suffix := .mmd
+.image_suffix := .png
 f ?= $(error file name f must be set)
 
 .PHONY: draft
@@ -20,6 +21,6 @@ draft:
 flowchart:
 	@cp .flowchart.mmd.tmpl $(.draft_dir)/$(f)$(.diagram_suffix)
 
-%.png: %.mmd
+%$(.image_suffix): %$(.diagram_suffix)
 	@mmdc -i $< -o $@
 	@convert $@ -pointsize 12 -fill grey50 label:"Copyright (C) agrski $$(date +%Y)" -gravity center -append $@
