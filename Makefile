@@ -1,4 +1,4 @@
-SHELL := /usr/bin/env bash -o pipefail
+SHELL := /usr/bin/env bash -o pipefail -o noclobber
 
 .DEFAULT_GOAL := help
 
