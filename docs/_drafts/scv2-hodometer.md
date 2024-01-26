@@ -156,7 +156,7 @@ The rest of the internal architecture of Hodometer is relatively straightforward
 
 Before diving straight into the internals of Hodometer, let's recap its high-level interactions with other services and contrast this with Spartakus.
 If you're familiar with the [C4 model](https://c4model.com/) for software architecture, this will be using the container- and component-level views.
-If you're not familiar with this model, the idea is that you can zoom in to progressively more detailed views, from the context (how systems interact) to containers (how applications interact) to components (how logical units within an application interact) to code (how low-level units within an application interact).
+If you're not familiar with this model, the idea is that you can zoom in to progressively more detailed views, from the **context** (how systems interact) to **containers** (how applications interact) to **components** (how logical units within an application interact) to **code** (how low-level units within an application interact).
 
 ### Hodometer container view
 
