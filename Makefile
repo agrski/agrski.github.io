@@ -8,11 +8,11 @@ help:
 	@sed -rn '/^[a-zA-Z0-9_-]+:/ {s/:.*//; s/^/  /; p}' $(MAKEFILE_LIST)
 
 .draft_dir := docs/_drafts/
-.draft_suffix := .md
+.post_suffix := .md
 f ?= $(error file name f must be set)
 
 draft:
-	@echo -e '---\ntitle: \ntags: \n---\n\n' > $(.draft_dir)/$(f)$(.draft_suffix)
+	@echo -e '---\ntitle: \ntags: \n---\n\n' > $(.draft_dir)/$(f)$(.post_suffix)
 
 flowchart:
 	@echo flowchart
