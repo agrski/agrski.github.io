@@ -7,7 +7,7 @@ help:
 	@echo Available commands:
 	@sed -rn '/^[a-zA-Z0-9_-]+:/ {s/:.*//; s/^/  /; p}' $(MAKEFILE_LIST)
 
-.draft_dir := docs/_drafts/
+.draft_dir := docs/_drafts
 .post_suffix := .md
 .diagram_suffix := .mmd
 f ?= $(error file name f must be set)
