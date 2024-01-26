@@ -122,13 +122,13 @@ The aim is once again to inspire confidence through visibility whilst benefittin
 
 ### Step by step
 
-Another notable divergence from Spartakus is that Hodometer has the concept of _levels_ of metrics.
+Another notable divergence from Spartakus is that Hodometer has the concept of **levels of metrics**.
 While Spartakus treated it is an all-or-nothing situation, Core v2 gives the user the option to share only as much information as they're comfortable with.
 
 Making users select every individual metric would be tedious for them, so Hodometer groups these into levels: cluster-level, resource-level, and feature-level information.
 Each level is a superset of its predecessor.
 Cluster-level metrics are very basic: just the k8s and Core v2 scheduler versions (the scheduler is the heart of the control plane, so this implies the Core v2 version more generally).
-Resource-level metrics count the number of each Core v2-defined _custom resource_, such as the number of models and pipelines.
+Resource-level metrics count the number of each Core v2-defined **custom resource**, such as the number of models and pipelines.
 It's important to note here that sensitive information like model names is _not_ recorded.
 Feature-level metrics are about how many servers have multi-model serving and over-committing enabled and how much memory servers have available to them.
 The metrics can be found [here](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/hodometer/pkg/hodometer/metrics.go), while the handling of levels can be seen in the `Collect` method [here](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/hodometer/pkg/hodometer/collect.go#L227).
@@ -182,7 +182,7 @@ Ostensibly, these make it appear less flexible but simpler in its design.
 ![Spartakus container architecture](./scv2-hodometer-spartakus-container.png)
 
 If we dig a little deeper, we'll see that's not really the case in terms of high-level code structure.
-The following is what the C4 model calls a _component_ diagram, which is about how the modules or services _within_ a container --- an application --- interact with one another and with outside components.
+The following is what the C4 model calls a **component** diagram, which is about how the modules or services _within_ a container --- an application --- interact with one another and with outside components.
 In the context of Golang, which both metrics systems are written in, I'm choosing to interpret interfaces and important structs --- those with methods defining business logic --- as components.
 
 ### Spartakus component view
