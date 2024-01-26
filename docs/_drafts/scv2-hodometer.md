@@ -230,7 +230,9 @@ Instead, in Hodometer this is provided by the wiring logic in the `main` functio
 The `Collector` interface is, as the name implies, about collecting metrics at the specified level of detail.
 In fact, it doesn't just collect _raw_ metrics, but rather also aggregates them into the desired shape for _usage_ metrics in a streaming fashion.
 In a larger project, it may be preferable to separate consumption and transformation of data, but in this case with independent groups of resources, it seemed simpler and more legible to combine these functionalities.
+
 The `Collector` interface is implemented solely by the `SeldonCoreCollector` struct, although arguably the naming is slightly misleading at present because it also handles the collection of Kubernetes data; really this Kubernetes aspect should be handled by another struct.
+
 The collector communicates with the Core v2 scheduler over gPRC because that's how the scheduler exposes its APIs.
 This is particularly useful for Hodometer as it can incrementally process a stream of information about a potentially large number of resources, rather than having the increased latency and memory consumption of receiving a single, large payload as in an HTTP/REST response.
 This looks like the following example for counting models:
@@ -258,6 +260,7 @@ It's equivalent to the `Database` interface in Spartakus, but features a single 
 That implementation is in the form of the `JsonPublisher` struct, which flattens and serialises the metrics into a JSON map of key-value pairs.
 This is the generic, readily extensible format expected by MixPanel's [/track API](https://developer.mixpanel.com/reference/track-event).
 The use of this API can be seen [in the code](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/hodometer/pkg/hodometer/publish.go#L135), but the format would work with other receivers, such as the example implementation mentioned previously.
+
 In order to insulate itself from any changes to the metrics' structure, the `JsonPublisher` uses reflection to perform this marshalling.
 The actual publication of metrics spawns one coroutine with a retry handler per receiver, rather than iterating through them sequentially.
 Should a publication attempt fail for any reason, this will be logged but will not impact any of the pushes to other receivers.
