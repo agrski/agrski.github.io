@@ -8,7 +8,7 @@ help:
 	@sed -rn '/^[a-zA-Z0-9_-]+:/ {s/:.*//; s/^/  /; p}' $(MAKEFILE_LIST)
 
 draft:
-	@echo hello
+	@echo draft
 
 flowchart:
-	@echo world
+	@echo flowchart
