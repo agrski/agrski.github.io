@@ -6,7 +6,12 @@ tags: seldon seldon-core-v2 metrics architecture
 Hodometer is an optional component of Seldon Core v2 responsible for collecting anonymous usage metrics.
 The name comes from the [ancient device](https://en.wikipedia.org/wiki/Odometer) for measuring distance, familiar in cars as an _odometer_, because it's all about keeping track of your mileage!
 
-Let's consider how metrics were handled in Core v1, why we opted for a different approach in Core v2, and how Hodometer actually works.
+We'll consider how metrics were handled in Core v1, why we opted for a different approach in Core v2, and how Hodometer actually works.
+
+You might be interested in this article if:
+* You're interested in Seldon Core v2 and understanding its components in depth;
+* You're considering adding usage metrics to your own (open-source) project and are looking for tips, trade-offs, and inspiration; or
+* You're interested in system design case studies in real-world projects.
 
 ## Spartakus in Core v1
 
