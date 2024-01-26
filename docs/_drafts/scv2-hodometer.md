@@ -233,7 +233,7 @@ In a larger project, it may be preferable to separate consumption and transforma
 
 The `Collector` interface is implemented solely by the `SeldonCoreCollector` struct, although arguably the naming is slightly misleading at present because it also handles the collection of Kubernetes data; really this Kubernetes aspect should be handled by another struct.
 
-The collector communicates with the Core v2 scheduler over gPRC because that's how the scheduler exposes its APIs.
+The collector communicates with the Core v2 scheduler over gRPC because that's how the scheduler exposes its APIs.
 This is particularly useful for Hodometer as it can incrementally process a stream of information about a potentially large number of resources, rather than having the increased latency and memory consumption of receiving a single, large payload as in an HTTP/REST response.
 This looks like the following example for counting models:
 
@@ -258,8 +258,8 @@ This looks like the following example for counting models:
 Last, but not least, there's the `Publisher` interface, which is responsible for pushing the aggregated usage metrics to one or more receivers.
 It's equivalent to the `Database` interface in Spartakus, but features a single implementation rather than multiple.
 That implementation is in the form of the `JsonPublisher` struct, which flattens and serialises the metrics into a JSON map of key-value pairs.
-This is the generic, readily extensible format expected by MixPanel's [/track API](https://developer.mixpanel.com/reference/track-event).
-The use of this API can be seen [in the code](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/hodometer/pkg/hodometer/publish.go#L135), but the format would work with other receivers, such as the example implementation mentioned previously.
+This is the generic, readily extensible format expected by MixPanel's [/track API](https://developer.mixpanel.com/reference/track-event), but the format would work with other receivers, such as the example implementation mentioned previously.
+The use of this API can be seen [in the code](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/hodometer/pkg/hodometer/publish.go#L135).
 
 In order to insulate itself from any changes to the metrics' structure, the `JsonPublisher` uses reflection to perform this marshalling.
 The actual publication of metrics spawns one coroutine with a retry handler per receiver, rather than iterating through them sequentially.
