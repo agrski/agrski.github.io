@@ -12,8 +12,10 @@ help:
 .diagram_suffix := .mmd
 f ?= $(error file name f must be set)
 
+.PHONY: draft
 draft:
 	@echo -e '---\ntitle: \ntags: \n---\n\n' > $(.draft_dir)/$(f)$(.post_suffix)
 
+.PHONY: flowchart
 flowchart:
 	@cp .flowchart.mmd.tmpl $(.draft_dir)/$(f)$(.diagram_suffix)
