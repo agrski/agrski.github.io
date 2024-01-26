@@ -1,5 +1,7 @@
 SHELL := /usr/bin/env bash -o pipefail
 
+.DEFAULT_GOAL := help
+
 .PHONY: help
 help:
 	@echo Available commands:
