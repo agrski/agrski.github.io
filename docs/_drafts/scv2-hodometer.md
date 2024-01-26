@@ -51,7 +51,7 @@ It furthermore introduces fundamentally new features in the form of multi-model 
 When you consider these things, it should be clear that the metrics for Core v2 will want to be correspondingly more granular and domain-focused.
 
 While Spartakus didn't provide ideal metrics even for Core v1, it did make a number of sensible design decisions to use as a basis for implementing usage metrics in Core v2.
-Let's dip into each of these topics in turn.
+Let's dip into each of these in turn.
 
 ### Optionality
 
