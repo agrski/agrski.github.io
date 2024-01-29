@@ -19,6 +19,9 @@ Of particular interest is the operator's use of **meta-resources**, i.e. resourc
   * Easier for new users if they don't need all the extra tooling and other overheads of k8s
   * Want to keep the door open for changes in preferred orch systems in future, e.g. Nomad
   * Also provides flexibility for users to manage their own integrations
+
+## Reuniting with Kubernetes
+
 * k8s is one of the most dominant container orch systems
 * Thus do want to support it without users having to jump through hoops
 * Many components have some awareness of k8s in the form of watching secrets
