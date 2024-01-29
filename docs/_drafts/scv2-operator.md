@@ -5,6 +5,12 @@ tags: seldon seldon-core-v2 architecture
 
 This article is part of a series about [Seldon Core v2](https://github.com/SeldonIO/seldon-core/tree/v2).
 
+Seldon Core v2 is largely platform agnostic by design, with the **operator** existing to help integrate it natively into Kubernetes.
+It's responsible for managing the Kubernetes resources related to Core v2, and acts as an adapter between those resources and Core v2's internal representation.
+
+This article discusses the operator's role in more detail, including what those Kubernetes resources are, how it handles them, and how it was built.
+Of particular interest is the operator's use of **meta-resources**, i.e. resources that define other resources.
+
 * Optional -- SCv2 can run outside k8s, or even in k8s but without CRDs
   * Nice to have as it manages k8s CRDs for a Kube-native experience
 * Operators are a standard part of k8s-focused systems
