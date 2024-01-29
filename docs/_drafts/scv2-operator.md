@@ -11,6 +11,8 @@ It's responsible for managing the Kubernetes resources related to Core v2, and a
 This article discusses the operator's role in more detail, including what those Kubernetes resources are, how it handles them, and how it was built.
 Of particular interest is the operator's use of **meta-resources**, i.e. resources that define other resources.
 
+---
+
 * Optional -- SCv2 can run outside k8s, or even in k8s but without CRDs
   * Nice to have as it manages k8s CRDs for a Kube-native experience
 * Operators are a standard part of k8s-focused systems
