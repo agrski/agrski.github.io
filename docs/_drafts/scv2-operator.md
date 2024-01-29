@@ -11,6 +11,24 @@ It's responsible for managing the Kubernetes resources related to Core v2, and a
 This article discusses the operator's role in more detail, including what those Kubernetes resources are, how it handles them, and how it was built.
 Of particular interest is the operator's use of **meta-resources**, i.e. resources that define other resources.
 
+## Decoupling from Kubernetes
+
+* SCv2 is not k8s-specific as a system
+* Deliberate design choice to allow for flexibility in dev & deployment
+  * Easier to spin up locally in Docker Compose for dev purposes
+  * Easier for new users if they don't need all the extra tooling and other overheads of k8s
+  * Want to keep the door open for changes in preferred orch systems in future, e.g. Nomad
+  * Also provides flexibility for users to manage their own integrations
+* k8s is one of the most dominant container orch systems
+* Thus do want to support it without users having to jump through hoops
+* Many components have some awareness of k8s in the form of watching secrets
+  * Don't want to go into this _too_ much
+  * Watching can be faster than waiting for secret updates to propagate through the filesystem, supposedly
+    * Find articles discussing this as motivating factor
+  * Some k8s metadata also passed around as relevant and if available
+    * Link to parts of CRDs which do this
+  * BUT the key thing about k8s integration is having custom resources... Segue
+
 ---
 
 * Optional -- SCv2 can run outside k8s, or even in k8s but without CRDs
