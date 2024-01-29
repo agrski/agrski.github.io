@@ -46,6 +46,21 @@ Of particular interest is the operator's use of **meta-resources**, i.e. resourc
 * Custom resources represent some higher level concept, such as routing rules for a reverse proxy or SDN, a database cluster, or even a full application comprising multiple components and a cache
 * Custom resources are represented by CRDs (Custom Resource Definitions)
   * This is a contract of what can be configured
+  * Some CRDs are rather large, as they embed others
+    * Pod specs in particular are an already large resource definition
+
+## Modelling ML
+
+* CRDs in SCv2
+* Splitting up single large CRD from SCv1 into multiple in SCv2
+  * Be brief -- this should be covered in the post about SCv1 vs SCv2, so just want to recap key info
+* Emphasis on defining more modular components that can be combined together in interesting (or simple!) ways
+* List out CRDs
+* Mention that these don't magically interact -- there needs to be logic in one or more components to orchestrate these workflows
+  * (Or choreograph, in terms of the data plane...  According to Neal Ford's taxonomy)
+  * Mention various components need to be aware of models & pipelines to process them appropriately
+  * Clearly we need some way to convert between the k8s representation and the internal one understood by SCv2
+    * Internal repr. exists due to platform agnosticism, cf. earlier point
 
 ---
 
