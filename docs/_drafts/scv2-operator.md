@@ -13,6 +13,7 @@ Of particular interest is the operator's use of **meta-resources**, i.e. resourc
 
 ## Decoupling from Kubernetes
 
+* SCv1 had a hard dependency on k8s
 * SCv2 is not k8s-specific as a system
 * Deliberate design choice to allow for flexibility in dev & deployment
   * Easier to spin up locally in Docker Compose for dev purposes
