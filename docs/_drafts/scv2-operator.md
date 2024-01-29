@@ -76,6 +76,19 @@ Of particular interest is the operator's use of **meta-resources**, i.e. resourc
     * Long-lived gRPC connections normally
       * (Are any calls unary RPCs?)
 
+## Boxes of bits
+
+* Runtime resource is a meta-resource in the same way as a server is, that being built up from lower-level ones provided directly by k8s
+* Found from feedback & own experience there were too many moving parts for users to have to manage and install
+  * One Helm chart for X, Y, Z... (list these out)
+* Thus, `SeldonRuntime` resource introduced in 2.6.0
+  * Lots of discussion about how to implement this
+  * Should servers be namespaced or global?
+  * What implications would such decisions have for ownership of resources, separation of concerns, security, etc.
+    * For ownership, consider team defines a model but needs a custom runtime for it, then another team owns the servers in a different namespace and the first team isn't allowed to deploy their own servers...
+  * Teams may have very different requirements from servers anyway, in terms of hardware (GPU accelerated or not), overcommitting/usage profiles, runtimes and dependencies, criticality, scaling limits, etc.
+  * Overall easier to leave servers as namespaced resources, but with other components bundled up together as these are much more standardised and not expected to be customised beyond hardware resources & scaling ranges
+
 ---
 
 * Optional -- SCv2 can run outside k8s, or even in k8s but without CRDs
