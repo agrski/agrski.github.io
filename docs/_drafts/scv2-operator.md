@@ -62,6 +62,20 @@ Of particular interest is the operator's use of **meta-resources**, i.e. resourc
   * Clearly we need some way to convert between the k8s representation and the internal one understood by SCv2
     * Internal repr. exists due to platform agnosticism, cf. earlier point
 
+## Translation & delegation
+
+* The operator translates CRDs to the internal model used by the scheduler
+  * This in turn informs other components, but that's a topic for another blog post
+* For models, pipelines, and experiments, the operator delegates the responsibility for actually managing these to Core v2 via the scheduler
+* For servers, the operator is directly responsible for managing these in terms of lower-level resources
+* Translation not just of resource definitions, but also of comms protocols
+  * k8s API is REST/HTTP-based
+  * Operators are informed on an event basis as things change in the system
+    * Again REST-based?  Check this
+  * Scheduler talks gRPC, so the operator needs to talk to it in this way too
+    * Long-lived gRPC connections normally
+      * (Are any calls unary RPCs?)
+
 ---
 
 * Optional -- SCv2 can run outside k8s, or even in k8s but without CRDs
