@@ -33,6 +33,20 @@ Of particular interest is the operator's use of **meta-resources**, i.e. resourc
     * Link to parts of CRDs which do this
   * BUT the key thing about k8s integration is having custom resources... Segue
 
+## Customising Kubernetes/Systems with semantics
+
+* One of the most powerful aspects of k8s is its ability to define custom resources
+  * Not limited by what it provides out of the box
+  * The fundamental building blocks (deployments, services, persistent volumes, etc.) are very powerful and useful
+    * But utilitarian
+    * But they don't express domain concepts or business logic
+    * Bit like writing code in assembly compared to Python -- all the primitives are available to you and you can be very precise in how you use them, but it's harder to express business logic when you're always having to drop down into that lower level
+      * Do you generally care if you're using an 8-bit, 32-bit, or 64-bit integer, or just that it behaves like an integer?
+  * Also without having to integrate these into some central location
+* Custom resources represent some higher level concept, such as routing rules for a reverse proxy or SDN, a database cluster, or even a full application comprising multiple components and a cache
+* Custom resources are represented by CRDs (Custom Resource Definitions)
+  * This is a contract of what can be configured
+
 ---
 
 * Optional -- SCv2 can run outside k8s, or even in k8s but without CRDs
