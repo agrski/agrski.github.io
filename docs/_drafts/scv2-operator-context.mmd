@@ -10,10 +10,10 @@ flowchart TD
 
   U --> |"submits resources"| KC
   subgraph KC["Kubernetes cluster"]
-    K ---> |"sends status updates"| O
-    O ---> |"sends resources"| C
-    O ---> |"sends resources"| K
-    C ---> |"sends status updates"| O
+    K ---> |"notifies\nof changes"| O
+    O ---> |"defines\nresources"| C
+    O ---> |"defines\nresources"| K
+    C ---> |"notifies\nof changes"| O
   end
 
   classDef focusSystem      fill:#1168bd,stroke:#0b4884,color:#ffffff
