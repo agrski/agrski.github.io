@@ -66,6 +66,8 @@ Of particular interest is the operator's use of **meta-resources**, i.e. resourc
 
 * The operator translates CRDs to the internal model used by the scheduler
   * This in turn informs other components, but that's a topic for another blog post
+* Add Mermaid diagram(s) showing operator's interactions with other systems
+  * Context diagram of user -> k8s API -> operator -> (SCv2/scheduler & k8s)
 * For models, pipelines, and experiments, the operator delegates the responsibility for actually managing these to Core v2 via the scheduler
 * For servers, the operator is directly responsible for managing these in terms of lower-level resources
 * Translation not just of resource definitions, but also of comms protocols
