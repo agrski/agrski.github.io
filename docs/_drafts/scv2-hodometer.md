@@ -217,14 +217,14 @@ Unlike the `volunteer` in Spartakus, the `Punctuator` is _not_ responsible for d
 Instead, in Hodometer this is provided by the wiring logic in the `main` function, which can be found [here](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/hodometer/cmd/hodometer/main.go#L70):
 
 ```go
-	punctuator.Run(
-		"collect metrics and publish",
-		func() {
-			ctx := context.Background()
-			metrics := scc.Collect(ctx, args.metricsLevel)
-			_ = jp.Publish(ctx, metrics)
-		},
-	)
+punctuator.Run(
+	"collect metrics and publish",
+	func() {
+		ctx := context.Background()
+		metrics := scc.Collect(ctx, args.metricsLevel)
+		_ = jp.Publish(ctx, metrics)
+	},
+)
 ```
 
 The `Collector` interface is, as the name implies, about collecting metrics at the specified level of detail.
@@ -238,21 +238,21 @@ This is particularly useful for Hodometer as it can incrementally process a stre
 This looks like the following example for counting models:
 
 ```go
-	metrics := &modelMetrics{}
-	for {
-		m, err := subscription.Recv()
-		if err == io.EOF {
-			return metrics
-		}
-		if err != nil {
-			logger.WithError(err).Error("unable to fetch from Seldon Core scheduler")
-			return nil
-		}
-
-		if !m.Deleted {
-			metrics.count++
-		}
+metrics := &modelMetrics{}
+for {
+	m, err := subscription.Recv()
+	if err == io.EOF {
+		return metrics
 	}
+	if err != nil {
+		logger.WithError(err).Error("unable to fetch from Seldon Core scheduler")
+		return nil
+	}
+
+	if !m.Deleted {
+		metrics.count++
+	}
+}
 ```
 
 Last, but not least, there's the `Publisher` interface, which is responsible for pushing the aggregated usage metrics to one or more receivers.
@@ -267,24 +267,24 @@ Should a publication attempt fail for any reason, this will be logged but will n
 The following snippet shows the use of Go's wait groups to await the completion (whether success or failure) of those coroutines:
 
 ```go
- 	wg := sync.WaitGroup{}
-	wg.Add(len(jp.clients))
+wg := sync.WaitGroup{}
+wg.Add(len(jp.clients))
 
-	for _, c := range jp.clients {
-		urlAndClient := c
-		go func() {
-			defer wg.Done()
-			logger.Infof("publishing usage metrics to %s", urlAndClient.url)
+for _, c := range jp.clients {
+	urlAndClient := c
+	go func() {
+		defer wg.Done()
+		logger.Infof("publishing usage metrics to %s", urlAndClient.url)
 
-			err := urlAndClient.client.Track(metrics.ClusterId, eventName, event)
-			if err != nil {
-				logger.WithError(err).Errorf("failed to publish usage metrics to %s", urlAndClient.url)
-			}
-			logger.Infof("published usage metrics to %s", urlAndClient.url)
-		}()
-	}
+		err := urlAndClient.client.Track(metrics.ClusterId, eventName, event)
+		if err != nil {
+			logger.WithError(err).Errorf("failed to publish usage metrics to %s", urlAndClient.url)
+		}
+		logger.Infof("published usage metrics to %s", urlAndClient.url)
+	}()
+}
 
-	wg.Wait()
+wg.Wait()
 ```
 
 ## Conclusions
