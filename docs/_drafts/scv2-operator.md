@@ -91,6 +91,15 @@ Of particular interest is the operator's use of **meta-resources**, i.e. resourc
   * Teams may have very different requirements from servers anyway, in terms of hardware (GPU accelerated or not), overcommitting/usage profiles, runtimes and dependencies, criticality, scaling limits, etc.
   * Overall easier to leave servers as namespaced resources, but with other components bundled up together as these are much more standardised and not expected to be customised beyond hardware resources & scaling ranges
 
+## Turtles all the way down
+
+* May be worth separating discussion of meta-resources into its own section, as this is fairly interesting
+  * Also an easy point to gloss over, but quite important to recognise!
+* Almost all custom operators are using this pattern of defining a higher-level resource in terms of lower-level (k8s) ones
+  * No reason not to do this with other CRs, as as from a k8s perspective they're basically all the same thing anyway
+  * This is similar to programming languages, in which packages or modules (depending on the nomenclature) look and behave in the same way regardless of whether they're part of the standard library, a third-party dependency, or application code
+  * Idea of seeing k8s CRDs as modules which can be layered into an overall application
+
 ---
 
 * Optional -- SCv2 can run outside k8s, or even in k8s but without CRDs
