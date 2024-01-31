@@ -100,6 +100,28 @@ Of particular interest is the operator's use of **meta-resources**, i.e. resourc
   * This is similar to programming languages, in which packages or modules (depending on the nomenclature) look and behave in the same way regardless of whether they're part of the standard library, a third-party dependency, or application code
   * Idea of seeing k8s CRDs as modules which can be layered into an overall application
 
+## Operating an operator
+
+* Structure of an operator
+  * Operator vs. controller(s)
+  * Mermaid diagram may be a big help in explaining this
+* SCv2 uses one operator with multiple controllers defined within it
+* No persistent state, as is standard for operators
+* Global vs. namespaced modes
+  * Note that runtimes & resources are always namespaced, as discussed previously
+* Diffing needs to be done carefully to avoid issues like reconciliation loops
+  * Things like last-applied annotations or whatever else can cause meaningless changes
+  * Find some of the PRs relating to this for concrete examples
+
+## From the ground up
+
+* Brief walkthrough of how the operator was built
+* Emphasise all standard tooling like `controller-gen`
+* Highlight anything notable, such as some of the tags/annotations & libraries
+* Discuss generation of raw manifests & Helm charts
+  * Using Kustomize
+  * Limitations of Kustomize and tricks for getting around it, e.g. markers & sed scripts
+
 ---
 
 * Optional -- SCv2 can run outside k8s, or even in k8s but without CRDs
