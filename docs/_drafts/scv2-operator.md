@@ -15,6 +15,7 @@ Of particular interest is the operator's use of **meta-resources**, i.e. resourc
 
 * SCv1 had a hard dependency on k8s
 * SCv2 is not k8s-specific as a system
+* Optional -- SCv2 can run outside k8s, or even in k8s but without CRDs
 * Deliberate design choice to allow for flexibility in dev & deployment
   * Easier to spin up locally in Docker Compose for dev purposes
   * Easier for new users if they don't need all the extra tooling and other overheads of k8s
@@ -25,6 +26,7 @@ Of particular interest is the operator's use of **meta-resources**, i.e. resourc
 
 * k8s is one of the most dominant container orch systems
 * Thus do want to support it without users having to jump through hoops
+* Nice to have operator as it manages k8s CRDs for a Kube-native experience
 * Many components have some awareness of k8s in the form of watching secrets
   * Don't want to go into this _too_ much
   * Watching can be faster than waiting for secret updates to propagate through the filesystem, supposedly
@@ -65,6 +67,7 @@ Of particular interest is the operator's use of **meta-resources**, i.e. resourc
 ## Translation & delegation
 
 * The operator translates CRDs to the internal model used by the scheduler
+  * Adaptor between CRDs & SCv2
   * This in turn informs other components, but that's a topic for another blog post
 * Add Mermaid diagram(s) showing operator's interactions with other systems
   * Context diagram of user -> k8s API -> operator -> (SCv2/scheduler & k8s)
