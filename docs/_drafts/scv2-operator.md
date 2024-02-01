@@ -11,6 +11,11 @@ It's responsible for managing the Kubernetes resources related to Core v2, and a
 This article discusses the operator's role in more detail, including what those Kubernetes resources are, how it handles them, and how it was built.
 Of particular interest is the operator's use of **meta-resources**, i.e. resources that define other resources.
 
+You might be interested in this article if:
+* You're interested in Seldon Core v2 and understanding its components in depth;
+* You're considering writing an operator to integrate your own (open-source) project into Kubernetes; or
+* You're interested in how Kubernetes resources and operators work and how to reason about them.
+
 ## Decoupling from Kubernetes
 
 * SCv1 had a hard dependency on k8s
