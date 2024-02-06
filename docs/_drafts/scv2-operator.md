@@ -16,6 +16,34 @@ You might be interested in this article if:
 * You're considering writing an operator to integrate your own (open-source) project into Kubernetes; or
 * You're interested in how Kubernetes resources and operators work and how to reason about them.
 
+## Core v1 & Kubernetes --- a match made in heaven?
+
+The original version of Seldon Core, now usually referred to as Core v1, was built specifically for Kubernetes.
+At the time, Kubernetes was still a bit of an up-and-coming technology, promising portability for application workloads by abstracting the underlying infrastructure.
+The idea was to enable widespread adoption by using a powerful, flexible container orchestration system while avoiding vendor lock-in to cloud providers.
+However, this coupling runs deep, with various aspects of ML deployments understood in the form of Kubernetes resources and with no support for other container orchestrators.
+
+Let's briefly cover how Core v1 manages deployments.
+The sole Kubernetes custom resource is the [SeldonDeployment](https://github.com/SeldonIO/seldon-core/blob/46ef14e60e1f8c5b4c30320b06293e8b60f721fa/operator/apis/machinelearning.seldon.io/v1/seldondeployment_types.go#L226), which acts as a wrapper around all the functionality.
+A `SeldonDeployment` comprises one or more [predictors](https://github.com/SeldonIO/seldon-core/blob/46ef14e60e1f8c5b4c30320b06293e8b60f721fa/operator/apis/machinelearning.seldon.io/v1/seldondeployment_types.go#L229), such as a main deployment and a shadow or canary.
+Each predictor is an independently-deployed inference graph composed of so-called [predictive units](https://github.com/SeldonIO/seldon-core/blob/46ef14e60e1f8c5b4c30320b06293e8b60f721fa/operator/apis/machinelearning.seldon.io/v1/seldondeployment_types.go#L245) arranged in a tree structure.
+Each predictive unit represents some [type of functionality](https://github.com/SeldonIO/seldon-core/blob/46ef14e60e1f8c5b4c30320b06293e8b60f721fa/operator/apis/machinelearning.seldon.io/v1/seldondeployment_types.go#L539) and can have zero or more [children](https://github.com/SeldonIO/seldon-core/blob/46ef14e60e1f8c5b4c30320b06293e8b60f721fa/operator/apis/machinelearning.seldon.io/v1/seldondeployment_types.go#L601), which are also predictive units.
+Entire predictors are represented by Kubernetes pods, with each predictive unit deployed as its own container within that pod.
+There is typically an additional container in each predictor's pod for an executor component, which acts as an **orchestrator** for how requests traverse that predictor's inference graph.
+Note that components defined outside a predictor's graph, such as explainers, are deployed in separate pods.
+
+In itself, this orchestrated workflow could be deployed in something other than Kubernetes -- the executor just needs to be able to communicate with each of its predictor's containers.
+However, the way this executor is implemented, it demands to be in a Kubernetes environment.
+We can see [here](https://github.com/SeldonIO/seldon-core/blob/46ef14e60e1f8c5b4c30320b06293e8b60f721fa/operator/apis/machinelearning.seldon.io/v1/seldondeployment_types.go#L539) that it wants to know the name of its `SeldonDeployment` (or `SDep` for short) and will [fail](https://github.com/SeldonIO/seldon-core/blob/46ef14e60e1f8c5b4c30320b06293e8b60f721fa/operator/apis/machinelearning.seldon.io/v1/seldondeployment_types.go#L539) to start up without this or the Kubernetes namespace.
+Even were this not the case, the endpoints the executor uses to call predictive units may be the Kubernetes `Service` names created automatically by the Core v1 operator, for example when the executor (or "engine") is deployed separately from its predictor.
+There are numerous code paths and configuration options around how routing and endpoints are configured, which would be deserving of a blog post in its own right!
+The key thing here is that the executor is, to a greater or lesser extent, dependent on Kubernetes.
+
+Zooming back out to Core v1 as a system, there are a number of other hard dependencies on Kubernetes infrastructure.
+The operator not only creates deployments, but also services (internal network configuration) and auto-scaling rules in the form of KEDA or HPA resources.
+Crucially, it handles advanced functionality, like traffic splitting for canaries and shadows, via service mesh configuration for Istio or Ambassador.
+At a fundamental level, Core v1 is locked into this ecosystem.
+
 ## Decoupling from Kubernetes
 
 * SCv1 had a hard dependency on k8s
