@@ -46,6 +46,9 @@ At a fundamental level, Core v1 is locked into this ecosystem.
 
 ## Decoupling from Kubernetes
 
+In the intervening time, Kubernetes has proven itself to be a popular and capable, if complex, technology.
+The goal of Seldon Core is to make deploying and managing ML workloads simple and intuitive, and exposing users to the complexities of Kubernetes doesn't feel like a great way of achieving that.
+
 * SCv1 had a hard dependency on k8s
 * SCv2 is not k8s-specific as a system
 * Optional -- SCv2 can run outside k8s, or even in k8s but without CRDs
