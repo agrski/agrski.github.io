@@ -49,6 +49,16 @@ At a fundamental level, Core v1 is locked into this ecosystem.
 In the intervening time, Kubernetes has proven itself to be a popular and capable, if complex, technology.
 The goal of Seldon Core is to make deploying and managing ML workloads simple and intuitive, and exposing users to the complexities of Kubernetes doesn't feel like a great way of achieving that.
 
+* Forcing users to use k8s is a first BIG hurdle
+* SDep spec is large & complex and full of k8s configuration, e.g. talking about pods, containers, and services
+  * Annotations, labels, progress deadlines, resources, container specs, services accounts, endpoints, storage initializers, the list goes on...
+* SDep is large and complex anyway -- lots of optionality, but does it really provide benefit?
+  * Hard to see the wood for the trees
+* Changing the SDep definition requires rolling out everything -- graph is hard-coded for executor via env var
+  * Even things that haven't changed
+* Harder than necessary to develop due to need to spin up k8s & various dependencies
+* Deps can be opinionated, e.g. Istio tends to be polarising, what about service meshes that grow in popularity?
+
 * SCv1 had a hard dependency on k8s
 * SCv2 is not k8s-specific as a system
 * Optional -- SCv2 can run outside k8s, or even in k8s but without CRDs
