@@ -47,17 +47,90 @@ At a fundamental level, Core v1 is locked into this ecosystem.
 ## Decoupling from Kubernetes
 
 In the intervening time, Kubernetes has proven itself to be a popular and capable, if complex, technology.
-The goal of Seldon Core is to make deploying and managing ML workloads simple and intuitive, and exposing users to the complexities of Kubernetes doesn't feel like a great way of achieving that.
+The goal of Seldon Core is to make deploying and managing ML workloads simple and intuitive, but exposing users to the complexities of Kubernetes doesn't feel like a great way of achieving that.
 
-* Forcing users to use k8s is a first BIG hurdle
-* SDep spec is large & complex and full of k8s configuration, e.g. talking about pods, containers, and services
-  * Annotations, labels, progress deadlines, resources, container specs, services accounts, endpoints, storage initializers, the list goes on...
-* SDep is large and complex anyway -- lots of optionality, but does it really provide benefit?
-  * Hard to see the wood for the trees
-* Changing the SDep definition requires rolling out everything -- graph is hard-coded for executor via env var
-  * Even things that haven't changed
-* Harder than necessary to develop due to need to spin up k8s & various dependencies
-* Deps can be opinionated, e.g. Istio tends to be polarising, what about service meshes that grow in popularity?
+The first hurdle for any prospective user of Core v1 is to set up a Kubernetes cluster.
+In itself, that's a pretty big hurdle!
+While users may already have Docker or an alternative container solution, they'd still need to select and install a Kubernetes provider like `kind` or `k3s`.
+There's an [Ansible setup](https://github.com/SeldonIO/seldon-core/tree/2712c4204bf8146015435e01d23938899bc693a5/ansible) provided for convenience, but this means _yet another_ tool to install and learn before properly getting started.
+It's worth mentioning that those Ansible scripts are not intended for production use (as stated in the accompanying README), so users might not feel comfortable having to invest more heavily in something they know they'll need to redo later.
+
+With installation out the way, users need to be reasonably familiar with Kubernetes in order to have visibility into their deployments and any dependencies.
+Having spent a few years as a heavy Kubernetes user on the application side, I'm pretty comfortable navigating through those layers of resource definitions, events, and logs, but that's a lot to ask of someone who just wants to run a couple of models and build up to more complex pipelines.
+Why should they have to be aware of all these incidental levels of complexity to figure out where their model's logs are?
+
+The definition of an `SDep` is a bit involved, even once someone is comfortable with the base Kubernetes types.
+It's a large, complicated CRD full of embedded (partial) specifications for pods, containers, and services.
+Add on to that various labels, annotations, resource requirements, service accounts, endpoints, probes and progress deadlines, and storage initializers.
+Those are there to allow high levels of configuration and customisability, but they're allow predominantly operational concerns with little relevance to ML concepts.
+Imagine being seated at a restaurant and given a menu awash with choices of culinary accoutrements, pots and pans of different sizes and materials, and various condiments.
+
+This is a little hyperbolic and [the docs](https://github.com/SeldonIO/seldon-core/blob/2712c4204bf8146015435e01d23938899bc693a5/doc/source/workflow/quickstart.md#productionise-your-first-model-with-seldon-core) show a basic `SDep` specification can be quite concise (shown below).
+With that said, even this basic example forces the user to be aware of concepts like predictors, a graph structure, and model runtime implementations.
+
+```yaml
+apiVersion: machinelearning.seldon.io/v1
+kind: SeldonDeployment
+metadata:
+  name: iris-model
+  namespace: model-namespace
+spec:
+  name: iris
+  predictors:
+  - graph:
+      implementation: SKLEARN_SERVER
+      modelUri: gs://seldon-models/v1.16.0-dev/sklearn/iris
+      name: classifier
+    name: default
+    replicas: 1
+```
+
+The [very next example in the docs](https://github.com/SeldonIO/seldon-core/blob/2712c4204bf8146015435e01d23938899bc693a5/doc/source/workflow/quickstart.md#wrap-your-model-with-our-language-wrappers) swaps the simple definition in the `graph` field for one in `componentSpecs` with different attributes.
+
+```yaml
+apiVersion: machinelearning.seldon.io/v1
+kind: SeldonDeployment
+metadata:
+  name: iris-model
+  namespace: model-namespace
+spec:
+  name: iris
+  predictors:
+  - componentSpecs:
+    - spec:
+      containers:
+      - name: classifier
+        image: sklearn_iris:0.1
+  - graph:
+      name: classifier
+    name: default
+    replicas: 1
+```
+
+There's a degree of simplicity in having a single YAML manifest that defines an entire, potentially complex deployment, but I'd argue it also makes it hard to see the wood for the trees.
+Is it really beneficial to intermingle domain and operational concerns to such an extent?
+
+What happens when you want to roll out some changes to your inference graph?
+Perhaps you've just come up with the v2 of a model and you're excited to try it?
+Maybe you're adding an auxilliary component like a post-processor or cache?
+Well, Core v1 is going to decide that your deployment spec has changed and that it needs to roll out a new one.
+Part of the issue is that the inference graph is _hard-coded_ into the executor via an [environment variable](https://github.com/SeldonIO/seldon-core/blob/46ef14e60e1f8c5b4c30320b06293e8b60f721fa/executor/predictor/utils.go#L29) or a [file](https://github.com/SeldonIO/seldon-core/blob/46ef14e60e1f8c5b4c30320b06293e8b60f721fa/executor/predictor/utils.go#L50).
+Now you have to wait for your _entire inference graph_ for that predictor to start up in a new pod, even if just one, single model URI was changed.
+Wouldn't it be nice if only the affected containers were restarted, or even models in a container were updated instead?
+
+None of this has been considering the impact of dependencies.
+There are a number of integrations for Core v1, some of which are Kubernetes-native and thus aren't supported in other environments.
+Prime examples are service meshes like Istio and Ambassador, and Knative Eventing and Serving.
+These can also be polarising, and what happens when users want an alternative or they reach end-of-life?
+While it's nice to have integrations for extra functionality, it can be frustrating to be locked into opinionated choices.
+Even if you're a fan of the options, more dependencies mean more setup, more to manage, and more potential points of failure.
+A system with fewer dependencies, and especially more _portable_ ones, is going to be easier for people to pick up.
+
+We've largely been considering things from an end-user perspective, but many of the same points apply as a developer or open-source contributor.
+It wouldn't surprise me if developers are in fact the most affected by the slow-down of waiting for dependencies to install.
+For my part, I regularly applied Ansible configurations for minimal installations related to whatever to whatever I was working on, with `kind` clusters spun up for each new feature or bug to avoid configuration drift.
+Testing updates to Core v1 itself is pretty involved, with the need to build new containr images, potentially push them to a container registry, load them into Kubernetes, and patch the appropriate resources before being able to actually _test_ anything.
+Having fast iterations really boosts developer experience, but all in all, that's a slow feedback loop.
 
 * SCv1 had a hard dependency on k8s
 * SCv2 is not k8s-specific as a system
