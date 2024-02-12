@@ -132,6 +132,8 @@ For my part, I regularly applied Ansible configurations for minimal installation
 Testing updates to Core v1 itself is pretty involved, with the need to build new containr images, potentially push them to a container registry, load them into Kubernetes, and patch the appropriate resources before being able to actually _test_ anything.
 Having fast iterations really boosts developer experience, but all in all, that's a slow feedback loop.
 
+Kubernetes is a good environment to support for large-scale users, but loose coupling provides a number of advantages.
+
 * SCv1 had a hard dependency on k8s
 * SCv2 is not k8s-specific as a system
 * Optional -- SCv2 can run outside k8s, or even in k8s but without CRDs
