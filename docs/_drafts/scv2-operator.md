@@ -44,7 +44,7 @@ The operator not only creates deployments, but also services (internal network c
 Crucially, it handles advanced functionality, like traffic splitting for canaries and shadows, via service mesh configuration for Istio or Ambassador.
 At a fundamental level, Core v1 is locked into this ecosystem.
 
-## Decoupling from Kubernetes
+## Core v1 & Kubernetes --- a tale of Icarus?
 
 In the intervening time, Kubernetes has proven itself to be a popular and capable, if complex, technology.
 The goal of Seldon Core is to make deploying and managing ML workloads simple and intuitive, but exposing users to the complexities of Kubernetes doesn't feel like a great way of achieving that.
@@ -133,6 +133,8 @@ Testing updates to Core v1 itself is pretty involved, with the need to build new
 Having fast iterations really boosts developer experience, but all in all, that's a slow feedback loop.
 
 Kubernetes is a good environment to support for large-scale users, but loose coupling provides a number of advantages.
+
+## Decoupling from Kubernetes
 
 * SCv1 had a hard dependency on k8s
 * SCv2 is not k8s-specific as a system
