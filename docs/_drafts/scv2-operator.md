@@ -185,8 +185,18 @@ That alternative mechanism could be some git-ops approach or, even more simply, 
 
 ## Reuniting with Kubernetes
 
-* k8s is one of the most dominant container orch systems
-* Thus do want to support it without users having to jump through hoops
+Maintaining loose dependencies on your environment can be advantageous, but sometimes it makes sense to have tighter integration.
+
+As has been mentioned, Kubernetes is pretty much _the_ choice for larger organisations deploying containerised workloads --- it's dominant, it's ubiquitous.
+Given that these organisations are also the ones most likely to need solutions for managing ML workloads at scale, it wouldn't make sense not to provide convenient integration into Kubernetes.
+At any scale, users shouldn't have to jump through hoops.
+
+A large part of that is around defining custom resources to represent domain types and having an operator to manage reconciliation, even if it delegates to the scheduler in many cases.
+While the operator isn't ultimately responsible for everything, it does still serve a valuable role!
+
+* Servers, infra components, conversion of SeldonRuntime to infra, comms with potentially many schedulers across namespaces
+
+
 * Nice to have operator as it manages k8s CRDs for a Kube-native experience
 * Many components have some awareness of k8s in the form of watching secrets
   * Don't want to go into this _too_ much
