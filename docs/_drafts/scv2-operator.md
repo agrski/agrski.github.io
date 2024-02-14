@@ -136,14 +136,52 @@ Kubernetes is a good environment to support for large-scale users, but loose cou
 
 ## Decoupling from Kubernetes
 
-* SCv1 had a hard dependency on k8s
-* SCv2 is not k8s-specific as a system
-* Optional -- SCv2 can run outside k8s, or even in k8s but without CRDs
-* Deliberate design choice to allow for flexibility in dev & deployment
-  * Easier to spin up locally in Docker Compose for dev purposes
-  * Easier for new users if they don't need all the extra tooling and other overheads of k8s
-  * Want to keep the door open for changes in preferred orch systems in future, e.g. Nomad
-  * Also provides flexibility for users to manage their own integrations
+From the outset, we knew we'd want Core v2 to integrate nicely with Kubernetes.
+At the same time, we didn't want it to _only_ work on Kubernetes.
+
+The immediate use cases were for:
+* Plain old Docker, if we wanted to test components in isolation or via a test harness.
+* Docker Compose, for local setups for developers and end users, and potentially for production scenarios.
+* Kubernetes, for production scenarios.
+
+Down the line, there could be support for other container orchestration systems like Docker Swarm or Hashicorp Nomad.
+The key thing was that, if the system worked in stand-alone Docker or Compose, it should be able to work with other tools that might emerge.
+
+If you look at the Protocol Buffer (Protobuf) APIs [for the scheduler](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/apis/mlops/scheduler/scheduler.proto), you can see there are few fields that are Kubernetes-specific.
+Where there are, like [including Kubernetes metadata](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/apis/mlops/scheduler/scheduler.proto#L61), this tends to be treated as an optional field, as in [status responses](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/apis/mlops/scheduler/scheduler.proto#L108).
+This remains the case in the Kubernetes resource definitions for [models](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/operator/apis/mlops/v1alpha1/model_types.go), [pipelines](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/operator/apis/mlops/v1alpha1/pipeline_types.go), and so on.
+
+You might be wondering why there are Protobuf schemata for Core v2 but nothing similar has been mentioned for Core v1?
+This is a crucial aspect of how Core v2 is decoupled from any particular container orchestration system.
+The scheduler, effectively the entrypoint to the Core v2 control plane, exposes its own gRPC APIs with its own domain model.
+The operator then acts as a **shim/adapter to translate** between the Kubernetes definitions and the internal representation.
+The same idea could just as well be applied to another system, with some Seldon-provided or third-party component providing this conversion.
+
+There's an additional benefit to this approach: it's easy to write your own integrations with Core v2.
+You can connect directly to the scheduler's [admin interface](https://github.com/SeldonIO/seldon-core/blob/d3502062bbbb18a08032201917ceea07e124be41/scheduler/cmd/scheduler/main.go#L74) to create new resources or query it.
+In fact, for extracting information this may even be preferable on account of having access to streaming RPCs and potentially a higher level of granularity.
+While the Kubernetes status information should be a good reflection of what the scheduler knows, there might be details that aren't well captured such as around the statuses of different models versions during a rollout.
+Just be careful not to overload the scheduler with too many requests, as it has to do quite a lot of work to generate snapshots in a form for external consumption.
+
+Hodometer, the optional usage metrics collector for Core v2, uses precisely this approach to calculate statistics about Core v2.
+Like the rest of the system, it has no strong opinions about Kubernetes and will operate happily inside or outside it.
+You can learn more about Hodometer in another blog post in this series.
+
+One big caveat around this is NOT to mix different sources of truth to the same scheduler instance.
+If you create a model directly, for example, then Kubernetes won't have anything to reconcile and in all likelihood won't even display that this model exists.
+Conversely, if you try to delete a model created through Kubernetes, the operator is going to recreate it as soon as it learns the model has gone, because that's what reconciliation is for!
+
+"Fine!" you say, "I wasn't going to write my own controller anyway."
+The thing is: you don't have to.
+The `seldon` CLI that's provided with releases of Core v2 is _also_ platform-agnostic and relies on being able to talk directly to the scheduler's APIs.
+This is great for local usage, but has caused more than one incident of subverted expectations, where someone has been pinged me in a state of befuddlement about why things aren't doing what they thought.
+
+As a result of this direct approach, there are three ways to use Core v2 compared to just one with Core v1: outside Kubernetes, inside Kubernetes with the operator, and inside Kubernetes _without_ the operator and CRDs.
+This last one might sound unusual, but I mention it for completeness.
+It is the scheduler, not the operator, which is responsible for creating and managing models, pipelines, and routing rules (but not servers) and reconciling these when things change.
+These concerns are normally handled by an operator in Kubernetes, but in order to decouple we needed to extract these responsibilities.
+As the operator is, ironically, therefore largely incidental to the operation of the system, one could discard it and use an alternative mechanism for managing inference servers and communicating with the scheduler.
+That alternative mechanism could be some git-ops approach or, even more simply, static manifests for servers and infrastructural components like dataflow engines; the native capabilities in Kubernetes could be used for scaling these and liveness probes.
 
 ## Reuniting with Kubernetes
 
