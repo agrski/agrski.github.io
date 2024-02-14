@@ -60,7 +60,7 @@ Having spent a few years as a heavy Kubernetes user on the application side, I'm
 Why should they have to be aware of all these incidental levels of complexity to figure out where their model's logs are?
 
 The definition of an `SDep` is a bit involved, even once someone is comfortable with the base Kubernetes types.
-It's a large, complicated CRD full of embedded (partial) specifications for pods, containers, and services.
+It's a large, complicated CRD (custom resource definition) full of embedded (partial) specifications for pods, containers, and services.
 Add on to that various labels, annotations, resource requirements, service accounts, endpoints, probes and progress deadlines, and storage initializers.
 Those are there to allow high levels of configuration and customisability, but they're allow predominantly operational concerns with little relevance to ML concepts.
 Imagine being seated at a restaurant and given a menu awash with choices of culinary accoutrements, pots and pans of different sizes and materials, and various condiments.
