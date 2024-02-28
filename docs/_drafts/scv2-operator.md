@@ -53,7 +53,9 @@ You might be interested in this article if:
   * Clearly we need some way to convert between the k8s representation and the internal one understood by SCv2
     * Internal repr. exists due to platform agnosticism, cf. earlier point
 
-## A bit too close for comfort?
+## Decoupling from Kubernetes
+
+### A bit too close for comfort?
 
 * SCv1 had hard dependency on k8s
 * This caused various difficulties
@@ -67,7 +69,7 @@ You might be interested in this article if:
     * Heavier deps for dev, testing, and end users
 * Precludes integration with other container orch. systems like Nomad & Swarm
 
-## Decoupling from Kubernetes
+### Staying in touch
 
 * Want to address issues raised above
 * Nice to still have operator as it manages k8s CRDs for a Kube-native experience
@@ -81,7 +83,7 @@ You might be interested in this article if:
 * Use of API is major consideration
 * Breaking away from service meshes and ingress providers with custom configuration for Envoy
 
-## Translation & delegation
+### Translation & delegation
 
 * The operator translates CRDs to the internal model used by the scheduler
   * Similar in content, but different in some ways and in structure
