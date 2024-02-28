@@ -9,7 +9,7 @@ Seldon Core v2 is largely platform agnostic by design, with the **operator** exi
 It's responsible for managing the Kubernetes resources related to Core v2, and acts as an adapter between those resources and Core v2's internal representation.
 
 This article discusses the operator's role in more detail, including what those Kubernetes resources are, how it handles them, and how it was built.
-Of particular interest is the operator's use of **meta-resources**, i.e. resources that define other resources.
+Of particular interest are how and why Core v2 relaxes the role of the operator to **decouple** itself from Kubernetes, and the operator's use of **meta-resources**, i.e. resources that define other resources.
 
 You might be interested in this article if:
 * You're interested in Seldon Core v2 and understanding its components in depth;
