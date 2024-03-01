@@ -41,19 +41,27 @@ Generally speaking, achieving that goal requires multiple resources to be presen
 In fact, the GitOps tools ArgoCD actually has something called an [`Application`](https://argo-cd.readthedocs.io/en/stable/core_concepts/) to convey this concept.
 The fact that these tools even exist clearly indicates that there's a reoccurring need that's not being met by a plain Kubernetes installation.
 
-* One of the most powerful aspects of k8s is its ability to define custom resources
-  * Not limited by what it provides out of the box
-  * The fundamental building blocks (deployments, services, persistent volumes, etc.) are very powerful and useful
-    * But utilitarian
-    * But they don't express domain concepts or business logic
-    * Bit like writing code in assembly compared to Python -- all the primitives are available to you and you can be very precise in how you use them, but it's harder to express business logic when you're always having to drop down into that lower level
-      * Do you generally care if you're using an 8-bit, 32-bit, or 64-bit integer, or just that it behaves like an integer?
-  * Also without having to integrate these into some central location
-* Custom resources represent some higher level concept, such as routing rules for a reverse proxy or SDN, a database cluster, or even a full application comprising multiple components and a cache
-* Custom resources are represented by CRDs (Custom Resource Definitions)
-  * This is a contract of what can be configured
-  * Some CRDs are rather large, as they embed others
-    * Pod specs in particular are an already large resource definition
+This might seem like an oversight but it's really a well-considered design choice that, to my mind, is a significant additional contributor to the success of the platform.
+You see, rather than trying to fulfil every possible use case with an ever-expanding selection of complex, pre-defined resources, Kubernetes is **extensible** through the use of **custom resource definitions (CRDs)**.
+This way, users aren't limited by what's available out-of-the-box.
+Instead, they can satisfy their own, specific needs by building on top of those fundamental resources _and also_ on top of other custom resources.
+Put differently, CRDs give users the ability to express domain concepts and business logic, and integrate these into Kubernetes as if they were native resources.
+The best bit is that CRDs can be registered with a _live_ cluster, without any need to first merge code into the Kubernetes project or to rebuild anything!
+This is a key aspect of extensibility for such a system.
+
+> CRDs... express domain concepts and business logic... as if they were native resources
+
+So, what is a CRD?
+We know it represents some higher-level concept, such as a routing rule for a reverse proxy, a logical database or physical DBMS cluster, or even a full-stack application comprising a web server, backend API, and a cache.
+In practical terms, it's a **contract** naming a resource and defining what fields can be configured for that it.
+In other words, a CRD is _data_ that needs accompanying _logic_ in the form of an operator; one without the other is about as much good as a chocolate teapot!
+
+They can grow rather large because a resource definition is allowed to embed other definitions -- pod specs and volume claim templates in particular tend to bloat CRDs, as they're large definitions in their own rights!
+[This GitHub issue](https://github.com/kubernetes/kubernetes/issues/82292) for the Kubernetes project discusses some of the issues of large CRDs; Seldon Core v1 [receives a mention](https://github.com/kubernetes/kubernetes/issues/82292#issuecomment-601825011) as one of the longest open-source examples.
+
+To sum it up, having custom resources is a bit like using Python compared to having to write code in assembly or C -- you can work at a much higher level of abstraction and, in doing so, convey concepts much more precisely and concisely -- whilst still being able to drop down to that lower level when the need arises.
+How often do many developers really need to concern themselves with whether an integer is represented by an 8-, 16-, 32-, or 64-bit sequence?
+To quote [A Tour of Go](https://go.dev/tour/basics/11)[1]: "When you need an integer value you should use int unless you have a specific reason to use a sized or unsigned integer type."
 
 ## Modelling ML
 
@@ -167,3 +175,5 @@ The fact that these tools even exist clearly indicates that there's a reoccurrin
 * Discuss generation of raw manifests & Helm charts
   * Using Kustomize
   * Limitations of Kustomize and tricks for getting around it, e.g. markers & sed scripts
+
+[1] Kubernetes is written in Go, so using Go advice feels particularly pertinent.
