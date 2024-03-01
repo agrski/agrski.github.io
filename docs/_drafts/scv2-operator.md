@@ -18,6 +18,29 @@ You might be interested in this article if:
 
 ## Systems with semantics --- customising Kubernetes
 
+Kubernetes is a popular, highly capable container orchestration system for enterprises.
+Its popularity is due in part to its extensive ecosystem of networking, storage, and other integrations, and in part due to its declarative style for defining resources.
+
+This declarative approach is part of a general trend towards immutable infrastructure and plays nicely with the coincident adoption of GitOps.
+The idea is that a Kubernetes manifest declares the **desired state** of some resource, which Kubernetes is then responsible for making happen.
+This process of moving the system towards the desired state is called **reconciliation**, and is performed per resource by a component called an **operator**.
+Whenever a new resource is defined or an existing one changes, Kubernetes informs the appropriate operator, which is responsible for deciding what, if anything, needs to be done.
+
+Kubernetes ships with a set of built-in resources and accompanying operators for various common needs:
+* Deployments -- `Deployment`, `Statefulset`, `ReplicaSet`, etc.
+* Networking -- `Service`, `Endpoint`, etc.
+* Storage -- `PersistentVolume`, `PersistentVolumeClaim`, etc.
+* Configuration -- `Configmap`, `Secret`
+* Access controls -- `ServiceAccount`, `Role`, `Rolebinding`, etc.
+
+In themselves, these form a powerful basis for constructing workloads of arbitrary complexity.
+However, their deliberately generic, low-level nature can be a limitation as well as a benefit -- they lack **abstraction**.
+Consider how tools like [Helm](https://helm.sh/docs/topics/charts/) and [Kustomize](https://kustomize.io/) exist to selectively define and configure resources, such as adjusting scaling limits or (not) incorporating specific components.
+Consider also the widespread use of Helm charts to install third-party collections of components -- what these tools are trying to represent is the concept of an **application** performing some meaningful goal.
+Generally speaking, achieving that goal requires multiple resources to be present and co-operating.
+In fact, the GitOps tools ArgoCD actually has something called an [`Application`](https://argo-cd.readthedocs.io/en/stable/core_concepts/) to convey this concept.
+The fact that these tools even exist clearly indicates that there's a reoccurring need that's not being met by a plain Kubernetes installation.
+
 * One of the most powerful aspects of k8s is its ability to define custom resources
   * Not limited by what it provides out of the box
   * The fundamental building blocks (deployments, services, persistent volumes, etc.) are very powerful and useful
