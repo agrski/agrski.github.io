@@ -178,4 +178,8 @@ To quote [A Tour of Go](https://go.dev/tour/basics/11)[1]: "When you need an int
   * Using Kustomize
   * Limitations of Kustomize and tricks for getting around it, e.g. markers & sed scripts
 
+---
+
+## Footnotes
+
 [1] Kubernetes is written in Go, so using Go advice feels particularly pertinent.
