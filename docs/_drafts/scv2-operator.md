@@ -56,8 +56,10 @@ We know it represents some higher-level concept, such as a routing rule for a re
 In practical terms, it's a **contract** naming a resource and defining what fields can be configured for that it.
 In other words, a CRD is _data_ that needs accompanying _logic_ in the form of an operator; one without the other is about as much good as a chocolate teapot!
 
+You do need to be a little careful before going crazy with CRDs.
 They can grow rather large because a resource definition is allowed to embed other definitions -- pod specs and volume claim templates in particular tend to bloat CRDs, as they're large definitions in their own rights!
 [This GitHub issue](https://github.com/kubernetes/kubernetes/issues/82292) for the Kubernetes project discusses some of the issues of large CRDs; Seldon Core v1 [receives a mention](https://github.com/kubernetes/kubernetes/issues/82292#issuecomment-601825011) as one of the longest open-source examples.
+Some organisations may also have policies about installing custom resources, for example for security reasons.
 
 To sum it up, having custom resources is a bit like using Python compared to having to write code in assembly or C -- you can work at a much higher level of abstraction and, in doing so, convey concepts much more precisely and concisely -- whilst still being able to drop down to that lower level when the need arises.
 How often do many developers really need to concern themselves with whether an integer is represented by an 8-, 16-, 32-, or 64-bit sequence?
