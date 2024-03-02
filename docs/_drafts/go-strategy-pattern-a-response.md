@@ -3,8 +3,10 @@ title: The Strategy Pattern In Go -- A Response
 tags: golang patterns
 ---
 
-* Explain response to this article:
-  * https://rednafi.com/go/strategy_pattern/
+This is a response to the recent article [Strategy pattern in Go](https://rednafi.com/go/strategy_pattern/) by Redowan ("rednafi").
+I like the author's easy-to-understand example of string formatting methods and their contrast of Ruby code with Go.
+With that said, their solution feels verbose and overcomplicated to me, so I wanted to address that and propose some alternatives.
+
 * Briefly explain purpose of strategy pattern & how it works in an OOP language
 * Explain Go is not a traditional OOP language as it lacks classes & inheritance
   * But does have structs with methods, and interfaces
