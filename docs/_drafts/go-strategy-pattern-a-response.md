@@ -30,7 +30,7 @@ Secondly, it provides extensibility in line with the Open-Closed Principle, whic
 Thirdly, it keeps the logic grouped into smaller, more focused elements rather than lengthy, expansive blocks.
 That should make it more legible and thus more maintainable, particularly as it's capturing the _purpose_ of these strategies and not just their implementations.[1]
 
-## Oops!  Go doesn't do OOP
+## OOPs!  Go is classless
 
 The description of the Strategy Pattern given above talks about classes, but Go doesn't have classes so how does it apply?!
 Redowan mentions that "the Go community exhibits a knee-jerk reaction to the word 'pattern'" but, rightly in my opinion, continues to use the established term rather than inventing a new one.
