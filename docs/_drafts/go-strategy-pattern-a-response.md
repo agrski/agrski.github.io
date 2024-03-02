@@ -10,6 +10,7 @@ With that said, their solution feels verbose and overcomplicated to me, so I wan
 ## Background -- the Strategy Pattern
 
 In case you aren't familiar with this pattern or haven't read the original article, I'll summarise the idea here.
+If you're already familiar with it, feel free to skip over this section.
 
 The Strategy Pattern applies when there are multiple ways of solving the same, specific problem.
 Rather than creating an ever-growing switch statement to select between the alternatives, each solution is represented by a class and one such class is passed into the logic that needs to call it.
