@@ -37,7 +37,7 @@ Redowan mentions that "the Go community exhibits a knee-jerk reaction to the wor
 
 What I think is missed here is that Go isn't a million miles away from traditional object-oriented (OO) languages, particularly given the trend of favouring composition over inheritance.
 Like many OO languages it has interfaces and, since Go 1.18, it has generics.
-Its structs can be stack- or heap-allocated like in C++ and C# [2] and it supports methods on those structs rather than forcing the use of functions without receivers.
+Its structs can be stack- or heap-allocated like in C++ and C# [2], and it supports methods on those structs rather than forcing the use of functions without receivers (`func (a *A) foo()` vs `func foo(a *A)`).
 Go's pointers are similar to references in languages like Java in that they do not support pointer arithmetic, although they do require manual indirection (`&` and `*`).
 Similar to Python's handling of visibility modifiers, there's public and private state called exported and unexported state in Go nomenclature.
 
