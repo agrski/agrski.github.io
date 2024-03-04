@@ -39,9 +39,10 @@ What I think is missed here is that Go isn't a million miles away from tradition
 Like many OO languages it's garbage-collected and has interfaces and, since Go 1.18, generics.
 Its structs can be stack- or heap-allocated like in C++ and C# [2], and it supports methods on those structs rather than forcing the use of functions without receivers (`func (a *A) foo()` vs `func foo(a *A)`).
 Go's pointers are similar to references in languages like Java in that they do not support pointer arithmetic, although they do require manual indirection (`&` and `*`).
-Similar to Python's handling of visibility modifiers, there's public and private state called exported and unexported state in Go nomenclature.
+Similar to Python's handling of visibility modifiers, there's public and private state; this is called exported and unexported state in Go nomenclature.
 
-In short, if you take a classic OO language and strictly forbid inheritance in favour of composition, it's not necessarily going to look too different to Go --- the use of design patterns, even ones common in OOP, are still valid and applicable.
+In short, if you take a classic OO language and strictly forbid inheritance in favour of composition, it's not necessarily going to look too different to Go.
+As a consequence, I'd argue the use of design patterns, even ones common in OOP, are still valid and applicable.
 
 * Raise issues with original article
   * Overcomplicated -- attaching methods to function objects is confusing
