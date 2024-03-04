@@ -64,5 +64,5 @@ It's something that Robert Martin discusses in the form of keeping blocks of cod
 The idea is also found in parametric polymorphism, which is precisely about abstracting an algorithm over types.
 [Until Go 1.18](https://go.dev/blog/intro-generics), there was no support for this feature, commonly known as "generics".
 
-[2] C# uses the keyword `struct` to refer to stack-allocated objects understood as value types, and `class` to refer to heap-allocated reference types.
-See [the docs](https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/choosing-between-class-and-struct) for more information.
+[2] C# uses the keyword `struct` to refer to value types, which are often stack-allocated, and `class` to refer to reference types, which are heap-allocated.
+See [the docs](https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/choosing-between-class-and-struct) and Jon Skeet's [blog post](https://jonskeet.uk/csharp/memory.html) for more information.
