@@ -224,7 +224,7 @@ var JSON = &jsonFormat{}
 
 func main() {
 	message := "Hello, World!"
-  j := &jsonFormat{}
+	j := &jsonFormat{}
 
 	Display(message, j.Format)
 	Display(message, JSON.Format)
