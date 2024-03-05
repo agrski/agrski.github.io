@@ -3,9 +3,11 @@ title: The Strategy Pattern In Go --- A Response
 tags: golang patterns
 ---
 
-This is a response to the recent article [Strategy pattern in Go](https://rednafi.com/go/strategy_pattern/) by Redowan ("rednafi").
-I like the author's easy-to-understand example of string formatting methods and their contrast of Ruby code with Go.
-With that said, their solution feels verbose and overcomplicated to me, so I wanted to address that and propose some alternatives.
+There was an article only a few weeks ago on the [Strategy Pattern in Go](https://rednafi.com/go/strategy_pattern/) by Redowan, a.k.a. "rednafi".
+It's well written and informative but, reading through it as a Gopher myself, I realised there were certain aspects I would approach differently.
+I like the author's easy-to-follow example of string formatting methods, and their contrast of Ruby code with Go.
+With that said, their solution feels verbose and overcomplicated to me.
+This post is a response to rednafi's article, as I wanted to address those issues and propose some alternatives.
 
 ## Background --- the Strategy Pattern
 
