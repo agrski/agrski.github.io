@@ -36,7 +36,7 @@ The description of the Strategy Pattern given above talks about classes, but Go 
 Redowan mentions that "the Go community exhibits a knee-jerk reaction to the word 'pattern'" but, rightly in my opinion, continues to use the established term rather than inventing a new one.
 
 What I think is missed here is that Go isn't a million miles away from traditional object-oriented (OO) languages, particularly given the trend of favouring composition over inheritance.
-Crucially, Go supports methods on structs rather than forcing the use of functions without receivers (`func (a *A) foo()` vs `func foo(a *A)`) --- **structs with methods are analogous to classes without subtype polymorphism** (inheritance)!
+Crucially, Go supports methods on structs (`func (a *A) foo()` ) rather than forcing the use of functions without receivers (`func foo(a *A)`) --- **structs with methods are analogous to classes without subtype polymorphism** (inheritance)!
 Like many OO languages it has interfaces and, since Go 1.18, generics.
 Go is a memory-managed, garbage-collected language just like Java, C#, and Python, and its structs can be stack- or heap-allocated like in C++ and C#<a name="ref2" href="#fn2">[2]</a>.
 Go's pointers are similar to references in languages like Java in that they do not support pointer arithmetic, although they do require manual indirection (`&` and `*`).
