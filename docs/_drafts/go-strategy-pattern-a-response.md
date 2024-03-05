@@ -53,7 +53,7 @@ As a consequence, I'd argue the use of design patterns, even ones common in OOP,
 
 ## Unwrapping unnecessary complexity
 
-My primary complaint with rednafi's article is that the approach it presents is overcomplicated and, in my opinion, not particularly idiomatic.
+My main criticism of rednafi's article is that the approach it presents is, in my opinion, overcomplicated and not particularly idiomatic.
 I'd like to explain what I mean by that and suggest a couple of alternatives.
 
 What first caught my eye was attaching a method to a function.
@@ -86,10 +86,10 @@ func (t *TextFormatter) Output(message string) string {
 ```
 
 In terms of line count, character count, and nesting, using a struct is decisively more concise.
-This brings me on to my next criticism: this approach of creating a wrapper for implementors of the interface induces needless nesting and complexity.
+This brings me on to my next point: this approach of creating a wrapper for implementors of the interface induces needless nesting and complexity.
 To be clear, I'm not referring to computational complexity, i.e. time or space, but rather cognitive complexity --- how simple or convoluted the logic is.
-The `Formatter` interface provides a consistent and type-safe way of passing strategies, if using struct receivers; the `OutputFunc` wrapper is an artifact of using a function receiver instead.
-The following snippets are from the original article (above) and my proposal (below).
+The `Formatter` interface already provides a consistent and type-safe way of passing strategies, if using struct receivers; the `OutputFunc` wrapper is an artifact of using a function receiver instead.
+The following snippets are from the original article first, followed by my proposal.
 The latter approach is again more concise and legible, as well as automatically satisfying the type system without the need for a cast.
 
 ```go
