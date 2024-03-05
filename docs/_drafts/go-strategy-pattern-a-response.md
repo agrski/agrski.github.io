@@ -51,8 +51,8 @@ As a consequence, I'd argue the use of design patterns, even ones common in OOP,
 
 ## Unwrapping unnecessary complexity
 
-My primary complaint with the rednafi's article is that the approach it presents is overcomplicated and, in my opinion, not particularly idiomatic.
-I'd like to explain what I mean by that and suggest a couple of alternative approaches.
+My primary complaint with rednafi's article is that the approach it presents is overcomplicated and, in my opinion, not particularly idiomatic.
+I'd like to explain what I mean by that and suggest a couple of alternatives.
 
 What first caught my eye was attaching a method to a function.
 Functions are first-class objects in Go, so this is valid, but personally I find it unintuitive --- I expect the receiver of a method to be a struct or (more likely) a pointer to a struct.
