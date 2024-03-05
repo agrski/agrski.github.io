@@ -197,7 +197,7 @@ func main() {
 In this second example, the `jsonFormat` strategy is defined as a struct to show that we can pass in a method so long as its signature is compatible.
 In other words, we have not lost the ability to use stateful strategies when relying on function types!
 However, using a method on a struct requires instantiating it first, which might be inconvenient at times.
-The exported (public) `JSON` variable shows one approach to working around that inconvenience.
+The exported (public) `JSON` variable shows one approach to working around that inconvenience: pre-define a variable for callers to use.
 
 ```go
 package main
