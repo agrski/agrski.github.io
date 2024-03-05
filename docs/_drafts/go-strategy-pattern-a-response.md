@@ -51,6 +51,37 @@ There are different visibilities for state, handled like in Python without using
 In short, if you take a classic OO language and strictly forbid inheritance in favour of composition, it's not necessarily going to look too different to Go.
 As a consequence, I'd argue the use of design patterns, even ones common in OOP, is still valid and applicable.
 
+## The (un)importance of being explicit
+
+While Oscar Wilde may laud the virtues of being earnest, Redowan seems to value being explicit.
+Specifically, they seemed perplexed by Go having "no concept of ... explicit interface implementation" like Ruby does.
+
+On this point, I'd argue that it's irrelevant to implementing the Strategy Pattern, but note that Go does still allow us to express this idea.
+Why is it irrelevant, you might ask?
+The answer is that Go, unlike many languages, doesn't need _explicit_ interface implementation for its type system to work.
+In Go, adherence to an interface is determined at the point of _use_ rather than at the point of _definition_.
+This is the idea of **duck typing** --- if it quacks, it's a duck!
+In fact, duck typing is the very approach taken by Python, the [zen of which](https://peps.python.org/pep-0020/) states that "explicit is better than implicit".
+If defining the right methods is explicit enough for Python, with this clearly stated convention, then it's probably sufficiently explicit for Go too.
+
+With that said, sometimes one might just want some reassurance that an entity really does implement the right interface(s).
+For this, you can use what I've previously seen described as "interface assertions".
+This isn't a language feature in Go, but rather an idiomatic expression that will fail compilation if a type doesn't conform to a specified interface.
+It's a nifty trick because the anonymous variable `_` will be discarded by the compiler for runtime purposes, thus doesn't incur any storage or runtime cost.
+
+```go
+type Fooer interface {
+  ...
+}
+
+type Bar struct {
+  ...
+}
+
+// interface assertion
+var _ Fooer = (*Bar)(nil)
+```
+
 ## Unwrapping unnecessary complexity
 
 My main criticism of rednafi's article is that the approach it presents is, in my opinion, overcomplicated and not particularly idiomatic.
