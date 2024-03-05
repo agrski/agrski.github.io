@@ -89,7 +89,7 @@ func (t *TextFormatter) Output(message string) string {
 This brings me on to my next point: this approach of creating a wrapper for implementors of the interface induces needless nesting and complexity.
 To be clear, I'm not referring to computational complexity, i.e. time or space, but rather cognitive complexity --- how simple or convoluted the logic is.
 The `Formatter` interface already provides a consistent and type-safe way of passing strategies, if using struct receivers; the `OutputFunc` wrapper is an artifact of using a function receiver instead.
-The following snippets are from the original article first, followed by my proposal.
+The following snippets are from the original article, given first, followed by my proposal.
 The latter approach is again more concise and legible, as well as automatically satisfying the type system without the need for a cast.
 
 ```go
