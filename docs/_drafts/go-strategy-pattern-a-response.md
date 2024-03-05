@@ -33,8 +33,11 @@ This should make it more legible and thus more maintainable, particularly as it'
 
 ## OOPs!  Go is classless
 
-The description of the Strategy Pattern given above talks about classes, but Go doesn't have classes so how does it apply?!
-Redowan mentions that "the Go community exhibits a knee-jerk reaction to the word 'pattern'" but, rightly in my opinion, continues to use the established term rather than inventing a new one.
+The description of the Strategy Pattern given above talks about classes, but Go doesn't have classes so how can it possibly apply?!
+The short answer is using interfaces and method receivers, whether structs or functions, but let's discuss _why_ the design pattern is applicable before digging into the _how_.
+
+In introducing the topic, Redowan mentions that "the Go community exhibits a knee-jerk reaction to the word 'pattern'" but, rightly so in my opinion, continues to use the established term rather than inventing a new one.
+When translating the initial Ruby solution into Go, the author touches upon the lack of classes and the use of "interfaces and custom types" to supplement this, but without justifying why this is equivalent.
 
 What I think is missed here is that Go isn't a million miles away from traditional object-oriented (OO) languages, particularly given the trend of favouring composition over inheritance.
 Crucially, Go supports methods on structs (`func (a *A) foo()` ) rather than forcing the use of functions without receivers (`func foo(a *A)`) --- **structs with methods are effectively classes without subtype polymorphism** (inheritance)!
