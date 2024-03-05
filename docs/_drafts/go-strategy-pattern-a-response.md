@@ -44,10 +44,10 @@ Crucially, Go supports methods on structs (`func (a *A) foo()` ) rather than for
 Like many OO languages it has interfaces and, since Go 1.18, generics.
 Go is a memory-managed, garbage-collected language just like Java, C#, and Python, and its structs can be stack- or heap-allocated like in C++ and C#<a name="ref2" href="#fn2">[2]</a>.
 Go's pointers are similar to references in languages like Java in that they do not support pointer arithmetic, although they do require manual indirection (`&` and `*`).
-There are different visibilities for state, like Python handled without using visibility modifier keywords; this is called exported and unexported state in Go nomenclature.
+There are different visibilities for state, handled like in Python without using visibility modifier keywords; this is called exported and unexported state in Go nomenclature.
 
 In short, if you take a classic OO language and strictly forbid inheritance in favour of composition, it's not necessarily going to look too different to Go.
-As a consequence, I'd argue the use of design patterns, even ones common in OOP, are still valid and applicable.
+As a consequence, I'd argue the use of design patterns, even ones common in OOP, is still valid and applicable.
 
 ## Unwrapping unnecessary complexity
 
