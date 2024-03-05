@@ -108,6 +108,14 @@ tf := &TextFormatter{}
 Display(message, tf)
 ```
 
+If we want to be even more concise, we can pass the formatting strategy in directly:
+
+```go
+// my approach
+
+Display(message, &TextFormatter{})
+```
+
 There is another benefit to using a struct as the method receiver, which rednafi very briefly touches upon: should we need to, we can add state.
 An empty struct is very cheap to use as it requires no space to allocate, but should we need to add state then everything else is already in place<a name="ref3" href="#fn3">[3]</a>.
 If we wanted to add state to the original approach, we would need to change it to use a struct anyway, likely causing reworking in other code that should, really, be unaffected.
