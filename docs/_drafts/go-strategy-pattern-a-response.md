@@ -231,6 +231,13 @@ func main() {
 }
 ```
 
+## Conclusions
+
+The Strategy Pattern is as applicable to Go as to object-oriented programming languages.
+However, the idiomatic ways of modelling it in Go look slightly different due to Go's lack of classes and support for duck typing and first-class functions.
+Using an interface and structs with methods to represent strategies is concise, flexible, and comparable to a class-based approach.
+Using functions or methods conforming to a function signature is equally as valid in Go, and equally concise.
+
 ---
 
 ## Footnotes
