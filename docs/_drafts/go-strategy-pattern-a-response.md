@@ -13,6 +13,7 @@ In case you aren't familiar with this pattern or haven't read the original artic
 If you're already familiar with it, feel free to skip over this section.
 
 The Strategy Pattern applies when there are multiple ways of solving the same, specific problem.
+It's particularly relevant when the choice of which approach to take is dynamic, i.e. it happens at runtime.
 Rather than creating an ever-growing switch statement to select between the alternatives, each solution is represented by a class and one such class is passed into the logic that needs to call it.
 In other words, this is an application of **dependency injection**.
 The key thing is that all of these classes, called **strategies**, conform to a common interface that, canonically, exposes a single method to invoke the strategy.
