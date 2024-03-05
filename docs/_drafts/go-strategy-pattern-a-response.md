@@ -100,8 +100,57 @@ If we wanted to add state to the original approach, we would need to change it t
 
 In summary, using **structs** to implement the strategy interface is **simpler, more concise, and more readily extensible**.
 
-* Give example using functions (whether plain function or method) for strategies
-  * Meets footnote 4 in the Rednafi article
+## Functioning differently
+
+I mentioned that I'd propose more than one alternative to Redowan's approach.
+[Footnote 4](https://rednafi.com/go/strategy_pattern/#fn:4) to their post gave me a little brainwave --- what if there's a nicer way to handle passing around functions as strategies?
+
+If we want to bend the definition of the Strategy Pattern, we could argue that a strategy is really defined by the signature of its invocation function.
+Given that the canonical strategy interface comprises a single function, the interface itself is really just a way of assigning a type for that function in languages that don't support raw functions but rather only methods, like Java.
+
+Using this looser interpretation, we can do away with that superfluous wrapping we saw before and pass functions instead of interfaces.
+The following is a minimal working example tested with Go 1.21.5.
+
+```go
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+)
+
+type Format func(message string) string
+
+type jsonFormat struct{}
+
+func (jf *jsonFormat) Format(message string) string {
+	asJSON, _ := json.Marshal(map[string]string{"message": message})
+	return string(asJSON)
+}
+
+var JSON = &jsonFormat{}
+
+func Display(message string, f Format) {
+	fmt.Println(f(message))
+}
+
+func main() {
+	message := "Hello, World!"
+	textFormat := func(message string) string { return message }
+	j := &jsonFormat{}
+
+	Display(message, textFormat)
+	Display(message, j.Format)
+	Display(message, JSON.Format)
+}
+```
+
+There are a few key differences of which to take notice.
+We now define `Format` as a function instead of using the `Formatter` interface[4].
+The `textFormat` strategy is defined as a lambda to show that this is legal syntax, even without any wrapping.
+The `jsonFormat` strategy is defined as a struct to show that we can pass in a method so long as its signature is compatible --- we have not lost the ability to use stateful strategies!
+Using a method on a struct requires instantiating it first, which might be inconvenient.
+The exported (public) `JSON` variable shows one approach to working around that inconvenience.
 
 ---
 
@@ -117,3 +166,7 @@ See [the docs](https://learn.microsoft.com/en-us/dotnet/standard/design-guidelin
 
 [3] My personal preference is for structs that represent services or components to have a field for a logger at the very least.
 In my experience, having this already wired in tends to be very convenient for debugging purposes.
+
+[4] Go [recommends](https://go.dev/doc/effective_go#interface-names) that interface names be [agent nouns](https://en.wikipedia.org/wiki/Agent_noun), i.e. words ending in "er", such as "Stringer" for the interface providing a `String()` method.
+Conversely, given this convention, one might well expect that names ending in "er" be interfaces.
+As the `Format` type is _not_ an interface but rather a type alias for a function, it would seem unhelpful to suggest it were.
