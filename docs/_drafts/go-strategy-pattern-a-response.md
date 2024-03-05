@@ -28,7 +28,7 @@ Firstly, it decouples the calling logic from the strategy logic, which provides 
 If the calling context doesn't need to know _how_ something is achieved, but just that it is, then it doesn't need to take responsilbity for that or concern itself with configuration for this; this aligns well with the Single Responsibility Principle.
 Secondly, it provides extensibility in line with the Open-Closed Principle, which is about keeping code more maintainable.
 Thirdly, it keeps the logic grouped into smaller, more focused elements rather than lengthy, expansive blocks.
-That should make it more legible and thus more maintainable, particularly as it's capturing the _purpose_ of these strategies and not just their implementations.[1]
+That should make it more legible and thus more maintainable, particularly as it's capturing the _purpose_ of these strategies and not just their implementations<a name="ref1" href="#fn1">[1]</a>.
 
 ## OOPs!  Go is classless
 
@@ -38,7 +38,7 @@ Redowan mentions that "the Go community exhibits a knee-jerk reaction to the wor
 What I think is missed here is that Go isn't a million miles away from traditional object-oriented (OO) languages, particularly given the trend of favouring composition over inheritance.
 Crucially, Go supports methods on structs rather than forcing the use of functions without receivers (`func (a *A) foo()` vs `func foo(a *A)`) --- **structs with methods are analogous to classes without subtype polymorphism** (inheritance)!
 Like many OO languages it has interfaces and, since Go 1.18, generics.
-Go is a memory-managed, garbage-collected language just like Java, C#, and Python, and its structs can be stack- or heap-allocated like in C++ and C#[2].
+Go is a memory-managed, garbage-collected language just like Java, C#, and Python, and its structs can be stack- or heap-allocated like in C++ and C#<a name="ref2" href="#fn2">[2]</a>.
 Go's pointers are similar to references in languages like Java in that they do not support pointer arithmetic, although they do require manual indirection (`&` and `*`).
 Similar to Python's handling of visibility modifiers, there's public and private state; this is called exported and unexported state in Go nomenclature.
 
@@ -95,7 +95,7 @@ Display(message, tf)
 ```
 
 There is another benefit to using a struct as the method receiver, which rednafi very briefly touches upon: should we need to, we can add state.
-An empty struct is very cheap to use as it requires no space to allocate, but should we need to add state then everything else is already in place[3].
+An empty struct is very cheap to use as it requires no space to allocate, but should we need to add state then everything else is already in place<a name="ref3" href="#fn3">[3]</a>.
 If we wanted to add state to the original approach, we would need to change it to use a struct anyway, likely causing reworking in other code that should, really, be unaffected.
 
 In summary, using **structs** to implement the strategy interface is **simpler, more concise, and more readily extensible**.
@@ -146,7 +146,7 @@ func main() {
 ```
 
 There are a few key differences of which to take notice.
-We now define `Format` as a function instead of using the `Formatter` interface[4].
+We now define `Format` as a function instead of using the `Formatter` interface<a name="ref4" href="#fn4">[4]</a>.
 The `textFormat` strategy is defined as a lambda to show that this is legal syntax, even without any wrapping.
 The `jsonFormat` strategy is defined as a struct to show that we can pass in a method so long as its signature is compatible --- we have not lost the ability to use stateful strategies!
 Using a method on a struct requires instantiating it first, which might be inconvenient.
@@ -156,17 +156,17 @@ The exported (public) `JSON` variable shows one approach to working around that 
 
 ## Footnotes
 
-[1] I'm a big believer in writing code that expresses algorithms rather than getting lost in the weeds.
+<a name="fn1" href="#ref1">[1]</a> I'm a big believer in writing code that expresses algorithms rather than getting lost in the weeds.
 It's something that Robert Martin discusses in the form of keeping blocks of code (functions, subroutines, etc.) at a consistent level of abstraction.
 The idea is also found in parametric polymorphism, which is precisely about abstracting an algorithm over types.
 [Until Go 1.18](https://go.dev/blog/intro-generics), there was no support for this feature, commonly known as "generics".
 
-[2] C# uses the keyword `struct` to refer to value types, which are often stack-allocated, and `class` to refer to reference types, which are heap-allocated.
+<a name="fn2" href="#ref2">[2]</a> C# uses the keyword `struct` to refer to value types, which are often stack-allocated, and `class` to refer to reference types, which are heap-allocated.
 See [the docs](https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/choosing-between-class-and-struct) and Jon Skeet's [blog post](https://jonskeet.uk/csharp/memory.html) for more information.
 
-[3] My personal preference is for structs that represent services or components to have a field for a logger at the very least.
+<a name="fn3" href="#ref3">[3]</a> My personal preference is for structs that represent services or components to have a field for a logger at the very least.
 In my experience, having this already wired in tends to be very convenient for debugging purposes.
 
-[4] Go [recommends](https://go.dev/doc/effective_go#interface-names) that interface names be [agent nouns](https://en.wikipedia.org/wiki/Agent_noun), i.e. words ending in "er", such as "Stringer" for the interface providing a `String()` method.
+<a name="fn4" href="#ref4">[4]</a> Go [recommends](https://go.dev/doc/effective_go#interface-names) that interface names be [agent nouns](https://en.wikipedia.org/wiki/Agent_noun), i.e. words ending in "er", such as "Stringer" for the interface providing a `String()` method.
 Conversely, given this convention, one might well expect that names ending in "er" be interfaces.
 As the `Format` type is _not_ an interface but rather a type alias for a function, it would seem unhelpful to suggest it were.
