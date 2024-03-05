@@ -98,7 +98,7 @@ There is another benefit to using a struct as the method receiver, which rednafi
 An empty struct is very cheap to use as it requires no space to allocate, but should we need to add state then everything else is already in place[3].
 If we wanted to add state to the original approach, we would need to change it to use a struct anyway, likely causing reworking in other code that should, really, be unaffected.
 
-In summary, using structs to implement the strategy interface is simpler, more concise, and more readily extensible.
+In summary, using **structs** to implement the strategy interface is **simpler, more concise, and more readily extensible**.
 
 * Give example using functions (whether plain function or method) for strategies
   * Meets footnote 4 in the Rednafi article
