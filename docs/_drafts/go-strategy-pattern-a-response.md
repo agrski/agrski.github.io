@@ -45,15 +45,61 @@ Similar to Python's handling of visibility modifiers, there's public and private
 In short, if you take a classic OO language and strictly forbid inheritance in favour of composition, it's not necessarily going to look too different to Go.
 As a consequence, I'd argue the use of design patterns, even ones common in OOP, are still valid and applicable.
 
-* Raise issues with original article
-  * Overcomplicated -- attaching methods to function objects is confusing
-  * Creating `OutputFunc` with a method to implement the interface also creates unnecessary wrapping
-    * Interface already provides a consistent, type-checked
-    * More verbose and confusing than using a struct or function directly
-  * Use of struct is (in contrast to article) both simpler and more extensible as state can be added if required, e.g. for a logger
-    * Personally, I like loggers provided through dep. inj. rather than global config -- easier for testing & customisation of fields
-  * Not idiomatic (to my mind) to try to force something that looks more like a classical class and strict use of specific objects than to use Go's dynamic interfaces
-* Give example using structs for strategies
+## Unwrapping unnecessary complexity
+
+My primary complaint with the rednafi's article is that the approach it presents is overcomplicated and, in my opinion, not particularly idiomatic.
+I'd like to explain what I mean by that and suggest a couple of alternative approaches.
+
+What first caught my eye was attaching a method to a function.
+Functions are first-class objects in Go, so this is valid, but personally I find it unintuitive --- I expect the receiver of a method to be a struct or (more likely) a pointer to a struct.
+The author claims "a function type keeps things concise", but is that really the case?
+Their implementation is given below for reference (comments elided for brevity), with my suggestion of using a struct given thereafter:
+
+```go
+type OutputFunc func(message string) string
+
+func (f OutputFunc) Output(message string) string {
+    return f(message)
+}
+
+TextFormatted := OutputFunc(func (message string) string {
+    return message
+})
+```
+
+```go
+type TextFormatter struct {}
+
+func (t *TextFormatter) Output(message string) string {
+    return message
+}
+```
+
+In terms of line count, character count, and nesting, using a struct is decisively more concise.
+This brings me on to my next criticism: this approach of creating a wrapper for implementors of the interface induces needless nesting and complexity.
+To be clear, I'm not referring to computational complexity, i.e. time or space, but rather cognitive complexity --- how simple or convoluted the logic is.
+The `Formatter` interface provides a consistent and type-safe way of passing strategies, if using struct receivers; the `OutputFunc` wrapper is an artifact of using a function receiver instead.
+The following snippets are from the original article (above) and my proposal (below).
+The latter approach is again more concise and legible, as well as automatically satisfying the type system without the need for a cast.
+
+```go
+TextFormatted := OutputFunc(func (message string) string {
+    return message
+})
+Display(message, TextFormatted)
+```
+
+```go
+tf := &TextFormatter{}
+Display(message, tf)
+```
+
+There is another benefit to using a struct as the method receiver, which rednafi very briefly touches upon: should we need to, we can add state.
+An empty struct is very cheap to use as it requires no space to allocate, but should we need to add state then everything else is already in place[3].
+If we wanted to add state to the original approach, we would need to change it to use a struct anyway, likely causing reworking in other code that should, really, be unaffected.
+
+In summary, using structs to implement the strategy interface is simpler, more concise, and more readily extensible.
+
 * Give example using functions (whether plain function or method) for strategies
   * Meets footnote 4 in the Rednafi article
 
@@ -68,3 +114,6 @@ The idea is also found in parametric polymorphism, which is precisely about abst
 
 [2] C# uses the keyword `struct` to refer to value types, which are often stack-allocated, and `class` to refer to reference types, which are heap-allocated.
 See [the docs](https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/choosing-between-class-and-struct) and Jon Skeet's [blog post](https://jonskeet.uk/csharp/memory.html) for more information.
+
+[3] My personal preference is for structs that represent services or components to have a field for a logger at the very least.
+In my experience, having this already wired in tends to be very convenient for debugging purposes.
