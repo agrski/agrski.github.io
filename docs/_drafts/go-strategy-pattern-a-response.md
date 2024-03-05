@@ -62,6 +62,8 @@ The author claims "a function type keeps things concise", but is that really the
 Their implementation is given below for reference (comments elided for brevity), with my suggestion of using a struct given thereafter:
 
 ```go
+// rednafi's approach
+
 type OutputFunc func(message string) string
 
 func (f OutputFunc) Output(message string) string {
@@ -74,6 +76,8 @@ TextFormatted := OutputFunc(func (message string) string {
 ```
 
 ```go
+// my approach
+
 type TextFormatter struct {}
 
 func (t *TextFormatter) Output(message string) string {
@@ -89,6 +93,8 @@ The following snippets are from the original article (above) and my proposal (be
 The latter approach is again more concise and legible, as well as automatically satisfying the type system without the need for a cast.
 
 ```go
+// rednafi's approach
+
 TextFormatted := OutputFunc(func (message string) string {
     return message
 })
@@ -96,6 +102,8 @@ Display(message, TextFormatted)
 ```
 
 ```go
+// my approach
+
 tf := &TextFormatter{}
 Display(message, tf)
 ```
