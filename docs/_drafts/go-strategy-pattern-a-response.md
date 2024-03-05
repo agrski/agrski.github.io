@@ -1,5 +1,5 @@
 ---
-title: The Strategy Pattern In Go -- A Response
+title: The Strategy Pattern In Go --- A Response
 tags: golang patterns
 ---
 
@@ -7,7 +7,7 @@ This is a response to the recent article [Strategy pattern in Go](https://rednaf
 I like the author's easy-to-understand example of string formatting methods and their contrast of Ruby code with Go.
 With that said, their solution feels verbose and overcomplicated to me, so I wanted to address that and propose some alternatives.
 
-## Background -- the Strategy Pattern
+## Background --- the Strategy Pattern
 
 In case you aren't familiar with this pattern or haven't read the original article, I'll summarise the idea here.
 If you're already familiar with it, feel free to skip over this section.
