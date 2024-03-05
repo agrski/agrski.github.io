@@ -155,14 +155,49 @@ In summary, using **structs** to implement the strategy interface is **simpler, 
 
 ## Functioning differently
 
-I mentioned that I'd propose more than one alternative to Redowan's approach.
+I mentioned that previously that I would propose more than one alternative to Redowan's approach.
 [Footnote 4](https://rednafi.com/go/strategy_pattern/#fn:4) to their post gave me a little brainwave --- what if there's a nicer way to handle passing around functions as strategies?
 
-If we want to bend the definition of the Strategy Pattern, we could argue that a strategy is really defined by the signature of its invocation function.
-Given that the canonical strategy interface comprises a single function, the interface itself is really just a way of assigning a type for that function in languages that don't support raw functions but rather only methods, like Java.
+If we're willing to bend the definition of the Strategy Pattern slightly, we could argue that a strategy is really defined by the signature of its invocation function.
+Given that the canonical strategy interface comprises a single function, the interface itself is really just a way of assigning a type for that function in languages that don't support raw, first-class functions but rather only methods, like Java.
 
 Using this looser interpretation, we can do away with that superfluous wrapping we saw before and pass functions instead of interfaces.
-The following is a minimal working example tested with Go 1.21.5.
+The following are minimal working examples tested with Go 1.21.5.
+In both of them, we now define `Format` as a function instead of using the `Formatter` interface<a name="ref4" href="#fn4">[4]</a>.
+
+In the first example, We define `textFormat` as a normal function and `textFormat2` as a lambda.
+Both are valid approaches and legal syntax, without requiring the wrapping employed by rednafi's solution.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+type Format func(message string) string
+
+func textFormat(message string) string {
+	return message
+}
+
+func Display(message string, f Format) {
+	fmt.Println(f(message))
+}
+
+func main() {
+	message := "Hello, World!"
+	textFormat2 := func(message string) string { return message }
+
+	Display(message, textFormat)
+	Display(message, textFormat2)
+}
+```
+
+In this second example, the `jsonFormat` strategy is defined as a struct to show that we can pass in a method so long as its signature is compatible.
+In other words, we have not lost the ability to use stateful strategies when relying on function types!
+However, using a method on a struct requires instantiating it first, which might be inconvenient at times.
+The exported (public) `JSON` variable shows one approach to working around that inconvenience.
 
 ```go
 package main
@@ -181,29 +216,20 @@ func (jf *jsonFormat) Format(message string) string {
 	return string(asJSON)
 }
 
-var JSON = &jsonFormat{}
-
 func Display(message string, f Format) {
 	fmt.Println(f(message))
 }
 
+var JSON = &jsonFormat{}
+
 func main() {
 	message := "Hello, World!"
-	textFormat := func(message string) string { return message }
-	j := &jsonFormat{}
+  j := &jsonFormat{}
 
-	Display(message, textFormat)
 	Display(message, j.Format)
 	Display(message, JSON.Format)
 }
 ```
-
-There are a few key differences of which to take notice.
-We now define `Format` as a function instead of using the `Formatter` interface<a name="ref4" href="#fn4">[4]</a>.
-The `textFormat` strategy is defined as a lambda to show that this is legal syntax, even without any wrapping.
-The `jsonFormat` strategy is defined as a struct to show that we can pass in a method so long as its signature is compatible --- we have not lost the ability to use stateful strategies!
-Using a method on a struct requires instantiating it first, which might be inconvenient.
-The exported (public) `JSON` variable shows one approach to working around that inconvenience.
 
 ---
 
