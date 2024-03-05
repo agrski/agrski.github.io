@@ -59,7 +59,8 @@ I'd like to explain what I mean by that and suggest a couple of alternatives.
 What first caught my eye was attaching a method to a function.
 Functions are first-class objects in Go, so this is valid, but personally I find it unintuitive --- I expect the receiver of a method to be a struct or (more likely) a pointer to a struct.
 The author claims "a function type keeps things concise", but is that really the case?
-Their implementation is given below for reference (comments elided for brevity), with my suggestion of using a struct given thereafter:
+Their implementation is given below for reference (comments elided for brevity), with my suggestion of using a struct given thereafter.
+In terms of line count, character count, and nesting, using a struct is decisively more concise.
 
 ```go
 // rednafi's approach
@@ -85,7 +86,6 @@ func (t *TextFormatter) Output(message string) string {
 }
 ```
 
-In terms of line count, character count, and nesting, using a struct is decisively more concise.
 This brings me on to my next point: this approach of creating a wrapper for implementors of the interface induces needless nesting and complexity.
 To be clear, I'm not referring to computational complexity, i.e. time or space, but rather cognitive complexity --- how simple or convoluted the logic is.
 The `Formatter` interface already provides a consistent and type-safe way of passing strategies, if using struct receivers; the `OutputFunc` wrapper is an artifact of using a function receiver instead.
