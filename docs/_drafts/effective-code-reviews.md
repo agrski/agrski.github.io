@@ -9,6 +9,7 @@ tags: collaboration workflows
   * Review at end before submitting
   * Can help to spot patterns and suggest a more general comment
   * If review tool allows it, add draft/pending comments to revise later
+
 * As a submitter:
   * Consider target audience
     * How experienced are they?
@@ -35,6 +36,7 @@ tags: collaboration workflows
     * E.g. separate refactoring from introducing new features
     * E.g. introduce bug fix & test but leave out formatting/stylistic changes
     * Make it easy for the reviewer to focus on what's important -- minimise _noise_
+
 * As a reviewer:
   * Consider your tone & the target audience
   * Comments should follow the must/should/could convention
@@ -60,6 +62,7 @@ tags: collaboration workflows
     * Offer suggestions if possible
       * "This is poor practice" is uninformative
       * "This data structure makes lookups much cheaper and this code is likely to lots of lookups" is much more useful
+
 * As a team:
   * Treat code reviews as a form of team communication that can benefit everyone if done effectively
   * Where possible, enforce things like code style automatically through linters
