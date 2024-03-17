@@ -32,6 +32,9 @@ tags: collaboration workflows
     * Actually provide a written response on the review platform _for future reference_ by others
     * Lots of information can easily be lost and inaccessible to others down the line
     * Sometimes addressing a comment can be as simple as "won't fix" or "I'll remember for next time"
+    * When a particular commit addresses a comment, link to/reference this commit
+      * GitHub supports this nicely
+      * Don't do one "address comments" commit because it makes it hard to evaluate specific changes; use one commit per comment/family of comments
   * Try to minimise how many logical changes are involved
     * E.g. separate refactoring from introducing new features
     * E.g. introduce bug fix & test but leave out formatting/stylistic changes
