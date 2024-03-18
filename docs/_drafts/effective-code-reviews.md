@@ -25,9 +25,13 @@ How often do you discuss your source control workflows, how to run meetings, or 
 Like many things, it seems to be just assumed that people know _how_ to review code, or that they'll pick it up quickly through cultural osmosis.
 In a way that's true: people do pick things up all the time out of necessity and trial-and-error and by copying others.
 At the same time, that doesn't mean people are learning _effectively_ if they're left to their own devices.
+
 Take the example of typing.
 Despite the ubiquity of keyboards in devices for decades now, a quick search suggests only around 20% of keyboard-users are touch-typists.
 Yet those that are can type 50-100% faster than those that aren't and at least as accurately [1].
+Interestingly, those same studies indicate the different groups of typers have about the same number of years of experience and spend about the same amount of time typing per day.
+Unless developers are actively, consciously looking to improve their skills, why should we assume they are effective reviewers just because they're required to provide commentaries from time to time?
+The same goes for those _submitting_ reviews --- any form of communication is a two-way street.
 
 * Lucky to have had conversations with people about various aspects of reviewing
   * E.g. it's not PR size that's really an issue so much as complexity
