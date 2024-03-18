@@ -53,6 +53,26 @@ Tools are just that: tools.
 Some are definitely more helpful or offer better support for certain workflows, but what matters is how you use them.
 The suggestions given in this article should apply to most, if not all, of the tools you might encounter.
 
+## As a submitter
+
+### Identify your audience
+
+This might sound overly obvious --- surely the audience is other developers?!
+There's a bit more to it, however.
+
+Are the reviewers in your team, from elsewhere in the same organisation, or potentially even from another organisation (as might be the case for open-source software)?
+How much **access** do they have to the same systems and knowledge bases as you have?
+This is especially important in the latter two scenarios and any assumptions that are baked in around set-up and tooling.
+
+How **experienced** do you expect the reviewers to be overall, and in particular in terms of relevant **domain expertise**?
+There's a big difference between a graduate familiar with Python and someone with a decade of experience in latency-sensitive applications using a specific C++ tool chain.
+For less experienced reviewers, consider providing more context and avoiding lots of short-hand, for example.
+
+How many different **groups** of reviewers do you need to cater to?
+Are you expecting new joiners to be reviewing your work to build up their knowledge or feed in new ideas?
+Are the only reviews people who've been on the team for a while and know the ins and outs of the project and why things are done a certain way?
+Might someone with a less technical background need to sign off on the functional aspects of your changes?
+
 ---
 
 ## Footnotes
@@ -70,9 +90,6 @@ The suggestions given in this article should apply to most, if not all, of the t
   * If review tool allows it, add draft/pending comments to revise later
 
 * As a submitter:
-  * Consider target audience
-    * How experienced are they?
-    * How many different groups may be reviewing (e.g. juniors & seniors)?
   * Add explanatory comments of your own
     * Highlight things which are interesting or might be subtle
     * Bring attention to points you want special attention on
