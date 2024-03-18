@@ -71,6 +71,17 @@ tags: collaboration workflows
     * Offer suggestions if possible
       * "This is poor practice" is uninformative
       * "This data structure makes lookups much cheaper and this code is likely to lots of lookups" is much more useful
+  * Reason about the PR, don't just accept it because someone submitted it
+    * What is the PR supposed to achieve?
+    * What approach would _you_ take?
+    * What approach did the submitter take?
+    * Does the approach meets the functional _and_ non-functional requirements?
+    * Is it making a unilateral decision when this is something that should be discussed amongst the team?
+    * Are there are major implications of the approach, e.g. for security or performance?
+  * Be confident in asking for clarification
+    * Don't just assume -- that's how bugs sneak in!
+  * Be focused
+    * Try not to get side-tracked by small details and aim to review the key aspects first
 
 * As a team:
   * Treat code reviews as a form of team communication that can benefit everyone if done effectively
