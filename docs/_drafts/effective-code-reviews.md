@@ -128,3 +128,10 @@ tags: collaboration workflows
     * I've seen a number of bugs and/or debatable code choices come back to bite because of an over-eager reviewer
     * Co-ordinate and give others a chance to respond unless a change is low risk or you really need to move quickly
     * Merging in others' PRs means you probably don't have full context and might be premature in doing this
+  * Heavily stacked PRs
+    * I've seen a lot of proselytising for stacked PRs recently
+    * I can understand doing some (minor) refactoring/reformatting before introducing a new feature
+    * However, lots of stacking means a reviewer may need context from other PRs first
+    * It's also arrogant to my mind -- basing new work on other work that hasn't been accepted _presumes_ it will be accepted with minimal changes
+    * With heavy stacking, this presumption stacks
+    * It's better to have fast review cycles so there's discussion from earlier on in case things do change
