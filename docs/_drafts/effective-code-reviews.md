@@ -40,6 +40,19 @@ Being the imprecise communicators that humans are, we often coerce request size 
 Over the last few years, it's a topic I've given a fair bit of active thought to and feel deserves more attention, especially for new practitioners.
 The remainder of this article explains my current thinking on how to make the most of the review process.
 
+## A note on tools
+
+Code reviews have probably been around in one form or another about as long as code has.
+They can be as simple as sitting down with someone (physically or virtually) and talking through some code together.
+They might be done via sending patches over email, as famously with [the Linux kernel](https://www.kernel.org/doc/html/v4.10/process/email-clients.html#general-preferences) and Vim.
+They might be supported by browser-based tools like the UIs provided for GitHub, GitLab, and similar, or even third-party tools like Gerrit.
+Heck, you might even use an IDE integration like [the one for VS Code](https://code.visualstudio.com/docs/sourcecontrol/github#_pull-requests)!
+
+If it's one of these or none of them, that's okay.
+Tools are just that: tools.
+Some are definitely more helpful or offer better support for certain workflows, but what matters is how you use them.
+The suggestions given in this article should apply to most, if not all, of the tools you might encounter.
+
 ---
 
 ## Footnotes
