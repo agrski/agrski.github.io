@@ -3,6 +3,18 @@ title: Effective Code Reviews
 tags: collaboration workflows
 ---
 
+Code reviews are an integral part of collaborative software development.
+They serve as a natural synchronisation point for discussion, whether retrospective (as is the norm) or also prospective.
+
+This article offers advice for all involved parties on how to make reviews more effective --- for submitters, for reviewers, and for teams more broadly.
+The core themes are to embrace the opportunity for discussion and knowledge sharing, respect one another's time, and treat reviews as a form of decision record and documentation.
+
+The suggestions given herein are based on the author's own experiences and opinions.
+They are not intended to be taken as gospel and, in a handful of cases, are acknowledged to be contested views on what constitutes good practice.
+I encourage you to read and consider them all the same, and to draw your own conclusions on what to do and, more importantly, why.
+
+---
+
 * Tooling isn't the key thing -- GitHub, GitLab, Gerrit, emails, etc. can all work
 * Draft all comments before posting/publishing
   * Not all need to be submitted
