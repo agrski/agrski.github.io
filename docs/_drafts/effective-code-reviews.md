@@ -73,6 +73,48 @@ Are you expecting new joiners to be reviewing your work to build up their knowle
 Are the only reviews people who've been on the team for a while and know the ins and outs of the project and why things are done a certain way?
 Might someone with a less technical background need to sign off on the functional aspects of your changes?
 
+### Provide context
+
+Many code review mechanisms support some way of describing changes, be that an email body or a PR description.
+This serves a few purposes.
+
+The immediate benefit is that it primes the reader on what they need to know.
+What's the priority of this change --- an urgent bug, a speculative optimisation, or perhaps a refactoring to simplify an upcoming feature?
+What dependencies does this change have and what is dependent on it?
+If this blocks something important, it should in turn be understood to be more important itself.
+How risky is it?
+Are you confident in the solution or looking for feedback on specific aspects of it?
+Giving the reviewer(s) an idea of what to focus on can help them to be more efficient with their time and to provide more focused feedback.
+
+There's a future benefit too, which may even exceed the immediate value.
+When you're making a change, there's a reasonable likelihood someone else in the team has context on that change, why it's being done, why a particular solution was chosen, and suchlike.
+What happens when that's not, or is _no longer_, the case?
+What if the assigned reviewer has just come back from a break or is in a different time zone and working asynchronously?
+What happens when coworkers with this information have moved to other projects or left for other companies?
+What about when a change was made a year ago and you simply can't remember all the details about it?
+
+Recording information about a change _for future reference_ is a major motivating factor for me.
+I don't want to be a bottleneck or overwhelmed with questions on past decisions, and allowing others to self-service their answers mitigates that.
+If this context makes it into source control history, even better, but that's not always possible depending on what's been configured.
+Do yourself and your teammates a massive favour and keep context close to the code.
+
+The way I tend to structure my own PR descriptions these days is with the following sections:
+* Why this PR exists:
+  * Any linked tickets, which should provide more or less full context for the changes.
+  * A few sentences on the motivation for this change and any relevant background.
+    While tickets should cover this in depth, I value having key information _immediately_ available.
+    Information in another system is liable to suffering from poor accessibility, perhaps due to permissions, poor organisation, deletions and modifications, and so on.
+* What the changes involve:
+  * A brief overview of the _logical_ changes.
+    The commit history _should_ tell me exactly what changed, but it may be overly terse or excessively verbose.
+    Things like merge commits, reversions, and addressing review comments do not tell me much about what this PR represents.
+  * A before and after comparison, if applicable.
+  * A summary of any manual testing, or things that otherwise do not live within the code itself.
+
+You might disagree with this structure or bemoan the additional effort.
+I find that's somewhat mitigated through using PR templates for tools that support them, [like GitHub](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/about-issue-and-pull-request-templates).
+Whatever your opinion, I've found this approach beneficial for myself and have been complimented by multiple coworkers when it helped them too!
+
 ---
 
 ## Footnotes
@@ -99,11 +141,6 @@ Might someone with a less technical background need to sign off on the functiona
   * Review your draft PR/MR yourself as a sanity check
     * Be respectful of reviewers' time
     * If you can't be bothered to check over your own work, why should a reviewer?
-  * Provide useful context in the PR/MR description
-    * This is useful for priming a reviewer on what they need to know
-      * E.g. is this a high-priority bug fix or a speculative refactoring or optimisation?
-    * It can also be a massive boon to future readers
-      * I've often ended up looking at past PRs to understand why a change was made
   * Address comments
     * Actually provide a written response on the review platform _for future reference_ by others
     * Lots of information can easily be lost and inaccessible to others down the line
