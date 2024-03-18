@@ -45,6 +45,10 @@ tags: collaboration workflows
     * In such cases, a PR is a good place to document manual testing so others can check this over and, if necessary, reproduce it themselves
     * Maybe you want to confirm all instances of something have been changed/removed so you record some `grep` invocations
     * Sometimes you might want to use pictures or video for before/after validation
+  * Be adapatable and open to feedback
+    * But also don't be a pushover -- justify and discuss so everyone has a clear understanding
+    * If you wrote something notably suboptimal, it's likely better to change it now rather than trying to unpick it later
+    * It's easier to make changes when you have all the context fresh in your mind
 
 * As a reviewer:
   * Consider your tone & the target audience
