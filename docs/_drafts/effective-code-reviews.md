@@ -28,7 +28,7 @@ At the same time, that doesn't mean people are learning _effectively_ if they're
 
 Take the example of typing.
 Despite the ubiquity of keyboards in devices for decades now, a quick search suggests only around 20% of keyboard-users are touch-typists.
-Yet those that are can type 50-100% faster than those that aren't and at least as accurately [1].
+Yet those that are can type 50-100% faster than those that aren't and at least as accurately <a name="ref1" href="#fn1">[1]</a>.
 Interestingly, those same studies indicate the different groups of typers have about the same number of years of experience and spend about the same amount of time typing per day.
 Unless developers are actively, consciously looking to improve their skills, why should we assume they are effective reviewers just because they're required to provide commentaries from time to time?
 The same goes for those _submitting_ reviews --- any form of communication is a two-way street.
@@ -44,7 +44,7 @@ The remainder of this article explains my current thinking on how to make the mo
 
 ## Footnotes
 
-[1] Around 80 words per minute compared to around 50 according to [this research paper](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9356123/) from 2022.
+<a name="fn1" href="#ref1">[1]</a> Around 80 words per minute compared to around 50 according to [this research paper](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9356123/) from 2022.
 [This article](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5145878/) from 2016 gives self-reported numbers of about 68 and 43.
 
 ---
