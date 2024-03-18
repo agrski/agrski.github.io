@@ -108,3 +108,15 @@ tags: collaboration workflows
   * Develop a culture of supporting live code reviews
     * In some situations, a live review is enormously faster and more effective than writing many comments
     * E.g. I've done live reviews for documentation with non-native speakers to help with grammar and phrasing
+
+* Pet peeves
+  * Many people write long lines of code, which is awkward for many reasons
+    * There's a reason newspapers and books use narrow columns -- much easier for humans to read
+    * Not everyone uses screen real estate in the same way, so don't assume long lines are convenient
+      * Many online review tools in particular limit horizontal screen real estate, such as when using side-by-side views
+    * Making a small change in a long line, like renaming a parameter, is often much harder to spot than having multiple lines
+  * Merging in a PR as soon as one person has reviewed it
+    * This is acceptable in some workflows, but in my experience it's not uncommon for there to be multiple reviewers
+    * I've seen a number of bugs and/or debatable code choices come back to bite because of an over-eager reviewer
+    * Co-ordinate and give others a chance to respond unless a change is low risk or you really need to move quickly
+    * Merging in others' PRs means you probably don't have full context and might be premature in doing this
