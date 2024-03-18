@@ -33,8 +33,12 @@ Interestingly, those same studies indicate the different groups of typers have a
 Unless developers are actively, consciously looking to improve their skills, why should we assume they are effective reviewers just because they're required to provide commentaries from time to time?
 The same goes for those _submitting_ reviews --- any form of communication is a two-way street.
 
-* Lucky to have had conversations with people about various aspects of reviewing
-  * E.g. it's not PR size that's really an issue so much as complexity
+The topic of reviewing code has come up in conversation with coworkers before, although usually when there's a point of frustration.
+I'm sure we've all had to deal with some uncomfortably large pull/merge requests before, for example.
+For all the pain, it was when working through one of these that I came to the realisation it's not really _large_ PRs that cause problems so much as _complex_ ones.
+Being the imprecise communicators that humans are, we often coerce request size into being a (weak) proxy for complexity.
+Over the last few years, it's a topic I've given a fair bit of active thought to and feel deserves more attention, especially for new practitioners.
+The remainder of this article explains my current thinking on how to make the most of the review process.
 
 ---
 
