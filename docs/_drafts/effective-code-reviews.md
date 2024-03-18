@@ -13,6 +13,32 @@ The suggestions given herein are based on the author's own experiences and opini
 They are not intended to be taken as gospel and, in a handful of cases, are acknowledged to be contested views on what constitutes good practice.
 I encourage you to read and consider them all the same, and to draw your own conclusions on what to do and, more importantly, why.
 
+## Inspiration
+
+> If you want to go fast, go alone; if you want to go far, go together
+
+That old proverb applies as much to software development as to anything else.
+It's an inherently collaborative discipline.
+Yet for all that, there are a number of things which are rarely discussed in any depth and seem to sort of just spring into existence.
+How often do you discuss your source control workflows, how to run meetings, or how to draw clear architecture diagrams?
+
+Like many things, it seems to be just assumed that people know _how_ to review code, or that they'll pick it up quickly through cultural osmosis.
+In a way that's true: people do pick things up all the time out of necessity and trial-and-error and by copying others.
+At the same time, that doesn't mean people are learning _effectively_ if they're left to their own devices.
+Take the example of typing.
+Despite the ubiquity of keyboards in devices for decades now, a quick search suggests only around 20% of keyboard-users are touch-typists.
+Yet those that are can type 50-100% faster than those that aren't and at least as accurately [1].
+
+* Lucky to have had conversations with people about various aspects of reviewing
+  * E.g. it's not PR size that's really an issue so much as complexity
+
+---
+
+## Footnotes
+
+[1] Around 80 words per minute compared to around 50 according to [this research paper](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9356123/) from 2022.
+[This article](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5145878/) from 2016 gives self-reported numbers of about 68 and 43.
+
 ---
 
 * Tooling isn't the key thing -- GitHub, GitLab, Gerrit, emails, etc. can all work
