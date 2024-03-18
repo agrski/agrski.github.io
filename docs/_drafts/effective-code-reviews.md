@@ -115,6 +115,26 @@ You might disagree with this structure or bemoan the additional effort.
 I find that's somewhat mitigated through using PR templates for tools that support them, [like GitHub](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/about-issue-and-pull-request-templates).
 Whatever your opinion, I've found this approach beneficial for myself and have been complimented by multiple coworkers when it helped them too!
 
+### Minimise incidental complexity
+
+There's one more benefit to providing a description of your proposed changes, which is that it helps to identify if there are multiple logical change sets being conflated into one.
+Doing so creates incidental complexity and makes the reviewers' lives harder than they need to be.
+
+Another way to think about it is in terms of signal-to-noise ration.
+For any given logical change, it's desirable to minimise noise around it so reviewers can concentrate on what that change is and how it's being handled.
+The more you add in, the slower the review process is to do well or, conversely, the more likely it is bugs will start to slip through.
+
+Note that this is not a commentary on the number of lines affected.
+A logical change could concern the colour palette of a website, fixing a bug in the authorisation system, or reformatting code to conform to a new linter.
+Fixing a bug and adding a regression test constitute a logical change, but stylistic changes should be kept separate.
+
+While it can be tempting to bundle multiple things together, this has a number of downsides beyond forcing your reviewer to untangle differing concerns.
+It can make writing and filtering change-logs harder.
+It can make rollbacks riskier or more inconvenient.
+It can make the review process longer.
+If you're tempted to bundle things up because integrating code feels slow, that suggests there are problems bigger in the process to be addressed.
+It's better to fix those than to compromise the review process.
+
 ---
 
 ## Footnotes
@@ -148,10 +168,6 @@ Whatever your opinion, I've found this approach beneficial for myself and have b
     * When a particular commit addresses a comment, link to/reference this commit
       * GitHub supports this nicely
       * Don't do one "address comments" commit because it makes it hard to evaluate specific changes; use one commit per comment/family of comments
-  * Try to minimise how many logical changes are involved
-    * E.g. separate refactoring from introducing new features
-    * E.g. introduce bug fix & test but leave out formatting/stylistic changes
-    * Make it easy for the reviewer to focus on what's important -- minimise _noise_
   * Do document manual testing steps
     * Not all code is easy to unit test
     * I've had a few bugs that were tricky to reproduce and needed a particular ecosystem configuration to match a customer setup
