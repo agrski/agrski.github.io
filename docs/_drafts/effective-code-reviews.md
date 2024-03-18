@@ -90,3 +90,6 @@ tags: collaboration workflows
     * I acknowledge this is a controversial opinion
     * If the changes are trivial to review, it's a minor cost to scan over them quickly
     * If the changes are more significant, another review is justified to ensure new issues haven't been introduced
+  * Develop a culture of supporting live code reviews
+    * In some situations, a live review is enormously faster and more effective than writing many comments
+    * E.g. I've done live reviews for documentation with non-native speakers to help with grammar and phrasing
