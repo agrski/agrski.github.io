@@ -39,6 +39,12 @@ tags: collaboration workflows
     * E.g. separate refactoring from introducing new features
     * E.g. introduce bug fix & test but leave out formatting/stylistic changes
     * Make it easy for the reviewer to focus on what's important -- minimise _noise_
+  * Do document manual testing steps
+    * Not all code is easy to unit test
+    * I've had a few bugs that were tricky to reproduce and needed a particular ecosystem configuration to match a customer setup
+    * In such cases, a PR is a good place to document manual testing so others can check this over and, if necessary, reproduce it themselves
+    * Maybe you want to confirm all instances of something have been changed/removed so you record some `grep` invocations
+    * Sometimes you might want to use pictures or video for before/after validation
 
 * As a reviewer:
   * Consider your tone & the target audience
