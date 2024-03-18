@@ -108,6 +108,14 @@ tags: collaboration workflows
   * Develop a culture of supporting live code reviews
     * In some situations, a live review is enormously faster and more effective than writing many comments
     * E.g. I've done live reviews for documentation with non-native speakers to help with grammar and phrasing
+  * Aim for automated and human aspects to be as smooth and fast as possible
+    * E.g. having to wait for tests to run when you changed a few lines in a README wastes everyone's time
+    * Inconsisentices in setups cause friction
+    * Having too many people working on the same area causes merge conflicts and, thus, friction
+    * Ultimately, if it's slowing you down enough that you notice, it's probably worth investing time to fix!
+    * Be open to experimenting with new workflows and tools to see if they work better!
+    * Try to provide initial reviews quickly
+      * Avoid overloading a small number of people -- it creates bottlenecks
 
 * Pet peeves
   * Many people write long lines of code, which is awkward for many reasons
