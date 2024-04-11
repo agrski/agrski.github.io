@@ -1,6 +1,6 @@
 ---
-title: Effective Code Reviews
-tags: collaboration workflows
+title: Effective Code Reviews -- A Comprehensive Guide
+tags: collaboration workflows reviews
 ---
 
 Code reviews are an integral part of collaborative software development.
