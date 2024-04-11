@@ -53,6 +53,31 @@ Tools are just that: tools.
 Some are definitely more helpful or offer better support for certain workflows, but what matters is how you use them.
 The suggestions given in this article should apply to most, if not all, of the tools you might encounter.
 
+## Themes
+
+There are multiple personas involved in reviews: proposers/submitters, reviewers, and wider teams or standards setters.
+While the advice to each of these personas is different, there are core themes running through this guide.
+
+Perhaps the foremost is to be selfless and expend a little more effort yourself so as to make things easier for others.
+I believe this strengthens team working, because of acting for the greater good of the team collectively, but it also serves self-interests.
+Kindness tends to be reciprocated, but just as importantly you're helping others focus on what matters to them so they can deliver faster and more effective for you too.
+Tighter feedback loops create less friction and wasted effort.
+
+Related to this, remember that humans are not machines --- they make mistakes, they have bad days, they have feelings.
+Machines are unconcerned with monotonous, repetitive, laborious work.
+Humans (mostly) aren't.
+Machines don't get offended, form their own opinions, or object to redoing things.
+Humans (mostly) do.
+Machines can run constantly, progress tasks in parallel, and continually context switch.
+Humans (beyond a point) can't.
+Remember that software engineering is _more_ of a human task than a machine one, so prioritise that.
+
+Finally, be as flexible as core constraints allow.
+If you're working on safety-critical systems, correctness is paramount so be firm on this.
+If you need real-time responsiveness, maybe legibility or neat abstractions are going to take a hit.
+If you're prototyping a new design, information gain is the goal and overcoming big challenges is the goal.
+Know what characteristics you _need_, have principles, but don't fall victim to dogmatism.
+
 ## As a submitter
 
 ### Identify your audience
