@@ -83,9 +83,39 @@ bind -ls
 I haven't played around with configuring many of the others, although partly that's because I'm happy with many of them.
 You might find things that enormously improve your UX, so I'd encourage you to take a look!
 
+## Not letting go
+
+The next trick isn't unique to bash, but I do find it very useful when you don't have (history-based) auto-complete suggestions.
+This is enabling _eternal history_.
+
+By default, the history of which shell commands you've run is finite, and typically using what I'd consider to be a rather modest number.
+I prefer enabling eternal history: I want to know about what commands I've run in the past, even if I've not run them recently.
+In fact, it's most often the ones I've not run recently that I need help remembering!
+
+To enable this, I set:
+```bash
+shopt -s histappend
+export HISTSIZE=
+export HISTFILESIZE=
+export HISTFILE=~/.bash_eternal_history
+```
+
+By effectively unsetting the history size, this removes the limit.
+Note that we do this for both the current shell session _and_ the history file (shared between sessions).
+
+You might also wish to use the following:
+```bash
+PROMPT_COMMAND="history -a; history -n; $PROMPT_COMMAND"
+```
+
+This appends history as it happens and makes sure the current shell is up to date with any history that other shells have written since the last command it executed.
+Depending on how to you like to manage your sessions, you might find one or both of these settings more aggravating than advantageous.
+
+There are additional settings to allow for excluding certain commands from history or to prevent duplication of existing commands (although I've yet to configure this one correctly).
+At worst, you can use other tools like an editor or `sed` or `uniq` to get rid of history you aren't concerned about, but I've not encountered any issues with excessive history retention so far, either at work or at home.
+
 ---
 
-* Eternal history settings
 * Supercharging with fzf
   * Mention my preferred settings, e.g. colours for command types
 * Using `bashrc.d/...` style to organise config
