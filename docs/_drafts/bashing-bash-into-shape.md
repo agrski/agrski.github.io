@@ -34,9 +34,57 @@ The point is, you can do a lot with bash, and for plenty of common tasks it's no
 
 The final justification for sticking with bash is that it needs only a few tweaks to bring it up to par...
 
+## Assauging Asymmetry
+
+One of the most irritating things about a default bash setup, in my opinion, is that actions are asymmetric.
+Let me explain what I mean.
+
+Bash provides a number of keyboard shortcuts out of the box.
+I'm not sure many people are even aware of this, based on the number of coworkers I've seen navigating entirely by left/right arrows and the delete key.
+Bash has a rich set of movements like:
+* alt-b to move back a "word",
+* alt-f to move forward a "word"
+* alt-d to delete forward a word
+* control-w to delete back a "word"
+* control-u to delete back to the beginning
+* control-k to delete forward to the end
+
+These are the ones I use the most -- practically every day, in fact!
+
+Note how I used quotation marks around "word".
+That's because I don't agree with how bash interprets that term, or rather how it interprets it _inconsistently_.
+You see, moving back and forward and deleting forward obeys what I consider normal rules: punctuation delimits a word.
+Deleting backwards, however, words on the basis of _whitespace_, not punctuation.
+
+A few years ago, I ended up so fed up of this I went down the rabbit hole to figure out what could be done to fix it.
+The solution, it turns out, is trivial: you just change the key bindings for whichever modes you care about.
+As an aside, you might not be aware that bash has two built-in modes -- Emacs (the default) and Vim.
+
+I now have the following in my `bashrc`:
+
+```bash
+stty werase undef
+bind -m emacs "\C-w": backward-kill-word'
+bind -m emacs "\e\C-w": unix-word-rubout'
+```
+
+This is frankly a bit arcane, so let's see what this means.
+The command `stty` deals with _settings for the terminal_, hence the name.
+This first line removes the binding it has for `werase`, or "word erase".
+The second line states that control-w should use a deletion approach which respects punctuation, while the third line says that control-alt-w should use a deletion approach which respects only whitespace.
+In this way, I retain the existing action (delete back to whitespace), but on a different binding; this is helpful when I have something like a URL that I want to delete.
+The binding I use the most is the one which respects punctuation, and thus is symmetric with deleting forwards a "word".
+
+There are tens of other bindings if you run:
+```bash
+bind -ls
+```
+
+I haven't played around with configuring many of the others, although partly that's because I'm happy with many of them.
+You might find things that enormously improve your UX, so I'd encourage you to take a look!
+
 ---
 
-* stty/key bindings settings to fix asymmetric behaviour
 * Eternal history settings
 * Supercharging with fzf
   * Mention my preferred settings, e.g. colours for command types
