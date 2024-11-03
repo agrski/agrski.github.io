@@ -114,6 +114,34 @@ Depending on how to you like to manage your sessions, you might find one or both
 There are additional settings to allow for excluding certain commands from history or to prevent duplication of existing commands (although I've yet to configure this one correctly).
 At worst, you can use other tools like an editor or `sed` or `uniq` to get rid of history you aren't concerned about, but I've not encountered any issues with excessive history retention so far, either at work or at home.
 
+## When less is more
+
+Once again, this isn't specifically a tip for bash, but it's something that makes my time using bash that much more enjoyable and productive.
+It's also something I've never seen anyone else do, just like with fixing that stty/bind configuration!
+
+You, dear reader, are most likely familiar with the pager utility `less`.
+As you're probably aware, `less` is the default pager for the outputs of many other commands, such as `man` pages.
+Now, `less` is an enormously powerful and underappreciated tool that deserves a blog post in its own right, but I'd like to mention one helpful feature of it: coloured content!
+
+By default, `less` doesn't apply any colour to what it's paging through.
+For something short, like the man-page of a simple command, that's not a problem.
+However, if you're like me, then scanning over the output of `man bash` tends to leave me glazing over at what feels like miles of text.
+It's blank, it's boring, it's monotonous, it's monochrome.
+Humans like colour -- it's great for conveying information.
+
+Allow me to introduce to you `LESS`, the shell variable for telling `less` how to behave.
+Mine is set to the following:
+```bash
+export LESS='FRDd+b$Du+r'
+```
+
+If you thought those `bind` commands were obtuse, welcome to a-whole-nother level!
+The key bits here are those `+b` and `+r` fragments, which tell `less` to use blue and red respectively for bold and underlined text.
+All `less` is doing is reading the existing formatting style of the text and applying some colour-mapping to it, so there's nothing special you need to do here.
+It's a simple thing, but I find it enormously easier to spot what I care about:
+* Bold typically indicates _options_ or _configuration_ flags.
+* Underlining typically indicates named entities in the body of text.
+
 ---
 
 * Supercharging with fzf
