@@ -64,8 +64,8 @@ I now have the following in my `bashrc`:
 
 ```bash
 stty werase undef
-bind -m emacs "\C-w": backward-kill-word'
-bind -m emacs "\e\C-w": unix-word-rubout'
+bind -m emacs '"\C-w": backward-kill-word'
+bind -m emacs '"\e\C-w": unix-word-rubout'
 ```
 
 This is frankly a bit arcane, so let's see what this means.
@@ -227,6 +227,17 @@ Mostly I use full-form substitutions when I need to apply the `g` (global) flag,
 Do note that substitutions need not happen on only the _last_ command, but can be applied further back in history too.
 I don't personally make full use of this facility because of how I tend to explore shell history, but it can be incredibly helpful on an unfamiliar machine or one on which it is not possible to install one's usual setup.
 
+### Searching the archives
+
+If you prefer a more interactive experience, there's even a __reverse history search__ shortcut built into bash.
+The three important keyboard shortcuts are:
+* __control-r__, which instigates a new history search, going backwards
+* __control-s__, which moves forward in history once in a search
+* __control-g__, which exits the current history search without executing anything
+
+You can press Enter or `control-o` to execute the current command from the history search.
+The interface here is pretty basic, showing only a single line from history, but it's perfectly functional.
+
 ---
 
 * Supercharging with fzf
@@ -234,4 +245,3 @@ I don't personally make full use of this facility because of how I tend to explo
 * Using `bashrc.d/...` style to organise config
   * Allows for selectively disabling settings if unneeded
   * Keeps things separated so not just one huge blob of a file
-* A few neat tricks like `^.`, `^x-u`, etc.
