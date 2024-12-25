@@ -154,6 +154,79 @@ Notice how the coloured text draws the eye much more effectively than emboldened
 ![man bash - plain](./bashing_bash_into_shape_man_bash_colours.png)
 ![less help - plain](./bashing_bash_into_shape_less_help_colours.png)
 
+## Efficient Edits
+
+Earlier on, it was mentioned that there are plenty of shortcuts pre-assigned in bash, such as for moving forward and backward a word.
+Nifty navigation is a valuable and time-saving skill (I frequently jump to the start or end of a line, or forward or backward a couple of words), but it really helps to be able to _edit_ a line, not just navigate around it.
+
+Bash has plenty of commands for this very purpose!
+We've already seen a few, but let's recap them for convenience:
+* __alt-d__ to delete the next word
+* __control-w__ to delete the last word
+* __control-u__ to delete to the start of the line
+* __control-k__ to delete to the end of the line
+
+### Undo!  Undo!
+
+There's a built-in undo buffer, available via __alt-x followed by alt-u__, i.e. while pressing alt press x then press u.
+I like to use the remember this as __eXecute Undo__.
+This can be used multiple times to reverse multiple changes to the current command.
+Do not that undoing things is purely about editing the current line, not reversing the behaviour of anything that has already happened.
+
+### Escaping Emacs-Mode
+
+For when navigating around word by word and making these small sorts of changes is just a bit too inconvenient, there's an escape hatch in the form of __alt-x followed by alt-e__.
+My mnemonic for this is __eXecute Edit__.
+It'll bring up your whatever variable you've set in your `$EDITOR` environment variable, probably defaulting to `vi` or `vim` as a fallback.
+This is particularly useful when you can't remember the Emacs-mode bash command you need or if you're editing a larger block of text.
+
+### Making the Same Argument Again
+
+Sometimes you just want to use an argument to a preceding command, quite probably even the last one.
+For example, perhaps you need to ensure a directory exists before running something else, as in:
+
+```bash
+mkdir -p foo/bar/baz
+mv a/b/c foo/bar/baz
+```
+
+The shortcut __alt-.__ (alt and the dot/period character together) provides access to the last argument to the last command.
+I use this frequently, and find it can be useful to think about the order in which arguments are supplied to programs so as to maximise the utility of this trick.
+
+### The Old Switcharoo
+
+Sometimes I find I need to make an edit somewhere in the middle of a fairly long previous command.
+Normally, one would press the up arrow, navigate forward or backward however many words, then change perhaps a few characters (correcting a typo, changing the case of a letter, and so on).
+This is tedious and irritating, but there's a better way!
+
+Enter our friend the caret: __^__.
+Carets allow for __quick substitutions__ to the preceding command (or more properly the preceding shell history entry).
+They can be used with either two or three carets, like so:
+
+```bash
+ls /home/usernam # Note the missing 'e' in 'username'
+^nam^name # ls /home/username
+# Alternatively...
+^nam^name^ # ls /home/username
+```
+
+Quick substitutions are one of a family of bash utilities called [event designators](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Event-Designators).
+In fact, the caret syntax is just a shorthand for the full-form substitution command, which we'll look at next.
+
+### Switcharoo 2: Substitution Boogaloo
+
+The full-form substitution looks like this:
+
+```bash
+!!:s/foo/bar/<modifiers>
+```
+
+Where modifiers are one of the list specified [here](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Modifiers).
+Mostly I use full-form substitutions when I need to apply the `g` (global) flag, but `p` (print instead of executing) can be very helpful for checking a substitution before applying it.
+
+Do note that substitutions need not happen on only the _last_ command, but can be applied further back in history too.
+I don't personally make full use of this facility because of how I tend to explore shell history, but it can be incredibly helpful on an unfamiliar machine or one on which it is not possible to install one's usual setup.
+
 ---
 
 * Supercharging with fzf
