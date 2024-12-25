@@ -264,6 +264,10 @@ export FZF_DEFAULT_OPTS='--layout=reverse --border=rounded --height 40% --prompt
 export FZF_CTRL_R_OPTS='--preview 'echo {} | sed -e "s/^ *\([0-9]*\) *//"' --preview-window top:3:wrap:border-bottom --color border:#33aaee'
 ```
 
+This has a preview section of three lines and a history section below, together consuming 40% of the available screen, as shown below:
+
+![fzf history screen](./bashing_bash_into_shape_fzf_ctrl_r_blank.png)
+
 ---
 
 * Using `bashrc.d/...` style to organise config
