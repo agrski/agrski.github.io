@@ -142,6 +142,18 @@ It's a simple thing, but I find it enormously easier to spot what I care about:
 * Bold typically indicates _options_ or _configuration_ flags.
 * Underlining typically indicates named entities in the body of text.
 
+You can see the difference a dash of colour makes in the screenshots.
+The first two are from running `man bash` then part of the `less` help docs entered by then pressing `h` in any `less` window:
+
+![man bash - plain](./bashing_bash_into_shape_man_bash_plain.png)
+![less help - plain](./bashing_bash_into_shape_less_help_plain.png)
+
+The next two are the same screens, but with the foregoing colour definitions applied.
+Notice how the coloured text draws the eye much more effectively than emboldened or underlined text, which for me at least tends to blend into a larger page.
+
+![man bash - plain](./bashing_bash_into_shape_man_bash_colours.png)
+![less help - plain](./bashing_bash_into_shape_less_help_colours.png)
+
 ---
 
 * Supercharging with fzf
