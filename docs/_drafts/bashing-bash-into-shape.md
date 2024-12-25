@@ -238,10 +238,34 @@ The three important keyboard shortcuts are:
 You can press Enter or `control-o` to execute the current command from the history search.
 The interface here is pretty basic, showing only a single line from history, but it's perfectly functional.
 
+## The Library of Alexandria
+
+The Library was a great repository of knowledge and history, which on a smaller, more localised level is what shell history provides.
+As just discussed, shell history has some fairly powerful tooling around it, but even so it's still a bit awkward to use.
+That's where `fzf` comes in.
+
+This trick isn't really anything to do with bash, but I'm sneaking it in here because it supercharges bash and negates some of the features built into other shells like zsh.
+
+Junegunn Choi's [fzf](https://github.com/junegunn/fzf) is a fuzzy-finder with lots of integrations built around it.
+For full disclosure, I use the Vim integration by the same author as well as the bash integration.
+With the shell keybindings active, and they exist for more than just bash, the previously described reverse history search becomes enormously more useful.
+For a start, you can see multiple lines from history (configurable, of course) and perform fuzzy rather than exact matches on them.
+Using `fzf` has the further benefit that when you select an item from history, it is _not_ automatically executed, but rather entered as the current line, allowing for further editing.
+Between these three improvements over the default history search, the experience goes from usable but awkward to downright enjoyable.
+
+Stop pressing the up arrow endlessly, start using `fzf`!
+
+As I have a few different uses for `fzf`, I use colour-coding to differentiate between them.
+While the default options for `fzf` look fine, I make a few other adjustments for personal taste.
+My history search config is comprised of:
+
+```bash
+export FZF_DEFAULT_OPTS='--layout=reverse --border=rounded --height 40% --prompt="# " --pointer=">" --marker="*" --tabstop=4 --cycle --keep-right'
+export FZF_CTRL_R_OPTS='--preview 'echo {} | sed -e "s/^ *\([0-9]*\) *//"' --preview-window top:3:wrap:border-bottom --color border:#33aaee'
+```
+
 ---
 
-* Supercharging with fzf
-  * Mention my preferred settings, e.g. colours for command types
 * Using `bashrc.d/...` style to organise config
   * Allows for selectively disabling settings if unneeded
   * Keeps things separated so not just one huge blob of a file
