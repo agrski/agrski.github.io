@@ -283,3 +283,20 @@ Once again, this isn't really a bash tip, but it's something I've found helpful 
 It keeps things modular, cleanly delineated, and comfortably extensible.
 There's an additional benefit, in that I can disable an entire set of functionality by simply commenting out or removing _a single line_ in my actual bashrc.
 The ability to selectively enable or disable config is helpful for developing new modules, for debugging issues with them (for example when on a new machine or when underlying components change), and for sharing them.
+
+## Summary
+
+This article offers a number of ways to modify your shell session for improved efficiency:
+* Keyboard shortcuts/hotkeys
+* Command history
+* Colouring output with `less`
+* Editing modes
+* Structuring config
+
+There are plenty of other things one can do.
+I use `fzf` for more than just browsing my shell history -- it's a versatile tool that can accept as an interactive menu for many tasks.
+Shells typically have ways of creating functions and aliases to script repetitive tasks.
+Not to mention, there are many, _many_ executables one can download to fulfil various needs, whether as replacements for existing, venerables (GNU) alternatives or for entirely new functionality.
+Some honourable mentions include `rg` instead of `grep`, `fd` instead of `find`, and `jq` for working with JSON.
+
+There's a veritable smorgasbord out there, so it's best to do a bit of your own exploration.
