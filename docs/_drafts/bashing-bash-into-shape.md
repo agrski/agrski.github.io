@@ -25,10 +25,10 @@ By sticking with the default, it's easy to switch between different environments
 Relatedly, it's much easier to find help for commonplace tools than for more niche ones!
 Zsh is quite popular, so this isn't a strong argument against it, but it's always a reason to keep in mind when evaluating one's stack.
 
-The next reason to stick with the standard option is that it's reasonably powerful.
+The next reason to stick with the standard option is that it's actually reasonably powerful.
 Sure, it isn't as glitzy as some of the alternatives, but I personally prefer a functional, productive environment that looks plain than one packed with visual bells and whistles that distract me from what I'm trying to do.
 This is a highly subjective point, but personally I'm not a fan of tools that throw too much information at the user and try to draw their attention to things they don't need to think about all the time.
-For example, I don't include a git branch in my PS1 (de facto shell prompt) because I can query this when I'm interested in it.
+For example, I don't include the current git branch in my PS1 (de facto shell prompt) because I can query this when I'm interested in it.
 Nor do I see the point in installing a plugin to tell me the time when it's as easy to write into my `bashrc` once.
 The point is, you can do a lot with bash, and for plenty of common tasks it's no harder than anything else.
 
@@ -40,21 +40,21 @@ One of the most irritating things about a default bash setup, in my opinion, is 
 Let me explain what I mean.
 
 Bash provides a number of keyboard shortcuts out of the box.
-I'm not sure many people are even aware of this, based on the number of coworkers I've seen navigating entirely by left/right arrows and the delete key.
-Bash has a rich set of movements like:
+I'm not sure many people are even aware of this, based on the number of people I've seen navigating entirely by left/right arrows and the delete key, so it's definitely worth mentioning!
+Bash has a rich set of movements/actions like:
 * __alt-b__ to move back a "word",
 * __alt-f__ to move forward a "word"
-* __alt-d__ to delete forward a word
+* __alt-d__ to delete forward a "word"
 * __control-w__ to delete back a "word"
-* __control-u__ to delete back to the beginning
-* __control-k__ to delete forward to the end
+* __control-u__ to delete back to the beginning of the line
+* __control-k__ to delete forward to the end of the line
 
 These are the ones I use the most -- practically every day, in fact!
 
 Note how I used quotation marks around "word".
 That's because I don't agree with how bash interprets that term, or rather how it interprets it _inconsistently_.
-You see, moving back and forward and deleting forward obeys what I consider normal rules: punctuation delimits a word.
-Deleting backwards, however, words on the basis of _whitespace_, not punctuation.
+You see, moving back and forward and deleting forward obeys what I consider normal rules: punctuation and whitespace delimits a word.
+Deleting backwards, however, works on the basis of _only_ whitespace, not punctuation.
 
 A few years ago, I ended up so fed up of this I went down the rabbit hole to figure out what could be done to fix it.
 The solution, it turns out, is trivial: you just change the key bindings for whichever modes you care about.
@@ -121,7 +121,7 @@ It's also something I've never seen anyone else do, just like with fixing that s
 
 You, dear reader, are most likely familiar with the pager utility `less`.
 As you're probably aware, `less` is the default pager for the outputs of many other commands, such as `man` pages.
-Now, `less` is an enormously powerful and underappreciated tool that deserves a blog post in its own right, but I'd like to mention one helpful feature of it: coloured content!
+Now, `less` is an enormously powerful and underappreciated tool that deserves a blog post in its own right, but I'd like to mention one helpful feature of it: coloured content.
 
 By default, `less` doesn't apply any colour to what it's paging through.
 For something short, like the man-page of a simple command, that's not a problem.
@@ -142,7 +142,7 @@ It's a simple thing, but I find it enormously easier to spot what I care about:
 * Bold typically indicates _options_ or _configuration_ flags.
 * Underlining typically indicates named entities in the body of text.
 
-You can see the difference a dash of colour makes in the screenshots.
+You can see the difference a dash of colour makes in the following screenshots.
 The first two are from running `man bash` then part of the `less` help docs entered by then pressing `h` in any `less` window:
 
 ![man bash - plain](./bashing_bash_into_shape_man_bash_plain.png)
@@ -168,21 +168,21 @@ We've already seen a few, but let's recap them for convenience:
 
 ### Undo! Undo!
 
-There's a built-in undo buffer, available via __alt-x followed by alt-u__, i.e. while pressing alt press x then press u.
-I like to use the remember this as __eXecute Undo__.
+There's a built-in undo buffer, applied via __alt-x followed by alt-u__, i.e. while pressing alt, press x then press u.
+I like to remember this as __eXecute Undo__.
 This can be used multiple times to reverse multiple changes to the current command.
-Do not that undoing things is purely about editing the current line, not reversing the behaviour of anything that has already happened.
+Do note that undoing things is purely about editing the current line, not reversing the behaviour of anything that has already been executed.
 
 ### Escaping Emacs-mode
 
 For when navigating around word by word and making these small sorts of changes is just a bit too inconvenient, there's an escape hatch in the form of __alt-x followed by alt-e__.
 My mnemonic for this is __eXecute Edit__.
-It'll bring up your whatever variable you've set in your `$EDITOR` environment variable, probably defaulting to `vi` or `vim` as a fallback.
-This is particularly useful when you can't remember the Emacs-mode bash command you need or if you're editing a larger block of text.
+It'll bring up your whatever variable you've set in your `EDITOR` environment variable, probably defaulting to `vi` or `vim` as a fallback.
+This is particularly useful when you can't remember the Emacs-mode bash hotkey you need or if you're editing a larger block of text.
 
-### Making the same argument again
+### Making an argument
 
-Sometimes you just want to use an argument to a preceding command, quite probably even the last one.
+Sometimes you want to use an argument to a preceding command, quite probably even the last one.
 For example, perhaps you need to ensure a directory exists before running something else, as in:
 
 ```bash
@@ -225,14 +225,14 @@ Where modifiers are one of the list specified [here](https://www.gnu.org/savanna
 Mostly I use full-form substitutions when I need to apply the `g` (global) flag, but `p` (print instead of executing) can be very helpful for checking a substitution before applying it.
 
 Do note that substitutions need not happen on only the _last_ command, but can be applied further back in history too.
-I don't personally make full use of this facility because of how I tend to explore shell history, but it can be incredibly helpful on an unfamiliar machine or one on which it is not possible to install one's usual setup.
+I don't personally make full use of this facility because of how I tend to access shell history, but it can be incredibly helpful on an unfamiliar machine or one on which it is not possible to install one's usual setup.
 
 ### Searching the archives
 
 If you prefer a more interactive experience, there's even a __reverse history search__ shortcut built into bash.
 The three important keyboard shortcuts are:
 * __control-r__, which instigates a new history search, going backwards
-* __control-s__, which moves forward in history once in a search
+* __control-s__, which moves forward in history once in a search (i.e. the opposite of control-r)
 * __control-g__, which exits the current history search without executing anything
 
 You can press Enter or `control-o` to execute the current command from the history search.
@@ -249,7 +249,7 @@ This trick isn't really anything to do with bash, but I'm sneaking it in here be
 Junegunn Choi's [fzf](https://github.com/junegunn/fzf) is a fuzzy-finder with lots of integrations built around it.
 For full disclosure, I use the Vim integration by the same author as well as the bash integration.
 With the shell keybindings active, and they exist for more than just bash, the previously described reverse history search becomes enormously more useful.
-For a start, you can see multiple lines from history (configurable, of course) and perform fuzzy rather than exact matches on them.
+For a start, you can see multiple lines from history (configurable as to how many, of course) and perform fuzzy rather than exact matches on them.
 Using `fzf` has the further benefit that when you select an item from history, it is _not_ automatically executed, but rather entered as the current line, allowing for further editing.
 Between these three improvements over the default history search, the experience goes from usable but awkward to downright enjoyable.
 
@@ -294,9 +294,10 @@ This article offers a number of ways to modify your shell session for improved e
 * Structuring config
 
 There are plenty of other things one can do.
-I use `fzf` for more than just browsing my shell history -- it's a versatile tool that can accept as an interactive menu for many tasks.
+I use `fzf` for more than just browsing my shell history -- it's a versatile tool that can act as an interactive menu for many tasks.
 Shells typically have ways of creating functions and aliases to script repetitive tasks.
-Not to mention, there are many, _many_ executables one can download to fulfil various needs, whether as replacements for existing, venerables (GNU) alternatives or for entirely new functionality.
+Not to mention, there are many, _many_ executables one can download to fulfil various needs, whether as replacements for existing, venerable (GNU) alternatives or for entirely new functionality.
 Some honourable mentions include `rg` instead of `grep`, `fd` instead of `find`, and `jq` for working with JSON.
 
 There's a veritable smorgasbord out there, so it's best to do a bit of your own exploration.
+In the meantime, I hope this article provides some insight and inspiration for you.
