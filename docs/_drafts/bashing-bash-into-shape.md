@@ -268,8 +268,18 @@ This has a preview section of three lines and a history section below, together 
 
 ![fzf history screen](./bashing_bash_into_shape_fzf_ctrl_r_blank.png)
 
----
+## KISS -- keep it _short_, stupid
 
-* Using `bashrc.d/...` style to organise config
-  * Allows for selectively disabling settings if unneeded
-  * Keeps things separated so not just one huge blob of a file
+Long, monolithic files or scripts tend to be unwieldy, with fragments of related things scattered throughout.
+This makes them hard to maintain, especially when you set some new config only to realise it's been overridden by something later in the file!
+
+A while back I was bothered by my `.bashrc` getting cluttered and messy in just this way.
+Taking inspiration from how config is arranged for various tools under `/etc`, I rearranged my config to be structured under a `~/.bashrc.d/` directory alongside `~/.bashrc`.
+The RC file remains in place because that's where config loaders expect it to be, but it _sources_ files under the config directory to provide additional functionalities.
+
+Amongst other things, I have "modules" (for want of a better term) for my PS1 (prompt) config, FZF options and aliases, source/version control functions, and Docker.
+
+Once again, this isn't really a bash tip, but it's something I've found helpful in organising my shell setup.
+It keeps things modular, cleanly delineated, and comfortably extensible.
+There's an additional benefit, in that I can disable an entire set of functionality by simply commenting out or removing _a single line_ in my actual bashrc.
+The ability to selectively enable or disable config is helpful for developing new modules, for debugging issues with them (for example when on a new machine or when underlying components change), and for sharing them.
