@@ -42,12 +42,12 @@ Let me explain what I mean.
 Bash provides a number of keyboard shortcuts out of the box.
 I'm not sure many people are even aware of this, based on the number of coworkers I've seen navigating entirely by left/right arrows and the delete key.
 Bash has a rich set of movements like:
-* alt-b to move back a "word",
-* alt-f to move forward a "word"
-* alt-d to delete forward a word
-* control-w to delete back a "word"
-* control-u to delete back to the beginning
-* control-k to delete forward to the end
+* __alt-b__ to move back a "word",
+* __alt-f__ to move forward a "word"
+* __alt-d__ to delete forward a word
+* __control-w__ to delete back a "word"
+* __control-u__ to delete back to the beginning
+* __control-k__ to delete forward to the end
 
 These are the ones I use the most -- practically every day, in fact!
 
