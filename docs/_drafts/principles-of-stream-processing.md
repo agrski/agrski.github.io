@@ -21,10 +21,6 @@ It is convenient, therefore, to state my own views on the matter and have materi
 The content is informed by my own experiences and discussions, and loosely inspired by previous talks I have given at universities and workplaces on the subject._
 
 <!--
-  * Far too much info to cover in a simple blog post
-    * Will provide some concrete info
-    * Some subjects only touched upon/discussed at high level
-    * Some problems posed, but there may be no silver bullets or simple solutions -- need to select best option for use case
 
   * Stream vs. batch
   * Notions of time -- event time, processing time
