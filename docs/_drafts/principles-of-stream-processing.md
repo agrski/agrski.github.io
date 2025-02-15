@@ -81,13 +81,34 @@ There are a few solutions to this that the engineers at MLE propose.
   Instead of waiting a full month, the queries are set to run every week, then the monthly queries just aggregate these weekly results.
   This is still a bit spiky, so the team reduces the frequency to daily counts with monthly aggregations.
 
+## Honey, I Shrunk the Data
+
+Let's take that last idea and extend it even further.
+We could handle a day's worth of data, or an hour's worth, or even just a minute.
+At the limit of precision for commodity hardware, we could handle the data for a single nanosecond.
+
+This approach is taking us in the right direction, but is still fundamentally flawed.
+There are many, many nanoseconds in a month and the vast majority of them will contain no data whatsoever for any given customer.
+Of course, it would also be completely impractical to run a query against the database after every single nanosecond!
+Rather than thinking in terms of decreasing time-steps, why don't we flip this round and instead think of what happens _within_ a time step at the limit?
+
+What we're really trying to capture is an **event**.
+An event comprises a point in time and some piece of information.
+It is simply a description of something that happens, as the name suggests.
+Events are the crux of stream processing and the related topic of event-driven design.
+
+This might sound trivial -- it is a straightforward concept -- but the idea of events necessitates a paradigm shift.
+Rather than conceiving of the world in fixed blocks of time, like a step-wise simulation, events model the dynamics of a system in real-time.
+Events are the atoms of streaming systems, swirling through a void of empty time-steps.
+They are the things we want to observe, the things that are interesting, the things that interact and change the state of the world.
+By paying attention to the things that happen, as they happen, we can build far more responsive systems than would otherwise be possible.
+
 <!--
   * Stream vs. batch
   * Notions of time -- event time, processing time
   * Time moves forward, strictly
   * Conscious decision to hold onto state -- not accidental like in batch
   * No lookahead, consequently, unlike in batch
-  * Paradigm shift -- not processing chunks of time (however small) but rather individual events
   * Events are handled independently -- we simply cannot know if another event will ever arrive
     * May need to defer processing until some later event has happened, e.g. in approximating transactions
   * Systems for streaming -- obviously Kafka is a popular one, but it's not the only one
