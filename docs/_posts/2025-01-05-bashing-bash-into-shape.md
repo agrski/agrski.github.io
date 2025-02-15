@@ -145,14 +145,14 @@ It's a simple thing, but I find it enormously easier to spot what I care about:
 You can see the difference a dash of colour makes in the following screenshots.
 The first two are from running `man bash` then part of the `less` help docs entered by then pressing `h` in any `less` window:
 
-![man bash - plain](./bashing_bash_into_shape_man_bash_plain.png)
-![less help - plain](./bashing_bash_into_shape_less_help_plain.png)
+![man bash - plain](/assets/images/bashing_bash_into_shape_man_bash_plain.png)
+![less help - plain](/assets/images/bashing_bash_into_shape_less_help_plain.png)
 
 The next two are the same screens, but with the foregoing colour definitions applied.
 Notice how the coloured text draws the eye much more effectively than emboldened or underlined text, which for me at least tends to blend into a larger page.
 
-![man bash - plain](./bashing_bash_into_shape_man_bash_colours.png)
-![less help - plain](./bashing_bash_into_shape_less_help_colours.png)
+![man bash - colours](/assets/images/bashing_bash_into_shape_man_bash_colours.png)
+![less help - colours](/assets/images/bashing_bash_into_shape_less_help_colours.png)
 
 ## Efficient edits
 
@@ -266,7 +266,7 @@ export FZF_CTRL_R_OPTS='--preview 'echo {} | sed -e "s/^ *\([0-9]*\) *//"' --pre
 
 This has a preview section of three lines and a history section below, together consuming 40% of the available screen, as shown below:
 
-![fzf history screen](./bashing_bash_into_shape_fzf_ctrl_r_blank.png)
+![fzf history screen](/assets/images/bashing_bash_into_shape_fzf_ctrl_r_blank.png)
 
 ## KISS -- keep it _short_, stupid
 
