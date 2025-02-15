@@ -20,8 +20,18 @@ It is convenient, therefore, to state my own views on the matter and have materi
 
 The content is informed by my own experiences and discussions, and loosely inspired by previous talks I have given at universities and workplaces on the subject._
 
-<!--
+## Introducing "Emily"
 
+It is often easier to grasp new concepts with the aid of an example, so let's meet the fictitious company we'll be following along with to learn about stream processing: MLE Technologies Ltd.
+MLE (pronounced "Emily") is a new ML/AI start-up, racing to catch up with the big players like OpenAI and Huggingface.
+Their business model is focused on serving infrastructure: they host third-party and user-provided models on GPUs, and charge for the resources consumed.
+The differentiating factor is that they will have adaptive pricing, meaning the price of hosting a model can change throughout the day.
+
+As MLE has only just been founded, the pricing is even simpler.
+They offer a pre-defined set of the best open-source models, and users pay for the number of API requests they make.
+All the models are charged at the same rate.
+
+<!--
   * Stream vs. batch
   * Notions of time -- event time, processing time
   * Time moves forward, strictly
