@@ -151,8 +151,8 @@ The first two are from running `man bash` then part of the `less` help docs ente
 The next two are the same screens, but with the foregoing colour definitions applied.
 Notice how the coloured text draws the eye much more effectively than emboldened or underlined text, which for me at least tends to blend into a larger page.
 
-![man bash - plain](./bashing_bash_into_shape_man_bash_colours.png)
-![less help - plain](./bashing_bash_into_shape_less_help_colours.png)
+![man bash - colours](./bashing_bash_into_shape_man_bash_colours.png)
+![less help - colours](./bashing_bash_into_shape_less_help_colours.png)
 
 ## Efficient edits
 
