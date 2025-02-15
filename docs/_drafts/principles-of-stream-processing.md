@@ -54,6 +54,16 @@ This will help them with provisioning enough instances of each model, and deprec
 This isn't a very sophisticated system, but it works, it was fast to develop, and it's easy to work with.
 Until a company has found good product-market fit, this is an expedient decision and one that many start-ups opt for in practice.
 
+### Limiting Factors
+
+While it is conventional to bill customers monthly, the finance team at MLE want a more up-to-date view on usage for forecasting demand and operational costs.
+Sometimes the executives ask for the latest numbers just before board meetings and the data analysts have to run arbitrary queries on the fly.
+This is fine for business purposes -- the analysts can pull the data they need -- but it can cause slow-downs on the database when it's already under load.
+
+In fact, as the company grows and is seeing many more users each month, those end-of-month queries for finance and reporting are starting to become quite slow themselves and are affecting the responsiveness of the model API.
+The problem, fundamentally, is that the database receives a big batch of work that is has to get through in one go -- it has a spiky workload.
+Spiky workloads are not efficient, as you need enough resources to handle the spikes in a reasonable time-frame but are over-provisioned the rest of the time -- relational databases don't tend to like scaling up and down all the time.
+
 <!--
   * Stream vs. batch
   * Notions of time -- event time, processing time
