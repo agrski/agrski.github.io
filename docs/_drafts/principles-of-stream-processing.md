@@ -64,6 +64,23 @@ In fact, as the company grows and is seeing many more users each month, those en
 The problem, fundamentally, is that the database receives a big batch of work that is has to get through in one go -- it has a spiky workload.
 Spiky workloads are not efficient, as you need enough resources to handle the spikes in a reasonable time-frame but are over-provisioned the rest of the time -- relational databases don't tend to like scaling up and down all the time.
 
+### Harder, Better, Faster, Stronger
+
+<!-- Add graphics indicating how each approach works -->
+There are a few solutions to this that the engineers at MLE propose.
+* One engineer recommends sharding the API requests by model, so different database instances are responsible for different models.
+  This improves the fault tolerance between models, but slows down the end-of-monthly queries because they now have to query multiple instances.
+* Another engineer suggests replicating the database to separate transactional and analytical workloads.
+  This is a common strategy and it makes a big difference to responsiveness for the transactional side.
+  However, replication isn't completely free and needs to be set up and monitored, not to mention risking some staleness of the data on the analytical side.
+  In any case, this solution hasn't actually fixed the problem that the end-of-month queries generate big spikes of work and can still lock up ad-hoc analytics during that time.
+* Partitioning or indexing by timestamp would help to speed up the queries, but likewise doesn't change that the end-of-month queries produce a spiky workload.
+  Partitioning may also slow down queries over longer time periods, as data has to be fetched and collated from multiple instances;
+  shuffling data adds overheads.
+* The engineers then consider running the queries more frequently.
+  Instead of waiting a full month, the queries are set to run every week, then the monthly queries just aggregate these weekly results.
+  This is still a bit spiky, so the team reduces the frequency to daily counts with monthly aggregations.
+
 <!--
   * Stream vs. batch
   * Notions of time -- event time, processing time
