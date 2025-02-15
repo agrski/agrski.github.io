@@ -12,6 +12,14 @@ Many things will only be covered at a high level, and many problems will be pose
 There are no silver bullets or sweeping generalisations to fall back upon; this is a topic of trade-offs.
 The simple answer is that we need to understand the problem, understand the available solutions, and select the best option for each use case we encounter.
 
+## Disclaimer
+
+_This is by no means the first article to cover this material, nor is it intended to be the most comprehensive.
+I am writing it to provide a basis for further discourse, as a set of principles to be referred back to in the future.
+It is convenient, therefore, to state my own views on the matter and have material which I know will not change or disappear and, in doing so, leave a gap in understanding.
+
+The content is informed by my own experiences and discussions, and loosely inspired by previous talks I have given at universities and workplaces on the subject._
+
 <!--
   * Far too much info to cover in a simple blog post
     * Will provide some concrete info
