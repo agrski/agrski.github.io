@@ -3,6 +3,15 @@ title: Principles of Stream Processing
 tags: streams architecture concepts
 ---
 
+Stream processing is the idea of treating data as a continuous flow, rather than as a singular block.
+The idea has been around for a while, but it has found mainstream adoption as a standard approach in the last five years or so.
+Covering every facet and detail of this topic is beyond the scope of any single article, so I shall not attempt to do so.
+Instead, this article will discuss the key concepts and challenges and aim to provide a foundation for further exploration.
+Many things will only be covered at a high level, and many problems will be posed with only hints provided for possible solutions.
+
+There are no silver bullets or sweeping generalisations to fall back upon; this is a topic of trade-offs.
+The simple answer is that we need to understand the problem, understand the available solutions, and select the best option for each use case we encounter.
+
 <!--
   * Far too much info to cover in a simple blog post
     * Will provide some concrete info
