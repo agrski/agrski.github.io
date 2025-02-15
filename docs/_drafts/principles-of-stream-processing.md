@@ -103,6 +103,37 @@ Events are the atoms of streaming systems, swirling through a void of empty time
 They are the things we want to observe, the things that are interesting, the things that interact and change the state of the world.
 By paying attention to the things that happen, as they happen, we can build far more responsive systems than would otherwise be possible.
 
+## Principle 1 -- Independence of Events
+
+One of the most important things to remember is that events are completely independent of one another.
+
+This is fairly intuitive for events from different sources, such as two people sending requests to MLE's API.
+However, it is also true of events from the same logical source.
+Just because something happened does not mean something else _will_, even if it should.
+Consequently, the presence of one event tells us nothing, in general, about the (non-)existence of other events.
+In specific circumstances, we might be able to infer something due to mutual exclusivity or other enforced properties, but this is assuming the entire system is operating correctly.
+
+Consider, for example, that a source S sends a message saying that it will send a further 10 messages but then goes down before it can send those other messages.
+It might take seconds, hours, or days before S comes up again, if it ever does.
+All we know was that, at some point, S was active and sent a message.
+
+You might think that if multiple messages were sent from a single source, then at least we can tell the order in which they were sent.
+Even this may not be true.
+If a source S sends messages M1, M2, and M3 in that order, there are multiple possible outcomes.
+We might receive M1 then M2 then M3, but we might equally receive M1 and M2, or M1 and M3 because the network dropped some messages due to a transient overload or a temporary failure in routing.
+We might receive M3, then M1 and M2 because of a software bug or because M3 took a faster route through the network and managed to arrive first.
+
+There are many things that can happen and many occasions when we need to use "should" rather than "will".
+We will come back to these sorts of strange occurrences later, when we discuss reliable transmission.
+
+The upshot of all this is that we need to handle events as they arrive, based on the information contained in that event.
+Handling an event may mean deliberately putting it to one side and deferring processing, because there is insufficient information available right now to do anything more intelligent.
+The crucial idea here is that it is a conscious decision to wait.
+We will revisit this later as well.
+
+<!-- I often think physical analogies are effective for reasoning about networks. -->
+<!-- Horses and riders -->
+
 <!--
   * Stream vs. batch
   * Notions of time -- event time, processing time
