@@ -31,6 +31,29 @@ As MLE has only just been founded, the pricing is even simpler.
 They offer a pre-defined set of the best open-source models, and users pay for the number of API requests they make.
 All the models are charged at the same rate.
 
+### Billing Monthly
+
+As requests are made to each model, MLE records the following details in a relational database (RDBMS):
+* UTC timestamp
+* User ID
+* Model ID
+
+At the end of each calendar month, they run a query against the database to count up how many requests were made by each user and send them a bill accordingly.
+This might look like the following:
+```sql
+SELECT user_id, COUNT(*)
+FROM dbo.api_requests
+WHERE timestamp >= @month_start AND timestamp <= @month_end
+GROUP BY user_id
+```
+
+Note that model IDs are recorded for each API request.
+While pricing isn't affected by the model ID right now, the team at MLE want to be able to run analytics so they know which models are the most and least popular.
+This will help them with provisioning enough instances of each model, and deprecating models that are falling out of popularity.
+
+This isn't a very sophisticated system, but it works, it was fast to develop, and it's easy to work with.
+Until a company has found good product-market fit, this is an expedient decision and one that many start-ups opt for in practice.
+
 <!--
   * Stream vs. batch
   * Notions of time -- event time, processing time
