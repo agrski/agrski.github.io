@@ -194,6 +194,15 @@ They do work in different ways, they do model problems differently, but there _i
 You may have noticed the use of terms like "stream-oriented" and "batch-focused", which is a tacit acknowledgement that real-world systems are not theoretical archetypes -- they borrow ideas from multiple approaches and obey some, but not necessarily all, the rules of any particular paradigm.
 "Pragmatism over dogmatism" is a good mantra for people who like to get things done.
 
+## Back to MLE
+
+The team at MLE have realised that a streaming approach for billing would meet their needs nicely.
+In fact, their API already works on the same principles!
+It handles each request as it arrives, indepedently of any others, and holds onto the last X tokens of each conversation in a user session that expires after a period of inactivity.
+
+They have decided to write the tuple of (timestamp, model ID, user ID) into a log store and maintain the count of requests made per user in the last calendar month.
+This sum -- this aggregation -- is keyed by user, which provides plenty of scope for horizontal scaling.
+
 <!-- What is a stream?! -->
 
 <!-- I often think physical analogies are effective for reasoning about networks. -->
