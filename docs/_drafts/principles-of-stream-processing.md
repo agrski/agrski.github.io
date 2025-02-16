@@ -148,6 +148,50 @@ Perhaps we offload the raw events to some separate, persistent store.
 Perhaps we leave them in whatever streaming storage we consume them from -- the New York Times stores their [entire history of articles in Kafka](https://www.confluent.io/en-gb/blog/publishing-apache-kafka-new-york-times/), for example.
 Perhaps we hold onto a fixed amount of data (by time window or number of events) and discard these as their relevance expires.
 
+## The Batch-Stream Continuum
+
+We have touched upon "other paradigms", but if we are to speak of _stream_ processing then we should clarify what we are contrasting this with.
+If this were the only viable approach, we would simply refer to it as "data processing", but that is not the case.
+
+### What's in a Batch?
+
+The antithesis of _stream_ processing is _batch_ processing, or _batching_ for short.
+Put simply, batching is taking a chunk of data -- multiple data points -- and processing it all at once.
+Plenty of real-world systems work in this way, from older banks processing financial transactions overnight to salary payment runs to stock-keeping reconciliations [[1](https://www.moderntreasury.com/learn/what-is-batch-processing)][[2](https://www.moderntreasury.com/learn/what-is-batch-processing)].
+Shops "cashing up" at the end of the day is an example of a manually-run batch process.
+In fact, plenty of computer algorithms work in an implicitly batch fashion, such as the sorting algorithms taught into schools and universities.
+
+Batching is simple to understand, straightforward to implement, and offers a great deal of flexibility.
+It is also likely to be more efficient on compute resources because it can benefit from locality of reference for memory accesses and vectorisation and reliable branch prediction for CPU instructions.
+
+### Forward Thinking
+
+However, that flexibility comes at a price.
+Batch-oriented systems are prone to **look-ahead**, which is when the processing of data uses information which happened logically _after_ the data being processed.
+This is commonly cautioned against in data science courses, when a system might be tested with data it was trained upon.
+It is much easier to train a financial model for predicting end-of-day prices when the model has access to those very prices!
+
+Put differently, look-ahead is when the interpretation of an event depends upon one or more subsequent events.
+Care is needed in batch processing to prevent this from causing erroneous results -- it may or may not be acceptable to use look-ahead.
+In streaming, however, it is necessarily a conscious decision to wait for further events, because those events have not been seen yet!
+
+### A Paradigm Shift
+
+Many descriptions of batching only discuss how it is focused on dealing with multiple data points at once.
+They neglect to mention look-ahead and the ability to reorder and filter data down to only those of interest.
+In that light, it is easy to see streaming as a specialisation of batch in which we deal with batches of just a single item.
+Equally, batching looks like a generalisation of streaming in which we work on windows of more than one event at once.
+This is not unreasonable, but it misses the key, differentiating factors.
+
+Batch processing operates on a periodic or ad-hoc, manually-triggered schedule and treats data as a big blog that can be re-ordered and sliced up as desired.
+Stream processing, conversely, works on a continuous timeline and treats events as an ordered sequence to be processed one at a time.
+This is a fundamental difference in understanding and completely changes what operations are or are not applicable.
+
+With that said, the previous description of overlap between batch- and stream-oriented systems is generally useful.
+They do work in different ways, they do model problems differently, but there _is_ something of a continuum between them.
+You may have noticed the use of terms like "stream-oriented" and "batch-focused", which is a tacit acknowledgement that real-world systems are not theoretical archetypes -- they borrow ideas from multiple approaches and obey some, but not necessarily all, the rules of any particular paradigm.
+"Pragmatism over dogmatism" is a good mantra for people who like to get things done.
+
 <!-- I often think physical analogies are effective for reasoning about networks. -->
 <!-- Horses and riders -->
 
