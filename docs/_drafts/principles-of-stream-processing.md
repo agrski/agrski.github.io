@@ -148,6 +148,8 @@ Perhaps we offload the raw events to some separate, persistent store.
 Perhaps we leave them in whatever streaming storage we consume them from -- the New York Times stores their [entire history of articles in Kafka](https://www.confluent.io/en-gb/blog/publishing-apache-kafka-new-york-times/), for example.
 Perhaps we hold onto a fixed amount of data (by time window or number of events) and discard these as their relevance expires.
 
+<!-- Process one event at a time.  Might mean putting an event in state while we wait for more context. -->
+
 ## The Batch-Stream Continuum
 
 We have touched upon "other paradigms", but if we are to speak of _stream_ processing then we should clarify what we are contrasting this with.
@@ -192,15 +194,15 @@ They do work in different ways, they do model problems differently, but there _i
 You may have noticed the use of terms like "stream-oriented" and "batch-focused", which is a tacit acknowledgement that real-world systems are not theoretical archetypes -- they borrow ideas from multiple approaches and obey some, but not necessarily all, the rules of any particular paradigm.
 "Pragmatism over dogmatism" is a good mantra for people who like to get things done.
 
+<!-- What is a stream?! -->
+
 <!-- I often think physical analogies are effective for reasoning about networks. -->
 <!-- Horses and riders -->
 
 <!--
-  * Stream vs. batch
   * Notions of time -- event time, processing time
   * Time moves forward, strictly
   * Conscious decision to hold onto state -- not accidental like in batch
-  * No lookahead, consequently, unlike in batch
   * Events are handled independently -- we simply cannot know if another event will ever arrive
     * May need to defer processing until some later event has happened, e.g. in approximating transactions
   * Systems for streaming -- obviously Kafka is a popular one, but it's not the only one
