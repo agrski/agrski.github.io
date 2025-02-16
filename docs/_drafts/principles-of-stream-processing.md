@@ -131,6 +131,23 @@ Handling an event may mean deliberately putting it to one side and deferring pro
 The crucial idea here is that it is a conscious decision to wait.
 We will revisit this later as well.
 
+## Principle 2 -- State Retention is Intentional
+
+Following on from the previous principle, in stream processing it is always a conscious, **active** decision to record an event in state.
+
+In other paradigms, particularly when we know we have the full dataset available, there is a temptation to hold onto everything.
+This may be because the full dataset fits in memory, or it may be because we think intermediate results could be useful, so we do not want to dispose of them just yet.
+How many Jupyter notebooks have you seen with cells scattered around with ideas and little experiments that are not used in the current process?
+
+If we abuse this in a streaming context, however, we are liable to exploding our memory usage and running out of capacity.
+As we can never be sure, in general, how many events we are going to see, we cannot assume we will have enough space to store everything indefinitely.
+There are times we do need to hold onto data, but we need to be more careful and considered in when and how we do this to avoid the memory-hoarding problem.
+
+When operating in a streaming context, it is common to use _aggregates_ instead of keeping all the raw events.
+Perhaps we offload the raw events to some separate, persistent store.
+Perhaps we leave them in whatever streaming storage we consume them from -- the New York Times stores their [entire history of articles in Kafka](https://www.confluent.io/en-gb/blog/publishing-apache-kafka-new-york-times/), for example.
+Perhaps we hold onto a fixed amount of data (by time window or number of events) and discard these as their relevance expires.
+
 <!-- I often think physical analogies are effective for reasoning about networks. -->
 <!-- Horses and riders -->
 
