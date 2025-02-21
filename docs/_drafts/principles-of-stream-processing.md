@@ -245,6 +245,75 @@ In the below example, there are four, non-intersecting session windows, each wit
 
 ![session window](./streaming_processing_session_window.jpg)
 
+## State of Affairs
+
+In talking about windows of events, we are implicitly assuming the ability to hold onto potentially many events and associate them in a group.
+This is an example of holding **state**.
+State is another way of saying "data", information that a program needs to hold onto in order to make future decisions.
+
+We briefly discussed state earlier, in Principle 2, but let's go into a bit more detail now.
+State management is one of the two hard problems of stream processing; the other is handling time correctly (we'll come back to this later).
+
+A **stateless** function is one that does not use any information except its current inputs for processing.
+A **stateful** one, by contrast, keeps track of additional information, be that from external data sources or previous inputs.
+Anything which is keeping track of multiple events _must_ be stateful because events are independent, as discussed in Principle 1.
+So, any kind of aggregate or window-based application will necessarily be stateful.
+
+### Keeping Track Of It All
+
+State might be held in memory in an application, but normally there will be some form of persistence for it.
+This might involve a persistent event store or replayable data source (such as Apache Kafka), some kind of checkpointing of progresses, and/or an aggregate store.
+
+Persistence is important in the event of application restarts, so that the application can pick up where it left off without missing anything.
+Restarts can happen for many reasons, such as:
+* Rolling out a new application version.
+* Scaling up or down the number of application instances.
+* Hardware failures.
+* Application/system crashes, such as out-of-memory errors or logic bugs.
+* Connectivity issues disconnecting an instance, meaning another instance needs to pick up the work.
+
+Most of these are unforeseen circumstances that cannot be planned for explicitly -- the application has to be resilient to them by design.
+Keeping track of what has been processed and what the results of that are is a key part of system **recovery** after a failure scenario.
+
+### Seeing Double
+
+When a failure does happen, there's a real risk of either missing events that should have been processed or re-processing events that have already been seen.
+
+Consider a system that records periodic checkpoints, let's say every 5 minutes.
+In this scenario, when a failure happens there could be up to 5 minutes' worth of events that have _already_ been processed, but which the application does not _know_ it has seen and therefore thinks are new.
+Would it be safe for the application processes them again, i.e. there are no negative consequences except having to spend some time performing the reprocessing?
+The answer will be specific to every system and the downstream data consumers.
+
+What would happen if there is a bug in the network, perhaps a faulty router, and a message were duplicated some number of times?
+This is a rare scenario for most companies, but when operating at scale such problems _can_ arise, and can be highly problematic if there is no handling for them!
+
+Let's consider a different example -- an HTTP API.
+While the API is down, no requests are recorded and saved into state, which is to say they will be _lost_.
+When the API starts up again, it has no knowledge of those missed requests so cannot process them.
+This system is entirely dependent on the client retrying for long enough for the API to be accessible again.
+If we wanted to track the number of requests to each API endpoint, for example, we would be missing these data.
+
+We might also miss data when using a message queue!
+If the application acknowledges messages as soon as it retrieves them from the queue, but before it has actually processed them, then any messages in-process during a failure would not be retried on recovery.
+
+All of these scenarios are about **delivery semantics**.
+The Holy Grail of delivery semantics is **exactly-once** semantics, which is when an event which reaches a system will definitely be processed, but it will not be processed more than once.
+This is an ideal we strive towards, but in reality we are approximating it.
+Many real-world systems provide **at-most-once** semantics, **at-least-once** semantics, or a configuration parameter for the end user to decide.
+
+At-most-once means there will be an _attempt_ to deliver each event, but some events may be missed.
+This is acceptable for low-importance data such as usage analytics, when it would be helpful to have the information but it is auxiliary to primary purpose of an application.
+Analytics in general can be impacted by many different factors leading to suboptimal data quality, such as firewalls and request blockers, flaky network connectivity, and unsupported devices.
+In any case, analytics is about big-picture statements and general trends, not individual data points.
+
+At-least-once means every message in the system _will_ be delivered, but it is possible it could be delivered two, three, or even more times.
+This is a poor choice for payment systems, for example, when a user expects to be charged once for a product or service, not potentially multiple times!
+With that said, this risk can be mitigated by applying **idempotency** -- defining actions in such a way that their re-application produces the same result.
+For example, "add one" is a non-idempotent operation, whereas "set value to five" _is_ idempotent -- performing the update twice in a row will leave the value as five.
+Idempotency can be achieved in different ways, but one common trick is to have a special key so that duplicated messages -- ones with the same key -- can be ignored.
+
+Delivery semantics and approximating exactly-once delivery is an extensive topic, so any further exploration is left as an exercise for the reader.
+
 <!-- What is a stream?! -->
 
 <!-- I often think physical analogies are effective for reasoning about networks. -->
