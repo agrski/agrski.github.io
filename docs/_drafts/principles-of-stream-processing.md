@@ -388,6 +388,20 @@ Allowing different versions of a message schema on the same stream is a form of 
 Whether to allow multiple types to be published to the same stream or to mandate them to be on different streams is an organisational and design decision.
 If there is any ordering requirement or interplay between messages of different types, such as a customer account creation message and an order message specifying a customer ID, this favours multiplexing the message types onto the same stream.
 
+## Back to MLE (again)
+
+The engineers at MLE have learnt about state management in streaming contexts and the idea of stream homogeneity.
+They have decided to use a single message schema for usage tracking for the time being with a single stream for usage messages.
+They do not need to worry about user IDs being used before they have propagated all the way through the system because bills are only sent at the end of the month, so small amounts of latency do not present a serious risk.
+From the perspective of usage tracking, user ID is purely a correlation ID and holds no further semantics.
+
+As users should only be charged one for each request, they do not want to risk at-least-once semantics, but they also want to make sure users are billed appropriately, otherwise they risk losing money -- serving large ML models is not cheap!
+They are aiming for exactly-once semantics, but will err towards at-least-semantics with the guardrail of idempotency provided by request IDs.
+This way, if the system somehow duplicates a message then users will not be charged twice, but if a user resends a request then it a fair reflection of their usage to count it.
+In the future, they will implement response caching and use a hash of the request content as an idempotency key to reflect the fact cached responses do not incur inference costs.
+
+Their processing pipeline involves grouping by user ID, followed by a simple tumbling window with summation as the aggregation function.
+
 <!-- I often think physical analogies are effective for reasoning about networks. -->
 <!-- Horses and riders -->
 
