@@ -203,6 +203,48 @@ It handles each request as it arrives, indepedently of any others, and holds ont
 They have decided to write the tuple of (timestamp, model ID, user ID) into a log store and maintain the count of requests made per user in the last calendar month.
 This sum -- this aggregation -- is keyed by user, which provides plenty of scope for horizontal scaling.
 
+## One Step at a Time
+
+The team at MLE want to calculate usage over the period of a calendar month.
+This requirement for interval-based results is a common one, and one that is not out of keeping with the approach of stream processing.
+
+In streaming, we call these intervals **windows**.
+There are three main types of windows we can apply:
+* Tumbling windows
+* Sliding windows
+* Session windows
+
+The first two are examples of **fixed interval** windows, whereas the latter is an **adaptive** window.
+
+Tumbling windows are non-overlapping windows of a fixed duration, e.g. 10 seconds.
+Non-overlapping means that an event appears in one, and only one, window.
+You might have intervals for 12:00 to 12:15, 12:15 to 12:30, 12:30 to 12:45, and 12:45 to 13:00, and so on for example, with the upper limit being non-inclusive.
+This is the best fit for billing use cases, because a customer should only be charged once for each request they make.
+
+In the below example, events are represented by blue circles.
+Events `a` and `b` are in the first window, `c` is in the second, `d` and `e` are in the third, and the fourth and final window is empty.
+
+![tumbling window](./streaming_processing_tumbling_window.jpg)
+
+Sliding windows allow for events to be used for more than one result.
+The idea is that the start and end of the window gradually increment, whether triggered by new events arriving or wall-clock time.
+Sliding windows are a good fit for metrics, where you might want to look at a value over the last X minutes/hours/days, not just this week or last week.
+
+In the following example, the orange window includes events `a` and `b`, the yellow window includes `b` and `c`, the melon-red window has `c`, `d`, and `e`, the pink window shared `d` and e`, and the purple one contains only event `e`.
+In this example, time moves forward and a new window is created for every event; this is one way to implement sliding windows.
+
+![tumbling window](./streaming_processing_rolling_window.jpg)
+
+Session windows start with an event and end when no event has been observed for some period of time.
+For this to work, there needs to be some idea of a key to associate the events for a particular session.
+Different sessions are obviously not aligned with one other because they have different keys.
+This is a very flexible idea, and one that works for more event-driven requirements.
+For example, session windows are useful for user sessions, timing out transactions, and defining event groups.
+
+In the below example, there are four, non-intersecting session windows, each with their own events (blue circles).
+
+![session window](./streaming_processing_session_window.jpg)
+
 <!-- What is a stream?! -->
 
 <!-- I often think physical analogies are effective for reasoning about networks. -->
@@ -217,7 +259,6 @@ This sum -- this aggregation -- is keyed by user, which provides plenty of scope
   * Systems for streaming -- obviously Kafka is a popular one, but it's not the only one
   * Streams can be homogeneous or heterogeneous
   * Streams can split, join, or potentially even be reordered
-  * Windows -- fixed windows (tumbling, sliding) or adaptive (sessions, transactions, event groups)
   * Ultimately, we don't want to hold onto things forever BUT we may need to, which blocks processing
 
   * State & stream-table duality (link to Confluence docs here)
