@@ -314,7 +314,79 @@ Idempotency can be achieved in different ways, but one common trick is to have a
 
 Delivery semantics and approximating exactly-once delivery is an extensive topic, so any further exploration is left as an exercise for the reader.
 
-<!-- What is a stream?! -->
+## Transforming Streams
+
+So far we have been talking about streams and stream processing without actually discussing what sorts of processing we can perform!
+
+Recall that a stream is nothing more than a sequence of events -- timestamps associated with data values.
+If a stream has a finite number of elements, we refer to it as **bounded**, and otherwise we describe it as **unbounded**.
+
+The simplest thing we can do to a stream is to do nothing at all, i.e. to apply the identity transformation.
+For more practical usage, we can apply a function to each event on the stream, outputting a new value for each event
+This is conventionally known as a **map**/**select** operation.
+
+If we have an event that contains sub-entries, we could expand this single event into multiple new ones.
+This could be relevant for online retailers, for example, converting a basket of products into events per product.
+Conversely, we could take multiple events and combine them together to output a single result.
+This process is aggregation or **batching**.
+If those batches are defined over a time interval, they become **windows**.
+
+When we have batches of events, we do not have to produce a single output for the entire batch.
+We could collect multiple events and reorder them, perhaps into a priority or key order, then re-emit all the events individually.
+
+Applying the idea of producing fewer outputs than inputs in a different way, we can **filter** streams to items of interest, whether that is on the basis of a time range, a key, or anything else.
+Filtering a stream implies discarding some of its events, but we could instead see this as **splitting** the stream and handling each branch of it separately.
+
+If we can split streams, it seems only natural that we should also be able to **join** them as well.
+Joining streams might mean applying a temporal merge, matching keys (within a time window or otherwise), concatenation (assuming at least one finite stream), or something other combining strategy.
+
+Concatenating streams works like the below:
+![stream concatenation](./stream_processing_concat.jpg)
+
+Performing a temporal merge looks like this:
+![temporal stream merge](./stream_processing_merge.jpg)
+
+Matching keys, equivalent to a (windowed) inner join in SQL, looks roughly like the following.
+Note that the magenta item from the top stream does not match with anything.
+In practice, that might mean the event is not emitted or that it might be marked as a partial/incomplete result.
+![stream key matching](./stream_processing_inner_join.jpg)
+
+Of course, we are not limited to applying a single transformation to a stream.
+So long as the output of a transformation is also a stream, we can compose it with other transformations to produce streaming **pipelines**.
+
+### Relationship to SQL
+
+If the above operations seem familiar, that is because they bear remarkable similarity to the things one can do in SQL.
+This is not accidental -- the relational model is a model of _data_ transformation in general, and as such is not limited to a specific set of database management systems.
+SQL, while ostensibly intended for this specific set of database systems, provides what has become a ubiquitous vocabulary for conveying the ideas of relational theory.
+It is not the only model for data processing, but the concepts translate well enough to the streaming world.
+
+Consider how the transformations outlined above correspond to SQL operations:
+* map -- `SELECT`
+* filter -- `WHERE`
+* expand sub-entries -- `UNNEST`
+* batch -- `GROUP BY`
+* join -- `INNER JOIN`, `LEFT JOIN`, `OUTER JOIN`
+
+So great is the allure of SQL as a conceptual basis that stream processing tools like Apache Kafka Streams and Apache Flink offer operators with naming heavily reminiscent of SQL terminology, and both even offer SQL interfaces: [ksqlDB from Confluent](https://github.com/confluentinc/ksql) and [Flink SQL](https://nightlies.apache.org/flink/flink-docs-release-1.20/docs/dev/table/sql/overview/).
+
+In fact, Confluent (the company formed by the founders of Kafka) takes the synergy between streams and SQL databases a step further.
+Back in 2018, they published [a paper](https://www.confluent.io/blog/streams-tables-two-sides-same-coin/) on **stream-table duality**, the idea that streams and tables are interchangeable manifestations of the same, underlying resource.
+Much like matter and energy or waves and particles in the world of physics, this is a unifying model for computation.
+
+### Same Difference
+
+Thus far we have been talking of streams as if they all look the same and compose neatly together.
+This has been a convenient simplification.
+While it is not uncommon for streams to be comprised of homogeneous events -- events of the same type/structure -- it is perfectly possible for the events to be heterogenous.
+
+This may be more complex for (de)serialisation logic to handle, but can also make streams more expressive and easier to work with from a semantic perspective.
+As a simple example, consider multiple applications all writing to the same stream.
+If the stream is required to be homogeneous, performing a version upgrade to the message format must be co-ordinated between all producers and consumers and any older messages purged or otherwise ignored.
+Allowing different versions of a message schema on the same stream is a form of heterogeneity.
+
+Whether to allow multiple types to be published to the same stream or to mandate them to be on different streams is an organisational and design decision.
+If there is any ordering requirement or interplay between messages of different types, such as a customer account creation message and an order message specifying a customer ID, this favours multiplexing the message types onto the same stream.
 
 <!-- I often think physical analogies are effective for reasoning about networks. -->
 <!-- Horses and riders -->
@@ -325,15 +397,10 @@ Delivery semantics and approximating exactly-once delivery is an extensive topic
   * Conscious decision to hold onto state -- not accidental like in batch
   * Events are handled independently -- we simply cannot know if another event will ever arrive
     * May need to defer processing until some later event has happened, e.g. in approximating transactions
-  * Systems for streaming -- obviously Kafka is a popular one, but it's not the only one
-  * Streams can be homogeneous or heterogeneous
-  * Streams can split, join, or potentially even be reordered
-  * Ultimately, we don't want to hold onto things forever BUT we may need to, which blocks processing
 
-  * State & stream-table duality (link to Confluence docs here)
-    * Encountered idea in Kafka Summit 2022
-  * Persistence of state
-  * Recovery of state
+  * Systems for streaming -- obviously Kafka is a popular one, but it's not the only one
+
+  * Ultimately, we don't want to hold onto things forever BUT we may need to, which blocks processing
 
   * Handling error scenarios (reordering, delays, repetitions)
     * Key question: accept imprecision vs. require it?
