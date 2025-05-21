@@ -23,6 +23,7 @@ We'll cover what broke and why, explore how I went about fixing it, and finally 
         * include code snippets of bash & explain why broken
     * reference git repo & mention PR to polybar-scripts repo
     * conclude with goals for future -- improving robustness re. /proc/asound, adding colour formatting, ability to switch physical output device, etc.
+        * suggested functionality for wireplumber to be more user-friendly (PW can do a lot, but WP can be a bit confusing and limited compared to what's already out there for PA)
 -->
 
 ## Footnotes
