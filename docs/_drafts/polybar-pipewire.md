@@ -141,7 +141,19 @@ Neither module seemed quite right to me...
 
 ## Join the (third) party
 
-<!-- looking for 3rd party plugins to achieve what I wanted with pipewire -- many exist, but have Pulse deps :( -->
+As Polybar is quite a mature project by this stage, it seemed only natural that it should have a module that works with Pipewire already.
+While it has in-built modules for both ALSA and Pulse, there isn't a provided alternative for Pipewire, unfortunately.
+Although mildly disappointing, this was not too worrying overall as Polybar has support for custom modules, and there is even an official collection of third-party ones [available on GitHub](https://github.com/polybar/polybar-scripts/tree/master).
+
+Scanning through that `polybar-scripts` repo, I did find the relevant-looking [pipewire-simple](https://github.com/polybar/polybar-scripts/tree/master/polybar-scripts/pipewire-simple).
+The only problem is that this relies upon the PulseAudio utilities `pactl` and `pamixer`!
+
+Surely someone must have tried this before me, even if they didn't integrate it into `polybar-scripts`?!
+Off to a search engine to find out...
+That is when I came across [this Reddit thread](https://www.reddit.com/r/Polybar/comments/mt4f0r/just_switched_to_pipewire_for_audio_is_there_a/), which a few people had helpfully responded to describing their solutions.
+The creator of that `pipewire-simple` module, `vtrac` on Reddit and `victortrac` on GitHub, had linked their solution, both as a Gist and then when it was integrated into the official extensions repository.
+There was also a link to `marioortizmanero`'s [polybar-pulseaudio-control](https://github.com/marioortizmanero/polybar-pulseaudio-control), which is referenced by `polybar-scripts`, noting that it should work so long as the `pipewire-pulse` compatibility layer was present.
+Unfortunately for me, neither of these solutions removed the dependency on Pulse tools, so it looked as if I would have to take matters into my own hands!
 
 ## "I did it my way"
 
