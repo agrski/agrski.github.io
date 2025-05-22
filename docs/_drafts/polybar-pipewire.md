@@ -239,6 +239,27 @@ local muted=$( echo ${volume_and_mute} | grep -o MUTE )
 At this point, the module was pretty much functional at a basic, acceptable level.
 Well, apart from needing to return its findings to Polybar...
 
+### IPC --- It's Pretty Contorted
+
+The bash script `pipewire.sh` can return a string which Polybar will capture and use as output in its status bar(s).
+This is fine for purely informational content, but it's rather awkward for formatting.
+
+Polybar generally encourages formatting to be done by users configuring their modules, rather than by module developers.
+The `polybar-scripts` [contributing advice](https://github.com/polybar/polybar-scripts/blob/master/CONTRIBUTING.md) states to use placeholders for icons, remove colours unless they perform some special function, and avoid being opinionated on the shell even, for example.
+Polybar modules expose various [formatting options](https://github.com/polybar/polybar/wiki/Formatting) and the [wiki acknowledges](https://github.com/polybar/polybar/wiki/Fonts) that different fonts support different icon sets.
+
+Unfortunately, `custom/ipc` and `custom/script` module types do not offer much in the way of outputting formatting controls.
+Whereas a module like [battery](https://github.com/polybar/polybar/wiki/Module:-battery) allows for different formatting based on charging status and battery percentage with various formatting tags, even going so far as to have (dis)charging animations, using IPC pretty much limits the options to the script output itself and the ability to adjust the formatting based on which hook was called.
+For our purposes, which script was called is irrelevant as we always return the _current_ audio status information.
+
+At a basic level, that's okay as we can add in an icon to indicate that this is a volume module.
+What happens if we'd like to take into account things like the mute status --- how can we change the icon to reflect this additional context?
+We can't call another script and we can't define some additional processing logic within the Polybar module, which isn't particularly helpful.
+
+All is not lost, however, because surely we can persuade the script itself to take on the responsibilities of formatting?
+We can certainly include an icon in the output, assuming it is supported by whatever font is in use by Polybar, and we can select that icon depending on whether the output device is muted or unmuted.
+If only it were _quite_ that simple...
+
 <!--
     * troubles with:
         * formatting (needed lemonbar tags)
