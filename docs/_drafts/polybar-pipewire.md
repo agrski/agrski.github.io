@@ -187,6 +187,57 @@ An event could be a mouse action on a status bar, or it could be a message sent 
 
 I opted for the latter choice, the IPC approach.
 
+### The ups and downs of volume controls
+
+The most obvious functionality to support is the ability to display the _current_ volume level.
+Beyond that, being able to adjust the volume level with mouse actions (scrolling up or down) would provide parity with the existingaudio modules.
+
+The volume adjustments were simple to implement, as they look almost identical to the script in `pipewire-simple`, except with `wpctl` commands in place of `pactl` ones.
+In fact, we know exactly what the volume up/down and mute toggle commands should look like because we saw them before when we fixed the i3 key bindings!
+These can be found [here](https://github.com/agrski/polybar-pipewire-wireplumber/blob/61011719ed9546f088a085af5eac9aa945502bea/pipewire.sh#L6-L12) in my `pipewire.sh` script.
+
+I'll just mention that the interface to `wpctl` is very similar to `pactl` for these commands --- `set-mute ... toggle`, `set-volume` instead of `set-sink-volume`, etc.
+This made them fast to figure out.
+The trick about device aliases (`@DEFAULT_AUDIO_SINK@`) was something I'd seen previously with `pactl`, but it was the [WirePlumber Arch wiki](https://wiki.archlinux.org/title/WirePlumber#Keyboard_volume_control) which provided the correct identifier to use.
+
+Querying the current volume level is slightly trickier, but only slightly.
+If you run `wpctl get-volume ...`, you'll see an output like:
+```
+Volume: 0.45
+```
+
+This has the necessary information, but not quite in the right format.
+WirePlumber returns the volume as a unit-normalised quantity, i.e. in the range 0-1 rather than as a percentage from 0-100.
+Unfortunately, there is no toggle for `wpctl` to change the output format.
+In fact, it has no options whatsoever (at least not at the time of writing):
+```bash
+wpctl get-volume -h
+```
+returns:
+```
+Usage:
+  wpctl [OPTION…] COMMAND [COMMAND_OPTIONS] - WirePlumber Control CLI
+
+Command: get-volume ID
+  Displays volume information about the specified node in PipeWire
+
+Help Options:
+  -h, --help       Show help options
+```
+
+My module [accounts for this](https://github.com/agrski/polybar-pipewire-wireplumber/blob/61011719ed9546f088a085af5eac9aa945502bea/pipewire.sh#L19) by using `sed` to discard the prefix up to and including the decimal separator, `.`:
+```bash
+wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's|^.*0\.||'
+```
+
+In fact, `wpctl get-volume` also returns information about the mute status of the output device, so I [handle this](https://github.com/agrski/polybar-pipewire-wireplumber/blob/61011719ed9546f088a085af5eac9aa945502bea/pipewire.sh#L20-L21) by splitting out the volume and mute information using some more regular expression matching:
+```bash
+local volume=$( echo ${volume_and_mute} | sed 's|^\([[:digit:]]\+\).*$|\1|')
+local muted=$( echo ${volume_and_mute} | grep -o MUTE )
+```
+
+At this point, the module was pretty much functional at a basic, acceptable level.
+Well, apart from needing to return its findings to Polybar...
 
 <!--
     * troubles with:
