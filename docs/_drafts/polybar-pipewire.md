@@ -260,6 +260,42 @@ All is not lost, however, because surely we can persuade the script itself to ta
 We can certainly include an icon in the output, assuming it is supported by whatever font is in use by Polybar, and we can select that icon depending on whether the output device is muted or unmuted.
 If only it were _quite_ that simple...
 
+### The font of all ~knowledge~ discrepancies
+
+It is not uncommon to use different fonts for different purposes within the same Polybar bars.
+In fact, the wiki has plenty of examples that show different fonts in use, such as [here](https://github.com/polybar/polybar/wiki/Fonts) and [here](https://github.com/polybar/polybar/wiki/Configuration#bar-settings).
+The idea is that you might want one font for text but to use another one for icons because the first one doesn't support all the icons you'd like to use, or you might even need multiple icon fonts because different groups of icons have different sizes that need to be normalised, or they need different vertical shifts to be aligned.
+Another problem is that some Nerd Fonts [do not render properly in Polybar](https://github.com/polybar/polybar/issues/991) and experience issues with overlapping or cut-off characters; this is something I was experiencing myself and can be fixed by using a suitable mix of fonts.
+
+Now, if you have three or four or five fonts that _might_ be used to render any given icon, how does your (shell) script indicate which one is the right one?
+Normally this would be something you define in your Polybar _config_, but there is an escape hatch: Polybar supports [format tags](https://github.com/polybar/polybar/wiki/Formatting#format-tags) using [lemonbar notation](https://github.com/LemonBoy/bar#formatting).
+This allows you to set and reset the font using index-based notation, and even to insert colour declarations!
+
+As a brief aside, if you need to install fonts on Linux and they are not available through your system package manager, the process to do this manually is straightforward:
+0. Download the font package and, if necessary, unzip/decompress the bundle.
+    For example, I downloaded `IosevkaNerdFontMono-Regular.ttf` as an uncompressed file.
+0. Move the font definition files to a recognised location; I opted for `~/.local/share/fonts`:
+    ```bash
+    mv ~/Downloads/IosevkaNerdFontMono-Regular.ttf ~/.local/share/fonts
+    ```
+0. Refresh the system font cache (`-v` is optional):
+    ```bash
+    fc-cache -rfv
+    ```
+0. Check the desired font has been detected:
+    ```bash
+    fc-list : family | grep -i 'iosevka' | sort | uniq
+    ```
+    For me, this returns the following, indicating that installation was successful:
+    ```
+    Iosevka Nerd Font,Iosevka NF
+    Iosevka Nerd Font,Iosevka NF,Iosevka NF Medium
+    Iosevka Nerd Font Mono,Iosevka NFM
+    ```
+
+Returning to my custom Polybar module, [this line](https://github.com/agrski/polybar-pipewire-wireplumber/blob/61011719ed9546f088a085af5eac9aa945502bea/pipewire.sh#L51) is responsible for inserting font information.
+Specifically, it is choosing font 3 (using [one-based indexing](https://github.com/polybar/polybar/wiki/Formatting#font-t)) for the icon then resetting to the default font for the textual volume level.
+
 <!--
     * troubles with:
         * formatting (needed lemonbar tags)
