@@ -118,6 +118,27 @@ For example, I have not been able to determine whether the system believes headp
 We will revisit this limitation later.
 If I am mistakenly maligning WirePlumber's capabilities and simply do not know where to look, I'd be interested to hear!
 
+## Finding the binding
+
+With the discovery of `wpctl` as the de facto shell utility for interacting with the Pipewire ecosystem, my immediate problem was solved!
+I could change my earlier, `pactl`-based i3 key bindings to the following:
+```ini
+bindsym XF86AudioRaiseVolume exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 3%+
+bindsym XF86AudioRaiseVolume exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 3%-
+bindsym XF86AudioMute exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+```
+
+Grand, my function keys work again.
+As my Polybar config was using the [ALSA module](https://github.com/polybar/polybar/wiki/Module:-alsa) for audio information, that was actually working too.
+It correctly allowed me to adjust the volume with the mouse scroll wheel and mute it by clicking the status-bar icon.
+However, I realised it wasn't detecting the use of headphones to change the icon, and the audio level didn't seem to be the same as what `wpctl` was reporting.
+The module documentation says it should not be used if PulseAudio is in use, so it probably wasn't the right thing to use in the first place.
+There is also a [Pulse module](https://github.com/polybar/polybar/wiki/Module:-pulseaudio), but this doesn't seem to expose any settings for speakers vs. headphones and by default it assumes that `pavucontrol` is installed and available.
+Both modules are predicated on _polling_, meaning that either changes are slow to be displayed or there are going to be a lot of wasted CPU cycles.
+Neither module seemed quite right to me...
+
+<!-- check this -- reload ALSA module, check if no headphones icon & if vol. levels mismatched with wpctl -->
+
 <!--
     * intro -- motivate problem -- new Ubuntu installation, installed i3wm & Polybar... but wait, my keyboard shortcuts aren't working!
     * background sections on ALSA, Pulse, Pipewire history, and compatibility layers
