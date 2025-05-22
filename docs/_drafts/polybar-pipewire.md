@@ -139,6 +139,14 @@ Neither module seemed quite right to me...
 
 <!-- check this -- reload ALSA module, check if no headphones icon & if vol. levels mismatched with wpctl -->
 
+## Join the (third) party
+
+<!-- looking for 3rd party plugins to achieve what I wanted with pipewire -- many exist, but have Pulse deps :( -->
+
+## "I did it my way"
+
+<!-- gave up and wrote my own polybar plugin, which is where the fun really begins -->
+
 <!--
     * intro -- motivate problem -- new Ubuntu installation, installed i3wm & Polybar... but wait, my keyboard shortcuts aren't working!
     * background sections on ALSA, Pulse, Pipewire history, and compatibility layers
