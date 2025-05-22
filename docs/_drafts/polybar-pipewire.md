@@ -187,13 +187,8 @@ An event could be a mouse action on a status bar, or it could be a message sent 
 
 I opted for the latter choice, the IPC approach.
 
-<!-- gave up and wrote my own polybar plugin, which is where the fun really begins -->
 
 <!--
-    * intro -- motivate problem -- new Ubuntu installation, installed i3wm & Polybar... but wait, my keyboard shortcuts aren't working!
-    * background sections on ALSA, Pulse, Pipewire history, and compatibility layers
-    * explain Polybar config/modules -- existing support for Pulse API, but didn't want to have to install these dependencies now pipewire is the default & wireplumber exists
-    * reddit thread with some hints/suggestions
     * troubles with:
         * formatting (needed lemonbar tags)
         * detecting headphone (dis)connection -- ACPI listener
