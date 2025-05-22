@@ -94,6 +94,30 @@ As a consequence of this, there are relatively few dedicated, Pipewire-native ap
 While there is no _need_ to seek out alternatives, it feels anachronistic to me to be using a compatibility layer instead of dedicated tools that may be able to make better use of what Pipewire has to offer, if not now then in the future.
 I am also against having more dependencies than necessary, so the idea of having to install Pulse utilities just to regain basic functionality didn't sit right with me.
 
+**WirePlumber**
+
+While Pipewire provides a daemon service for executing processing graphs, it is not responsible for _defining_ what these graphs should be.
+That is the responsibility of a **session manager**, which is effectively a client of the Pipewire server.
+There is a default session manager included in the `pipewire` package: **WirePlumber**.
+Thus, whereas PulseAudio had `pactl`, Pipewire has `wpctl` (WirePlumber control).
+
+WirePlumber exposes a number of properties and functionalities through `wpctl`, such as its overall session status and the ability to get or set the volume of a device.
+Fortunately it supports similar syntax to `pactl` for referencing default devices:
+```bash
+# Pulse
+pactl get-sink-volume @DEFAULT_SINK@
+# Pipewire/WirePlumber
+wpctl get-volume @DEFAULT_AUDIO_SINK@
+```
+
+Note how `wpctl` says `get-volume` because any node could have a volume level associated with it, not just sink nodes.
+Note also how it complements this with `DEFAULT_AUDIO_SINK`, specifying the media format in the variable rather than assuming it in the command.
+
+While in some ways quite informative, I have found `wpctl` frustratingly lacking in some of the details it exposes.
+For example, I have not been able to determine whether the system believes headphones or speakers are the active device, which I would hope would be visible through a command like `wpctl inspect @DEFAULT_AUDIO_SINK@`.
+We will revisit this limitation later.
+If I am mistakenly maligning WirePlumber's capabilities and simply do not know where to look, I'd be interested to hear!
+
 <!--
     * intro -- motivate problem -- new Ubuntu installation, installed i3wm & Polybar... but wait, my keyboard shortcuts aren't working!
     * background sections on ALSA, Pulse, Pipewire history, and compatibility layers
