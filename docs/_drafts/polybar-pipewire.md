@@ -157,6 +157,36 @@ Unfortunately for me, neither of these solutions removed the dependency on Pulse
 
 ## "I did it my way"
 
+Sometimes the answer is that you just need to Do It Yourself.
+I'd never written a Polybar module before, so this would be fun.
+
+The end result of my efforts is available as a BSD-licensed GitHub repo: [polybar-pipewire-wireplumber](https://github.com/agrski/polybar-pipewire-wireplumber).
+This section is going to explain how I got there, so feel free to dip into the code to follow along if you'd like!
+
+There were multiple problems to be overcome, so let's talk through them one by one.
+
+### The first step
+
+Having never written a Polybar module before, the first thing to figure out was how to actually go about writing and using something that would work locally, just for me.
+I wasn't worried about open-sourcing anything back to the community quite yet.
+
+The [polybar-scripts repo](https://github.com/polybar/polybar-scripts) offered some snippets of advice, but it was mostly those aforementioned existing modules, `pipewire-simple` and to an extent `polybar-pulseaudio-control`, which provided helpful templates and indications of how to go about things.
+
+The key idea is that you define a script, probably under `~/.config/polybar/scripts`, that will be referenced by your custom module definition.
+You then add that Polybar module definition --- it should probably go under `user_modules.ini` but will equally be detected from `modules.ini`.
+Finally, this can be referenced in `config.ini`; for me, my audio module is called simply `pipewire` and is placed in `modules_right`.
+
+Each custom module needs a _type_, with the simplest probably being `type = custom/script` to invoke the script from wherever you have saved it.
+Such scripts will be invoked periodically according to the `interval` module parameter, i.e. updates are provided by **polling**.
+
+[As pointed out](https://www.reddit.com/r/Polybar/comments/mt4f0r/comment/i5qaf21/) by Reddit user `Decvai` on the previously mentioned thread, it's possible to replace polling with Polybar hooks and IPC.
+This requires `enable-ipc = true` in your Polybar `config.ini` and to define the module type as `custom/ipc`, but it should be more efficient.
+I'd imagine most people are not _constantly_ adjusting their volume level or switching between different output devices, so using IPC should be more efficient and potentially more responsive, as Polybar will not wait for the polling `interval` before re-evaluating the module's output.
+The [official docs on IPC modules](https://github.com/polybar/polybar/wiki/Module:-ipc) are the best resource for understanding how to use this feature, but the short of it is that you define hooks which call commands/scripts when an event occurs.
+An event could be a mouse action on a status bar, or it could be a message sent through `polybar-msg`.
+
+I opted for the latter choice, the IPC approach.
+
 <!-- gave up and wrote my own polybar plugin, which is where the fun really begins -->
 
 <!--
