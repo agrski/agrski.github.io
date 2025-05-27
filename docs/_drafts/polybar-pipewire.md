@@ -296,6 +296,7 @@ As a brief aside, if you need to install fonts on Linux and they are not availab
 Returning to my custom Polybar module, [this line](https://github.com/agrski/polybar-pipewire-wireplumber/blob/61011719ed9546f088a085af5eac9aa945502bea/pipewire.sh#L51) is responsible for inserting font information.
 Specifically, it is choosing font 3 (using [one-based indexing](https://github.com/polybar/polybar/wiki/Formatting#font-t)) for the icon then resetting to the default font for the textual volume level.
 
+<!-- TODO: mention updating i3 to call Polybar hooks for volume adjustments -->
 <!--
     * troubles with:
         * formatting (needed lemonbar tags)
