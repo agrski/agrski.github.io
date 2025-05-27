@@ -297,6 +297,50 @@ Returning to my custom Polybar module, [this line](https://github.com/agrski/pol
 Specifically, it is choosing font 3 (using [one-based indexing](https://github.com/polybar/polybar/wiki/Formatting#font-t)) for the icon then resetting to the default font for the textual volume level.
 
 <!-- TODO: mention updating i3 to call Polybar hooks for volume adjustments -->
+
+### Eavesdropping on current events
+
+With the core functionality out of the way and a better understanding of how to work with Polybar, I wanted to add the ability to change the status bar icon depending on whether headphones were connected or not.
+Put differently, I wanted the icon to reflect whether headphones or speakers were the active output device.
+This turned out to be non-trivial, as some of the information was hard to come by without the PulseAudio utilities.
+
+The first thing to figure out was how to detect if headphones are plugged in, or equivalently when they are plugged or unplugged.
+Much of the advice online revolved around the venerable Pulse tools, and many other suggestions made use of DBus.
+The former was obviously unconscionable given I wanted to avoid installing the Pulse stack, and the latter seemed awkward to do without invoking a full-on language instead of a shell script (and probably a bit more complexity to hook into DBus).
+It wouldn't be impossible -- there's a Python DBus library, for example -- but it seemed inconvenient, especially if it meant having to control an environment and dependencies for something aiming to reduce its footprint...
+
+Further searching indicated ACPI (Advanced Configuration and Power Interface) <a name="ref3" href="#fn3">[3]</a>  might do the trick.
+On Linux, there are the executables `acpi_listen` and `acpid`.
+The former is an interactive program which, as the name suggests, listens for events in the ACPI subsystem and logs them to STDOUT.
+The latter is the ACPI daemon process, which is a bridge to user-space from kernel-space.
+To quote the man-page, it is:
+> designed to notify user-space programs of ACPI events.
+
+_As an aside, Tim Hockin was involved in writing both `acpi_listen` and `acpid`.
+I recognised the name as being involved in the Kubernetes, the container orchestration platform.
+In particular, he wrote [Spartakus](https://github.com/kubernetes-retired/spartakus), a telemetry tool for Kubernetes which provided some inspiration for [Hodometer](https://github.com/SeldonIO/seldon-core/tree/a772f167229f08a13fe91c527d46e28a96399ce1/hodometer), a tool I wrote for Seldon Core v2.
+The world can be a surprisingly small place at times!_
+
+The way `acpid` goes about its duty is by reading configuration files under `/etc/acpi/events` and performing the actions defined for each event filter in these files.
+The configuration format is straightforward:
+```
+event=jack/headphone.*
+action=/path/to/command-or-script "arg1" "..."
+```
+
+The `event` is a filter for ACPI events, defined as a regular expression, which could be more or less specific:
+```
+# Capture headphone being plugged in or unplugged, e.g. to change an icon.
+event=jack/headphone.*
+# Respond to plug-in events, e.g. to automatically adjust EQ (equalization).
+event=jack/headphone HEADPHONE plug
+# Respond to unplug events, e.g. to pause a media player or mute the new default device.
+event=jack/headphone HEADPHONE unplug
+```
+
+The `action` is then some command or invocation that should be performed whenever the event rule is triggered, called via `/bin/sh`.
+There can be multiple actions for a single event or multiple events that fire a given action, so it is quite a flexible system.
+
 <!--
     * troubles with:
         * formatting (needed lemonbar tags)
@@ -317,3 +361,6 @@ Specifically, it is choosing font 3 (using [one-based indexing](https://github.c
 <a name="fn1" href="#ref1">[1]</a> This change happened in Ubuntu 22.10, Kinetic Kudu: [https://changelogs.ubuntu.com/changelogs/pool/main/u/ubuntu-meta/ubuntu-meta_1.486/changelog](https://changelogs.ubuntu.com/changelogs/pool/main/u/ubuntu-meta/ubuntu-meta_1.486/changelog)
 
 <a name="fn2" href="#ref2">[2]</a> Pipewire and Pulse are mutually exclusive: only one of these services should be active at once or they will conflict.
+
+<a name="fn3" href="#ref3">[3]</a> ACPI was developed as a collaboration between Intel, Microsoft, and Toshiba for controlling and reporting information on various hardware components, according to [the UEFI specification](https://uefi.org/sites/default/files/resources/ACPI_6_3_final_Jan30.pdf).
+The same specification indicates support for Linux and Windows, among other OSes, in table 5-186.
