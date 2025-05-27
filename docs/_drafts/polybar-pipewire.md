@@ -341,6 +341,68 @@ event=jack/headphone HEADPHONE unplug
 The `action` is then some command or invocation that should be performed whenever the event rule is triggered, called via `/bin/sh`.
 There can be multiple actions for a single event or multiple events that fire a given action, so it is quite a flexible system.
 
+My initial approach was to call `polybar-msg` in the ACPI `action` -- this only required writing one extra file to a known location, which is simple and straightforward.
+That bash script `pipewire.sh` would be called by the Polybar hook and output a new icon for the status based on the event.
+Strangely, this didn't seem to be doing anything -- when I (un)plugged my headphones, nothing was changing.
+
+Fortunately, `acpid` can be instructed to log all its events and this will be captured by `journald` (or `syslog` for devices not using systemd).
+If logging is not already enabled, you can enable it by editing the options provided by your init process.
+Given that I am using systemd as it's Ubuntu, this looks like:
+```bash
+# Check if event logging is enabled
+systemctl status acpid.service | grep -E -e '-l' -e '--logevents'
+# or, if you use ripgrep
+systemctl status acpid.service | rg -e '-l|--logevents'
+# or, as a fallback
+cat /etc/default/acpid | rg '^OPTIONS'
+```
+
+I updated the options in `/etc/default/acpid' to the following to ensure I had enough detail to investigate:
+```
+OPTIONS="--logevents --debug"
+```
+then forced `acpid` to pick up this configuration by restarting it:
+```bash
+sudo systemctl restart acpid.service
+```
+
+Let us assume the ACPI trigger rule looks like the below, which simply checks `polybar-msg` can be called successfully:
+```
+event=jack/headphone.*
+action=/usr/bin/polybar-msg action "#pipewire.hook.0"
+```
+
+Note that this runs fine for me when invoked from a terminal, and produces output like the below (I have two monitors ergo two bars):
+```
+Successfully wrote action '#pipewire.hook.0' to PID 2160349
+Successfully wrote action '#pipewire.hook.0' to PID 2160348
+```
+
+To ensure `acpid` sees this file, if you create it after restarting the service, you can send it a SIGHUP signal:
+```bash
+sudo kill -SIGHUP `pidof acpid`
+```
+
+Next, tail the `acpid` logs to see what happens when the headphones are (un)plugged:
+```bash
+sudo journalctl -u acpid.service -f
+```
+
+This shows me the following logs:
+```
+received input layer event "jack/headphone HEADPHONE plug"
+rule from /etc/acpi/events/headphones matched
+executing action "/usr/bin/polybar-msg action "#pipewire.hook.0""
+action exited with status 1
+1 total rule matched
+completed input layer event "jack/headphone HEADPHONE plug"
+```
+
+Okay, so the headphones being plugged in gets detected by ACPI -- no issues there.
+Likewise, the trigger rule is detected and the expected action is taken.
+However, we can see the action exited with status 1, probably indicating a **permissions issue**.
+Now that seemed like a lead!
+
 <!--
     * troubles with:
         * formatting (needed lemonbar tags)
