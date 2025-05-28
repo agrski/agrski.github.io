@@ -403,6 +403,54 @@ Likewise, the trigger rule is detected and the expected action is taken.
 However, we can see the action exited with status 1, probably indicating a **permissions issue**.
 Now that seemed like a lead!
 
+It seemed probable that the issue was with `acpid` running as `root` and trying to call into user-space.
+I was able to replicate the issue with:
+```bash
+sudo polybar-msg action "#pipewire.hook.0"; echo $?
+```
+which returned the same error code and an informative error message
+```
+polybar-msg: No active ipc channels
+1
+```
+
+Looking online revealed something rather unfortunate: IPC in Polybar only works within the context of a single user!
+[The docs](https://polybar.readthedocs.io/en/stable/user/ipc.html) had this to say:
+> IPC messages are only sent to polybar instances running under the same user as polybar-msg is running as.
+>
+> Concretely, polybar and polybar-msg use the `$XDG_RUNTIME_DIR` environment variable in accordance with the XDG Base Directory Specification to determine where to find the socket to communicate.
+>
+> If `polybar` and `polybar-msg` don't have the same value for `$XDG_RUNTIME_DIR`, they will likely not be able to communicate. The variable may not be set if you use `su` or `sudo` to execute `polybar-msg` as a different user, often a full user session is required.
+
+That's incredibly helpful!
+I wouldn't have known about `XDG_RUNTIME_DIR` if it weren't for the extra detail this note provides.
+Fortunately, the value seemed to be set in my terminal, and it was easy to test out setting it when invoking `polybar-msg`:
+```bash
+echo $XDG_RUNTIME_DIR
+# Output: /run/user/1000
+
+sudo XDG_RUNTIME_DIR=/run/user/1000 polybar-msg action "#pipewire.hook.0"
+# Successfully wrote action '#pipewire.hook.0' to PID 2160349
+# Successfully wrote action '#pipewire.hook.0' to PID 2160348
+```
+It feels a bit dirty and brittle to trick `acpid` into talking to the Polybar IPC socket in this way, given that we have to pass in a specific user ID, but it _does_ work.
+
+Originally I was testing with specific PIDs (process IDs), as so:
+```bash
+pidof polybar
+... polybar-msg -p <pid1> action ...
+```
+
+In order to call each Polybar bar process, as I had multiple running, I wrote a for-loop in a little [handler script](https://github.com/agrski/polybar-pipewire-wireplumber/blob/61011719ed9546f088a085af5eac9aa945502bea/headphones_acpi_handler.sh):
+```bash
+for PID in $(pidof polybar); do
+    XDG_RUNTIME_DIR=/run/user/1000 polybar-msg -p $PID action "#pipewire.hook.0"
+done
+```
+
+However, I have since realised it is possible to omit the `-p` argument when invoking `polybar-msg` in the same way that `acpid` does, so this handler script can be removed.
+This will simplify the set-up for anyone else using this as well as the instructions.
+
 <!--
     * troubles with:
         * formatting (needed lemonbar tags)
