@@ -529,6 +529,29 @@ This solution isn't particularly pretty and it _feels_ brittle -- we need to kno
 I assume there must be some command-line utility that knows how to read ALSA config files, or can be used to query the information from some running process, but I haven't figured this out yet.
 If any readers are aware of what this would be, please get in touch!
 
+#### To be or not to be muted
+
+In the simple case of only displaying volume information, before trying to handle headphone connection status, retrieving the mute status was trivial -- `wpctl get-volume` provides it alongside the normalised volume level.
+It is perhaps interesting to know that while `wpctl` has a `set-mute` command, there is no equivalent `get-mute` command.
+
+With the inclusion of headphone/jack connection status, things became a little more interesting.
+I had assumed that continuing to scrape the mute status from `wpctl` would be sufficient -- after all, this _does_ reflect whether the output is muted, regardless of whether or not headphones were plugged in.
+The problem is with those "amp-out vals" we just encountered.
+When the headphones are connected but unmuted, the headphone playback switch value was `0x00`, but when the headphones were _muted_, the value became `0x80`.
+Effectively, the switch value indicates whether any signal should be _sent_ to the headphone jack, not whether it is physically connected.
+
+It was at this point that I introduced the checks on "speaker playback volume" into the Polybar module.
+As before, I used `diff` to see what was changing between all four scenarios: headphones connected vs. disconnected, and output muted vs. unmuted.
+When the headphones are connected and on, the playback switch will indicate this; nothing else needs to be considered.
+When the headphones are disconnected or muted, the playback switch will show `0x80` so we have to use the (speaker) volume to determine the actual output sink, then check the mute status.
+If the speaker volume is zero (`0x00`), we assume headphones are still connected.
+There is an equivalent "Headphone Playback Volume" which could be used, but this doesn't simplify the logic and I came across the speaker playback volume option first, so that's what ended up being used.
+
+There is an edge case in all this: if the headphones are disconnected but the speaker volume is _zero_ and the output is muted, the script will incorrectly infer that there are headphones connected and muted.
+It's rare that I would incur both of these conditions, but it is worth noting all the same.
+You might wonder whether using the aforementioned headphone playback volume value would resolve this, but it leaves another edge case: if both headphones and speakers are set to zero volume and the output is muted, we cannot determine what the output type really is.
+The proper solution would be to have a real, reliable source for whether or not any headphones are connected.
+
 <!--
     * troubles with:
         * formatting (needed lemonbar tags)
