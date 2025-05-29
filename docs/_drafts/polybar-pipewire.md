@@ -309,6 +309,8 @@ Much of the advice online revolved around the venerable Pulse tools, and many ot
 The former was obviously unconscionable given I wanted to avoid installing the Pulse stack, and the latter seemed awkward to do without invoking a full-on language instead of a shell script (and probably a bit more complexity to hook into DBus).
 It wouldn't be impossible -- there's a Python DBus library, for example -- but it seemed inconvenient, especially if it meant having to control an environment and dependencies for something aiming to reduce its footprint...
 
+#### Acting on ACPI
+
 Further searching indicated ACPI (Advanced Configuration and Power Interface) <a name="ref3" href="#fn3">[3]</a>  might do the trick.
 On Linux, there are the executables `acpi_listen` and `acpid`.
 The former is an interactive program which, as the name suggests, listens for events in the ACPI subsystem and logs them to STDOUT.
