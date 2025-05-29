@@ -453,6 +453,82 @@ done
 However, I have since realised it is possible to omit the `-p` argument when invoking `polybar-msg` in the same way that `acpid` does, so this handler script can be removed.
 This will simplify the set-up for anyone else using this as well as the instructions.
 
+#### A state machine without a start
+
+Listening to ACPI events is all well and good, if you know what state you're starting in...
+This problem of the initial state is one of the challenges with anything event-driven, and another is not knowing when the next event will happen (if ever).
+You see, ACPI events are only emitted when something _changes_, so how can we determine if the machine starts up with headphones plugged in or not?
+
+I encountered this problem rather quickly, not with restarting the entire machine but rather when restarting Polybar or i3 to reload config.
+My headphones were plugged in, but the default assumption was that the audio output was being sent to the laptop's speakers.
+How could we detect the use of headphones easily and reliably?
+
+My solution is to use the ACPI events to trigger re-evaluation of the current state, but not to inform the module state itself.
+Okay, but what is the source of truth for the current hardware state?
+
+Once again, searching online suggested that the PulseAudio utilities were the way to go!
+As before, that didn't meet my requirements for this module, so I kept looking for something that only relied on Pipewire, WirePlumber, or ALSA tools.
+Unhelpfully, I couldn't find anything relevant exposed through `wpctl`.
+Calling `wpctl status` didn't provide this information, instead only showing a sink for the ALSA-managed analogue stereo output:
+```bash
+wpctl status | sed '/Sinks/,/^\s*│\s*$/p' -n
+```
+```
+ ├─ Sinks:
+ │  *   58. Built-in Audio Analogue Stereo      [vol: 0.56]
+ │
+ ├─ Sinks:
+ │
+ ```
+
+There are a number of ALSA commands, searching online wasn't getting me very far in terms of finding a relevant command, and I wanted a quick solution, so I did the hacky thing: I grepped through my local ALSA config instead.
+One or two articles I'd found mentioned `/proc/asound/card<number>/codec#<number>`, which seemed like as good a place as anywhere to start.
+For me, there was only one card, `card0`, and two codecs, `codec#0` and `codec#2`, so there wasn't too much to search through.
+
+I `cat`ed the contents of the codecs into files with the headphones unplugged and then plugged in and used `diff` to highlight anything that had changed as a result, like so:
+```bash
+# -u<number> provides a context window of <number> lines around any identified differences
+diff unplugged.out plugged.out -u10 | less
+```
+
+This allowed me to narrow down my search, and from there I could identify a few things that seemed relevant and their containing sections.
+The format of these codec files is not particularly convenient for consuming them directly -- it looks like the below excerpt:
+```
+Node 0x21 [Pin Complex] wcaps 0x40058d: Stereo Amp-Out
+  Control: name="Headphone Playback Switch", index=0, device=0
+    ControlAmp: chs=3, dir=Out, idx=0, ofs=0
+  Amp-Out caps: ofs=0x00, nsteps=0x00, stepsize=0x00, mute=1
+  Amp-Out vals:  [0x80 0x80]
+  Pincap 0x0001001c: OUT HP EAPD Detect
+  EAPD 0x2: EAPD
+  Pin Default 0x03211020: [Jack] HP Out at Ext Left
+    Conn = 1/8, Color = Black
+    DefAssociation = 0x2, Sequence = 0x0
+  Pin-ctls: 0xc0: OUT HP
+  Unsolicited: tag=01, enabled=1
+  Power states:  D0 D1 D2 D3 EPSS
+  Power: setting=D0, actual=D0
+  Connection: 2
+     0x02 0x03*
+```
+
+With that said, it _is_ amenable to a dash of `sed` sorcery, and this is what happens in my bash script [here](https://github.com/agrski/polybar-pipewire-wireplumber/blob/61011719ed9546f088a085af5eac9aa945502bea/pipewire.sh#L25-L27) and [here](https://github.com/agrski/polybar-pipewire-wireplumber/blob/61011719ed9546f088a085af5eac9aa945502bea/pipewire.sh#L30-L32).
+We find the relevant sections for the "control names" of interest, e.g. "Headphone Playback Switch" and extract the "Amp-Out vals", which are what changed in my `diff` investigations.
+Finally, those scripts select just the first of each amp-out value pair, as that was what I needed.
+```bash
+cat '/proc/asound/card0/codec#0' \
+    | sed -rn '/name="Speaker Playback Switch/,/^Node/ { s/^\s+Amp-Out vals:\s+\[(.*)\]/\1/p }' \
+    | cut -d' ' -f1
+```
+
+As a point of interest, this uses two nifty abilities of `sed` and combines them together:
+* start and end delimiters, `start-pattern,end-pattern`, and
+* block expressions, `{ a; b; ...}`
+
+This solution isn't particularly pretty and it _feels_ brittle -- we need to know the right card and codec IDs, and perhaps the control names and values are different on different systems -- but it works (on my machine).
+I assume there must be some command-line utility that knows how to read ALSA config files, or can be used to query the information from some running process, but I haven't figured this out yet.
+If any readers are aware of what this would be, please get in touch!
+
 <!--
     * troubles with:
         * formatting (needed lemonbar tags)
